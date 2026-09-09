@@ -7,14 +7,14 @@ Semiconductor design
 3. Mục tiêu nghiên cứu:
 - Register-Transfer Level (RTL) of a Universal Chiplet Interconnect Express (UCIe) style Die-to-Die (D2D) adapter on one hop: packer, credit counter, K-slot First-In First-Out (FIFO) buffer, and Earliest Deadline First (EDF) scheduler. Not a Python-only architecture study and not a full Artificial Intelligence (AI) chip.
 - Credits and the deadline of output tile k, D_k, used together when buffer depth K (number of flit slots) is smaller than the credit round-trip, so the hop does not need a deep FIFO. A flit is one flow-control unit on the link.
-- Tiled General Matrix Multiply (GEMM) as the only traffic: C = A x B, 8-bit integer (INT8), two dies (die A computes, die B holds a panel). Each output tile k is one Liu-Layland job. D_k = T_0 + k * C_tile, with T_0 the start cycle of the first tile and C_tile the cycles to compute one output tile of side T = 16 or 32.
+- Tiled General Matrix Multiply (GEMM) as the only traffic: C = A x B, 8-bit integer (INT8), two dies (die A computes, die B holds a panel). Each output tile k is one Liu-Layland job. Release time is T_k = T_0 + k * C_tile. Deadline is D_k = T_k + extra, with the same extra for First-Come First-Served (FCFS) and EDF. T_0 is the start cycle of the first tile. C_tile is the cycles to compute one output tile of side T = 16 or 32. Default extra is 40 until a later sweep.
 - Evaluation in useful bandwidth and miss rate, not packing as the claim. Useful bandwidth B_useful = eta_eff * B_peak (Dally 1992, RFC 8238), with peak bandwidth B_peak = W_flit * f_link (flit width times link frequency) and link efficiency eta_eff = payload bits / (cycles * W_flit). Tardiness of tile k is L_k = max(0, t_last(k) - D_k), with t_last(k) the cycle when the last input flit of tile k arrives (Buttazzo).
 
 4. Dự kiến sản phẩm, kết quả:
 - Same hop, same INT8 GEMM traffic, same f_link; T = 16 or 32; K in {1, 2, 4, 16}. Report eta_eff, B_useful in gigabytes per second (GB/s), L_k, and miss rate (fraction of tiles with L_k greater than 0). That comparison is the pass criterion.
 - First-Come First-Served (FCFS) deep FIFO: B_useful near B_peak; baseline only, not the shallow design.
 - FCFS shallow FIFO: when K is smaller than the credit round-trip, B_useful drops and/or miss rate rises.
-- Credits plus nearest D_k: higher B_useful and lower miss rate than shallow FCFS at the same f_link. That is the desired outcome of the RTL.
+- Credits plus nearest D_k: miss rate lower than shallow FCFS at the same K. B_useful may stay in the same band. That is the desired outcome of the RTL.
 - Verilog matching the Python golden model (no overflow, payload conservation) is the deliverable. No target percentage before the sweep; the estimated result is that ordering.
 
 5. Dự kiến tham gia giải thưởng sinh viên NCKH các cấp: Cấp Khoa
