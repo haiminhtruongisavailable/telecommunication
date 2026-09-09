@@ -10,6 +10,19 @@ Each cycle, two checks. Credit greater than 0, then send the flit with the soone
 
 Tile k is released at T_k = T_0 + k * C_tile. Deadline is D_k = T_k + extra. Same extra for FCFS and EDF.
 
+## Grok bot read order
+
+1. This file.
+2. `description.txt` for T_k vs D_k.
+3. `golden/hop.py` for the method.
+4. `results/sweep.csv` for numbers.
+5. `eval/hop_2node.cfg` for the BookSim FCFS hop.
+6. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
+7. `docs/ieee-one-hop-program.md` for P1 to P5.
+8. `PLAN.md` for the longer calendar.
+
+Do not invent photonics, a mesh, or a BookSim EDF fork.
+
 ## Files by job
 
 `golden/hop.py` is the method. `eval/hop_2node.cfg` is BookSim FCFS hop check. `docs/ieee-one-hop-program.md` is PR order P1 to P5. `RULEBOOK-GROK-CLI-TO-D2D.md` is how Grok CLI writes a PR for D2D. `results/sweep.csv` is the current numbers.

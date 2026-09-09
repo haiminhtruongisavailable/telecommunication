@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.o
+*.d
+third_party/booksim2/
+results/booksim_K*.log
+golden/__pycache__/
