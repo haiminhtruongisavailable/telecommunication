@@ -1,0 +1,10 @@
+Yosys area of hop_top (Psychogenic flow only). Clock is a parameter. No foundry node claimed.
+READY_SLOTS=32 WIRE_N=64 for this read. Sim still uses READY_SLOTS=256.
+OpenROAD not run.
+
+hop_top cells: 2598
+scheduler_edf cells: 224
+credit cells: 3
+fifo_k cells: 8
+packer cells: 2
+design total cells: 2831
