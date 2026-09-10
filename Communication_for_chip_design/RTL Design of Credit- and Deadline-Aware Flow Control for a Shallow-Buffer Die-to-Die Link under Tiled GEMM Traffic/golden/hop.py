@@ -11,7 +11,7 @@ from collections import deque
 
 
 def simulate(K, policy, N_tiles=64, C_tile=16, T_0=0, flits_per_tile=16, D_phy=4,
-             bulk_every=2, extra=40, W_flit_bytes=32, f_link_Hz=1e9):
+             bulk_every=2, extra=40, W_flit_bytes=32, f_link_Hz=1e9, return_trace=False):
     T_k = [T_0 + k * C_tile for k in range(N_tiles)]
     D_k = [T_k[k] + extra for k in range(N_tiles)]
     remaining = [flits_per_tile] * N_tiles
@@ -77,7 +77,7 @@ def simulate(K, policy, N_tiles=64, C_tile=16, T_0=0, flits_per_tile=16, D_phy=4
     B_peak = W_flit_bytes * f_link_Hz / 1e9
     L = [max(0, (t_last[k] if t_last[k] is not None else t) - D_k[k]) for k in range(N_tiles)]
     misses = sum(1 for x in L if x > 0)
-    return {
+    out = {
         "policy": policy,
         "K": K,
         "eta_eff": eta,
@@ -87,3 +87,9 @@ def simulate(K, policy, N_tiles=64, C_tile=16, T_0=0, flits_per_tile=16, D_phy=4
         "stall_cycles": stall,
         "done": done == N_tiles,
     }
+    if return_trace:
+        out["t_last"] = t_last
+        out["L"] = L
+        out["cycles"] = t
+        out["payload_flits"] = payload_flits
+    return out
