@@ -15,17 +15,18 @@ Tile k is released at T_k = T_0 + k * C_tile. Deadline is D_k = T_k + extra. Sam
 1. This file.
 2. `description.txt` for T_k vs D_k.
 3. `golden/hop.py` for the method.
-4. `results/sweep.csv` for numbers.
-5. `eval/hop_2node.cfg` for the BookSim FCFS hop.
-6. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
-7. `docs/ieee-one-hop-program.md` for P1 to P5.
-8. `PLAN.md` for the longer calendar.
+4. `docs/bulk-other-stack.md` for the other-stack / p / RR story (why FCFS misses at K=16).
+5. `results/sweep.csv` for numbers.
+6. `eval/hop_2node.cfg` for the BookSim FCFS hop.
+7. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
+8. `docs/ieee-one-hop-program.md` for P1 to P5.
+9. `PLAN.md` for the longer calendar.
 
 Do not invent photonics, a mesh, or a BookSim EDF fork.
 
 ## Files by job
 
-`golden/hop.py` is the method. `eval/hop_2node.cfg` is BookSim FCFS hop check. `docs/ieee-one-hop-program.md` is PR order P1 to P5. `RULEBOOK-GROK-CLI-TO-D2D.md` is how Grok CLI writes a PR for D2D. `results/sweep.csv` is the current numbers.
+`golden/hop.py` is the method. `docs/bulk-other-stack.md` is other-stack occupancy p. `eval/hop_2node.cfg` is BookSim FCFS hop check. `docs/ieee-one-hop-program.md` is PR order P1 to P5. `RULEBOOK-GROK-CLI-TO-D2D.md` is how Grok CLI writes a PR for D2D. `results/sweep.csv` is the current numbers.
 
 ## Your loop this week (P1 then P2)
 
@@ -33,7 +34,8 @@ Do not invent photonics, a mesh, or a BookSim EDF fork.
 2. Run `python3 golden/run_sweep.py`. Look at miss_rate, not only B_useful.
 3. Check that EDF at K=16 has miss 0 and FCFS at K=16 still misses. That is the success of the idea, not a faster wire.
 4. Stop. Next code is P2 (publish golden + BookSim cfg). Verilog is P3.
+5. If asked why bulk exists: one wire, CXL.io stub, p from RR both-busy. See `docs/bulk-other-stack.md`. BookSim has no bulk.
 
 ## If a number looks wrong
 
-Do not add a new policy. Ask whether credit was 0, or whether bulk sat at the head of FCFS.
+Do not add a new policy. Ask whether credit was 0, or whether bulk sat at the head of FCFS. At K=16, FCFS miss is ~0 only if bulk_every=0.

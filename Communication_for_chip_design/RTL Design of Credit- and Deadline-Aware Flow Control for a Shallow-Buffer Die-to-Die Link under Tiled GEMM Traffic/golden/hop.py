@@ -5,6 +5,9 @@ credit > 0 = a free slot, we may send one flit.
 FCFS = front of the queue.
 EDF = among waiting flits, the one with soonest D_k (least spare time).
 Bulk flits have a far deadline so FCFS can block an urgent GEMM tile.
+bulk_every=2 is an offer near occupancy p=0.5 (UCIe RR, both queues busy, one wire).
+bulk_every=0 is GEMM-only. Then FCFS and EDF at K=16 both miss 0.
+Insert bulk into ready, not into the packer. See docs/bulk-other-stack.md.
 """
 
 from collections import deque
