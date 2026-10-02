@@ -15,18 +15,19 @@ Tile k is released at T_k = T_0 + k * C_tile. Deadline is D_k = T_k + extra. Sam
 1. This file.
 2. `description.txt` for T_k vs D_k.
 3. `golden/hop.py` for the method.
-4. `docs/bulk-other-stack.md` for the other-stack / p / RR story (why FCFS misses at K=16).
-5. `results/sweep.csv` for numbers.
-6. `eval/hop_2node.cfg` for the BookSim FCFS hop.
-7. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
-8. `docs/ieee-one-hop-program.md` for P1 to P5.
-9. `PLAN.md` for the longer calendar.
+4. `docs/workflow-scores-and-wires.md` for the wave scores and which pins may grow. Golden behavior is unchanged until that file is implemented.
+5. `docs/bulk-other-stack.md` for the other-stack / p / RR story (why FCFS misses at K=16).
+6. `results/sweep.csv` for numbers.
+7. `eval/hop_2node.cfg` for the BookSim FCFS hop.
+8. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
+9. `docs/ieee-one-hop-program.md` for P1 to P5.
+10. `PLAN.md` for the longer calendar.
 
 Do not invent photonics, a mesh, or a BookSim EDF fork.
 
 ## Files by job
 
-`golden/hop.py` is the method. `docs/bulk-other-stack.md` is other-stack occupancy p. `eval/hop_2node.cfg` is BookSim FCFS hop check. `docs/ieee-one-hop-program.md` is PR order P1 to P5. `RULEBOOK-GROK-CLI-TO-D2D.md` is how Grok CLI writes a PR for D2D. `results/sweep.csv` is the current numbers.
+`golden/hop.py` is the method. `docs/workflow-scores-and-wires.md` is the wave-score spec and the pin contract. `docs/bulk-other-stack.md` is other-stack occupancy p. `eval/hop_2node.cfg` is BookSim FCFS hop check. `docs/ieee-one-hop-program.md` is PR order P1 to P5. `RULEBOOK-GROK-CLI-TO-D2D.md` is how Grok CLI writes a PR for D2D. `results/sweep.csv` is the current numbers.
 
 ## Your loop this week (P1 then P2)
 
