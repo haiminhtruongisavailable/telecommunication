@@ -137,6 +137,8 @@ processing  -->  control
 
 Raising `N_WIRES` widens `send_en`, `grant_idx`, and `grant_valid` on that boundary, and it widens the PHY lanes inside the processing unit. The packer, `ready`, each score file, and unpack do not gain a port. Control does not gain a payload bus.
 
+The layer-by-layer drawing is `docs/architecture-ascii.md`. Same order as the I05 hierarchy: top, control unit, processing unit, then the inner blocks.
+
 ## Next hardware tree
 
 Build this only after the golden scores exist. Do not retarget today's `rtl/hop_top.v` in place.
