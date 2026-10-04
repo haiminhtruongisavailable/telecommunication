@@ -93,28 +93,74 @@ Blocks with no `N_WIRES` port: release, packer, other-stack offer, `ready` stora
 
 Later sweep, after the one-wire golden matches: `N_WIRES` in `{1, 2, 4}` with the same six scores. At `N_WIRES = 1` the scores should separate. As the pipe widens they should move closer, because more of the wave leaves in the same cycle.
 
-## Next hardware tree
+## Control unit beside processing unit
 
-Build this only after the golden scores exist. Do not retarget today's `rtl/hop_top.v` in place. New files, same pattern as `cordic.v` beside `cordic_control.v` and `cordic_processing.v`:
+This split is legitimate. It is the same organization as `i05_cordic`: `cordic.v` only wires, `cordic_control` decides, `cordic_processing` holds the numbers, and block A and block B sit inside the processing unit.
+
+`arch/hop_top.v` only wires two units. It does not contain the policy and it does not contain the flit records.
+
+**Control unit.** It decides what this cycle is for.
+
+- Release one square on `T_k = T_0 + k * C_tile`, or release a wave of width `W`.
+- Choose the active score: first-come-first-served, earliest `D`, closest-to-firing, shared-panel-first, or finish-the-row.
+- Apply admission: how many squares of the wave may enter `ready`.
+- Read `credit_count` from the processing unit. Drive `send_en` only when that count is greater than 0.
+
+The control unit never sees the A or B bytes. It never scans `ready`.
+
+**Processing unit.** It holds and moves the records. Inside it, the smaller blocks stay separate, the way block A and block B stay separate inside `cordic_processing`.
+
+- Packer: panel bytes become flit records.
+- Other-stack offer: one already-packed flit appended at `ready`.
+- `ready`: storage of those records.
+- Score blocks and the scheduler: the comparison is datapath, so the argmin lives here and returns indexes.
+- Credit register, PHY delay lanes, gather, unpack.
+
+The wires between the two units are the whole contract. They are this design's `load`, `run`, `i`, `x`, and `y`.
 
 ```text
-arch/hop_top.v            wires only
-arch/release.v            sequential clock or wave W; admission hold lives here
-arch/packer.v             panel bytes to records; no other-stack input
-arch/other_stack.v        one offered flit into ready
-arch/ready_mem.v          the records, no policy
+control  -->  processing
+  release_en
+  wave width W
+  policy id
+  admit_limit
+  send_en[N_WIRES]          base width 1
+
+processing  -->  control
+  credit_count
+  ready_count
+  grant_idx[N_WIRES]
+  grant_valid[N_WIRES]
+  first square done
+  wave done
+```
+
+Raising `N_WIRES` widens `send_en`, `grant_idx`, and `grant_valid` on that boundary, and it widens the PHY lanes inside the processing unit. The packer, `ready`, each score file, and unpack do not gain a port. Control does not gain a payload bus.
+
+## Next hardware tree
+
+Build this only after the golden scores exist. Do not retarget today's `rtl/hop_top.v` in place.
+
+```text
+arch/hop_top.v                 wires control to processing only
+arch/hop_control.v             release, policy id, admission, send_en
+arch/hop_processing.v          instantiates the blocks below
+arch/release.v                 sequential clock or wave W; admission hold lives here
+arch/packer.v                  panel bytes to records; no other-stack input
+arch/other_stack.v             one offered flit into ready
+arch/ready_mem.v               the records, no policy
 arch/score_fcfs.v
 arch/score_edf.v
 arch/score_firing.v
 arch/score_shared.v
 arch/score_row.v
-arch/scheduler.v          argmin, parameter N_WIRES, output indexes only
-arch/credit.v             parameter N_WIRES on the accept count
-arch/phy_box.v            parameter N_WIRES, plus the one-flit gather
-arch/unpack.v             one record in, panels out
+arch/scheduler.v               argmin inside processing; parameter N_WIRES; indexes only
+arch/credit.v                  parameter N_WIRES on the accept count
+arch/phy_box.v                 parameter N_WIRES, plus the one-flit gather
+arch/unpack.v                  one record in, panels out
 ```
 
-Adding a wire later means raising `N_WIRES` on the scheduler output, the credit accept count, and the PHY lanes. Release, packer, `ready`, the score files, and unpack stay at the same ports.
+Adding a wire later means raising `N_WIRES` on `send_en`, `grant_idx`, `grant_valid`, the credit accept count, and the PHY lanes. Release, packer, `ready`, the score files, and unpack stay at the same ports.
 
 ## What is still true underneath
 
