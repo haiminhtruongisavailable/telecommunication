@@ -1,0 +1,12 @@
+# Yosys flow only (Psychogenic "From top to transistors" as FLOW, not a foundry claim).
+# OpenROAD/OpenLane waits until this area.txt is nonzero.
+# Small READY_SLOTS for the first area read. Sim still uses READY_SLOTS=256.
+read_verilog -sv rtl/credit.v rtl/fifo_k.v rtl/packer.v rtl/scheduler_edf.v rtl/hop_top.v
+chparam -set READY_SLOTS 32 hop_top
+chparam -set WIRE_N 64 hop_top
+chparam -set N_TILES 8 hop_top
+hierarchy -check -top hop_top
+# Full proc of hop_top is a large EDF scan plus the golden wire FIFO.
+# First area is hierarchy cell count. OpenROAD stays gated.
+stat
+tee -o results/area.txt stat
