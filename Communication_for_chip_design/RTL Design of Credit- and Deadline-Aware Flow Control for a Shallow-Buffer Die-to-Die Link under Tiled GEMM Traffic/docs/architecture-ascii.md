@@ -11,6 +11,85 @@ Same reading order as `I05_Intro_to_chip_design_project`:
 
 This is the drawing. `arch/*.v` is not written yet. `golden/hop.py` is still one square on `T_k = T_0 + k * C_tile`, first-come-first-served against earliest `D_k`.
 
+## Bit widths
+
+These match the widths already used in `rtl/hop_top.v`, plus `N_WIRES` and `W_FLIT` for this drawing. A width written `N_WIRES x 8` is a bus of `N_WIRES` fields, each 8 bits. With `N_WIRES = 1` that bus is 8 bits.
+
+| Parameter | Value in the base machine | What it sizes |
+| --- | --- | --- |
+| `N_WIRES` | 1, later 2 or 4 | how many flits may leave in one cycle |
+| `W_FLIT` | 256 bits (32 bytes) | payload of one flit. A different knob from `N_WIRES` |
+| `TILE_W` | 8 | square number `k` |
+| `SEQ_W` | 16 | packer order |
+| `DL_W` | 32 | `D_k` and the other-stack deadline |
+| `IDX_W` | 8 | index of one `ready` slot (256 slots) |
+| `CW` | 8 | credit count. `K = 16` fits |
+| `TIME_W` | 32 | cycle count and `t_last` |
+| `POLICY_W` | 3 | five scores, values 0 to 4 |
+| `WAVE_W` | 8 | wave width `W` and `admit_limit` |
+
+Pins of `hop_top`. Control wires such as `policy_id` are not in this list. The control unit creates them.
+
+| Pin | Width | Direction |
+| --- | --- | --- |
+| `clk`, `rst` | 1, 1 | in |
+| `panel_valid` | 1 | in |
+| `panel_byte` | 8 | in. One INT8 byte. A square is 256 bytes of A, then 256 bytes of B. The whole panel is not one pin. |
+| `tile_id` | 8 | in. The square `k` those bytes belong to. |
+| `panel_sel` | 1 | in. 0 is A, 1 is B. |
+| `other_valid` | 1 | in |
+| `other_flit` | 256 | in. Already one flit. It does not pass through the packer. |
+| `other_deadline` | 32 | in. The golden still drives this with `10^9` until that knob is edited. |
+| `out_valid` | 1 | out. One unpacked flit beat. Stays 1 when `N_WIRES` grows. |
+| `out_flit` | 256 | out |
+| `out_tile` | 8 | out |
+| `out_panel_sel` | 1 | out |
+| `done` | 1 | out |
+| `t_last_bus` | `N_TILES x 32` | out. Arrival time of the last flit of each square. |
+
+Wires between the control unit and the processing unit:
+
+| Wire | Width | Grows with `N_WIRES` |
+| --- | --- | --- |
+| `release_en` | 1 | no |
+| `W` | 8 | no |
+| `policy_id` | 3 | no |
+| `admit_limit` | 8 | no |
+| `send_en` | `N_WIRES` | yes |
+| `credit_count` | 8 | no |
+| `ready_count` | 9 | no. Counts 0 to 256. |
+| `grant_idx` | `N_WIRES x 8` | yes |
+| `grant_valid` | `N_WIRES` | yes |
+| `first_done`, `wave_done` | 1, 1 | no |
+
+One record inside `ready`. This format stays put when `N_WIRES` grows.
+
+| Field | Width |
+| --- | --- |
+| `valid` | 1 |
+| `seq` | 16 |
+| `deadline` | 32 |
+| `tile_id` | 8 |
+| `panel_sel` | 1 |
+| `flits_left` | 5. A panel pair is 16 flits, so 0 to 16 fits. |
+| `consumers` | 8 |
+| `wave_id` | 8 |
+| `is_gemm` | 1 |
+| `payload` | 256 |
+| `score` out of each score block | 32. A 16-bit `seq` is placed in the low bits. |
+
+## How to widen the wires
+
+Change the parameter `N_WIRES` from 1 to 2, or from 1 to 4. Do that in three places only.
+
+1. The buses `send_en`, `grant_idx`, and `grant_valid` on the boundary in layer 1. At `N_WIRES = 2`, `send_en` is 2 bits, `grant_valid` is 2 bits, and `grant_idx` is 16 bits (two indexes of 8).
+2. The credit block. In one cycle it may accept `min(credit_count, N_WIRES)` sends. It still accepts none when `credit_count` is 0. The count register stays 8 bits, because `K` did not change.
+3. The PHY. It gets `N_WIRES` delay lanes, each of `D_phy` cycles. A gather of depth `N_WIRES` then hands `unpack` one 256-bit flit per cycle, so `out_flit` stays 256 bits and `out_valid` stays 1 bit.
+
+Leave these at the widths in the tables above: `panel_byte`, `other_flit`, the `ready` record, every score block, and `unpack`.
+
+`W_FLIT` is the other knob. Raising it from 256 bits makes each flit carry more panel bytes, so the packer emits fewer flits per square. That is a wider word, not a second wire. Do not use it as a substitute for `N_WIRES`.
+
 ## Layer 1. Top
 
 ```text
