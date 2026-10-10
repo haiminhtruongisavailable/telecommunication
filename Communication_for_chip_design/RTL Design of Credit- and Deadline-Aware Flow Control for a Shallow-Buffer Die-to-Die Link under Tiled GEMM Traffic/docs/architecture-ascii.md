@@ -227,89 +227,268 @@ Same role as `cordic_processing`: the blocks sit inside, and the outside only se
 
 The other stack joins at `ready`, after the packer. It does not enter the packer and it does not enter the PHY by itself.
 
-## Layer 4. Inside two blocks
+## Layer 4. Policy blocks, ports only
 
-Open these the way I05 opens block B, then block A. The other score blocks have the same shell as `score_fcfs`: one record in, one integer out.
-
-### 4a. `score_fcfs` and `score_edf`
+These five blocks are not opened. No mux and no register is drawn inside them. Each one takes the same record fields and returns one score. `policy_id` is not an input of these blocks. The scheduler mux, below, chooses which score is used.
 
 ```text
- record from ready                         policy_id
- (seq, D_k, valid)                              |
-        |                                       |
-        v                                       v
- +------------------+                  +------------------+
- | score_fcfs       |                  | score_edf        |
- |                  |                  |                  |
- | score = seq      |                  | score = D_k      |
- |                  |                  | tie keeps seq    |
- | score_out ------>|                  | score_out ------>|
- +------------------+                  +------------------+
+ valid   seq[15:0]  deadline[31:0]  tile_id[7:0]  panel_sel
+ flits_left[4:0]  consumers[7:0]  wave_id[7:0]  is_gemm  payload[255:0]
+        |              |                |
+        +--------------+----------------+
+                       |
+                       v
+              +------------------+
+              | score_fcfs       |
+              | score_edf        |
+              | score_firing     |
+              | score_shared     |
+              | score_row        |
+              |                  |
+              | score[31:0] ---->|
+              +------------------+
 ```
 
-`score_firing`, `score_shared`, and `score_row` use the same ports. Only the number inside changes:
+## Layer 5. Other blocks, down to mux, shift, and dreg
 
-| Block | Score |
-| --- | --- |
-| `score_firing` | fewer flits left before both panels of that square are complete |
-| `score_shared` | more squares stuck on this panel |
-| `score_row` | more flits left in that square |
+Same leaf cells as the I05 datapath. `dreg` stores on `clk`. A mux picks one of its inputs. A shift moves bits by a fixed amount or by a count. A compare drives a select. The policy blocks above are not in this layer.
 
-### 4b. `scheduler`
+### 5a. Packer
 
 ```text
- score_fcfs  score_edf  score_firing  score_shared  score_row
-      \          |           |             |            /
-       +---------+-----------+-------------+-----------+
-                               |
-                               v
-                    +---------------------+
-                    | scheduler           |
-                    |                     |
-                    | mux by policy_id    |
-                    | then argmin         |
-                    |                     |
-                    | grant_idx[0] ------>|   base: one index
-                    | grant_valid[0] ---> |
-                    |                     |
-                    | grant_idx[*] ------>|   later, if N_WIRES > 1
-                    +---------------------+
+ panel_byte[7:0]   panel_valid   panel_sel   tile_id[7:0]
+        |               |            |            |
+        v               v            v            v
+ +----------------------------------------------------------+
+ | packer                                                   |
+ |                                                          |
+ |  hold[255:0] --+                                        |
+ |                v                                        |
+ |         +------------+     panel_byte                   |
+ |         | shift << 8 |<----+                            |
+ |         +------+-----+                                  |
+ |                |                                        |
+ |                v                                        |
+ |         +------------+   sel = {fire, panel_valid}      |
+ |         | word_mux   |   fire  -> 0                     |
+ |         |            |   valid -> shifted word          |
+ |         |            |   else  -> hold                  |
+ |         +------+-----+                                  |
+ |                |                                        |
+ |                v                                        |
+ |         +------------+                                  |
+ |         | dreg 256   |---- payload[255:0]               |
+ |         +------------+                                  |
+ |                                                          |
+ |  byte_cnt[5:0] -> +1 -> cmp == 32 -> fire               |
+ |                    |                                    |
+ |                    v                                    |
+ |              cnt_mux (fire ? 0 : cnt+1) -> dreg 6       |
+ |                                                          |
+ |  fire, tile_id, panel_sel, seq+1 -> one record          |
+ +----------------------------------------------------------+
 ```
 
-The argmin reads every valid slot. Extra wires here are extra winners, not a wider view of `ready`.
+`<< 8` is the shift. Thirty-two bytes fill one 256-bit flit. A and B are two fills, 16 flits for the square.
 
-### 4c. `credit`
+### 5b. Ready memory
+
+One slot is drawn. The block holds 256 copies. The other-stack flit uses the same write port as the packer. It does not have its own memory.
 
 ```text
- grant_valid[*]          send request
-        |                      |
-        v                      v
- +-------------------------------------------+
- | credit                                    |
- |                                           |
- | count starts at K                         |
- |                                           |
- | accept = min(credit, popcount send_en)   |
- | count = count - accept + returns         |
- |                                           |
- | credit_count ----------------------------+--> back to CU
- | pass_en[*] ------------------------------+--> into phy_box
- +-------------------------------------------+
-                      ^
+ packer record          other_flit[255:0] + other_deadline[31:0]
+        \                          /
+         +------------+-----------+
+                      v
+               +-------------+
+               | src_mux     |  sel = other_valid
+               +------+------+
                       |
-               credit return
-               (one slot freed on the compute die,
-                arrives after 2*D_phy)
+                      v
+               +-------------+
+               | slot dreg   |  valid, seq, deadline, tile_id,
+               |             |  panel_sel, flits_left, consumers,
+               |             |  wave_id, is_gemm, payload
+               +------+------+
+                      |
+                      v
+               +-------------+
+               | read_mux    |  sel = grant_idx[7:0]
+               +------+------+
+                      |
+                      +--> record out to the score ports
+                      +--> record out to the PHY lane
 ```
 
-`K` is slots in the compute-die buffer. It is not a wire count. `pass_en` is 0 for every lane when the count is 0.
+`ready_count` is a separate `dreg` of 9 bits: plus one on a write, minus one when a granted slot is consumed.
+
+### 5c. Scheduler
+
+The mux is here. The score blocks stay closed.
+
+```text
+ score_fcfs[31:0]  score_edf  score_firing  score_shared  score_row
+         \             |            |             |           /
+          +------------+------------+-------------+----------+
+                                   |
+                                   v
+                          +-----------------+
+                          | policy_mux      |  sel = policy_id[2:0]
+                          +--------+--------+
+                                   |  one score per ready slot
+                                   v
+                          +-----------------+
+                          | cmp_min         |  smaller score wins
+                          |                 |  tie: smaller seq
+                          +--------+--------+
+                                   |
+                    +--------------+--------------+
+                    |                             |
+                    v                             v
+            grant_idx[7:0]                 grant_valid
+            index of the winner            0 when no slot is valid
+```
+
+For `N_WIRES` greater than 1, the same `cmp_min` is used again on the slots that are not yet chosen. Winner 0 is the smallest score. Winner 1 is the next. Each winner has its own `grant_idx` and `grant_valid`.
+
+### 5d. Credit
+
+```text
+ send_en[*]   grant_valid[*]          credit_return (1 bit)
+       \            /                        |
+        +----------+                         |
+                 v                          v
+          +--------------+          +---------------+
+          | accept_ones  |          | ret_count     |
+          | how many     |          | how many      |
+          | lanes fire   |          | came back     |
+          +------+-------+          +-------+-------+
+                 |                          |
+                 +-----------+--------------+
+                             v
+                      +-------------+
+                      | addsub      |
+                      | count       |
+                      |  - accept   |
+                      |  + returns  |
+                      +------+------+
+                             |
+                             v
+                      +-------------+
+                      | cnt_mux     |  hold old count if
+                      |             |  accept and returns are 0
+                      +------+------+
+                             v
+                      +-------------+
+                      | dreg 8      |---- credit_count[7:0]
+                      | reset = K   |
+                      +------+------+
+                             |
+                             v
+                      +-------------+
+                      | cmp > 0     |---- gates send_en inside CU
+                      +-------------+
+```
+
+`pass_en[lane]` is `send_en[lane] & grant_valid[lane]`, and the whole vector is cleared when the compare sees 0.
+
+### 5e. PHY and gather
+
+One lane is a shift of records through `D_phy` registers. `N_WIRES` lanes sit side by side.
+
+```text
+ pass_en --------+
+ payload, tile --+
+                 v
+          +-------------+
+          | load_mux    |  sel = pass_en
+          | load record |  else shift from the previous dreg
+          +------+------+
+                 v
+          +-------------+     +-------------+          +-------------+
+          | dreg stage0 | --> | dreg stage1 | --> ...  | dreg stage  |
+          +-------------+     +-------------+          | D_phy-1     |
+                                                       +------+------+
+                                                              |
+                                                              v
+                                                       arrived record
+```
+
+The gather takes the lanes that arrived in this cycle and shifts them out one per cycle, so `unpack` keeps a 256-bit input.
+
+```text
+ lane0 record --+
+ lane1 record --+--> +----------+     +-----------+
+ ...            |    | lane_mux | --> | dreg 256  | --> out_flit[255:0]
+ laneN record --+    | sel = rr |     | + valid   |
+                     +----------+     +-----------+
+```
+
+### 5f. Unpack
+
+The reverse of the packer shift.
+
+```text
+ out_flit[255:0]
+        |
+        v
+ +-------------+
+ | shift >> 8  |  low byte is the next panel_byte
+ +------+------+
+        v
+ +-------------+
+ | byte_mux    |  sel = take_byte
+ +------+------+
+        v
+ +-------------+
+ | dreg 256    |
+ +-------------+
+        |
+        +--> panel_byte[7:0]
+        +--> out_tile[7:0], out_panel_sel
+```
+
+### 5g. Release hold
+
+```text
+ release_en   W[7:0]   admit_limit[7:0]   square_finished
+      |          |            |                  |
+      v          v            v                  v
+ +------------------------------------------------------+
+ | release                                              |
+ |                                                      |
+ |  admitted[7:0] -- dreg                               |
+ |       |                                              |
+ |       v                                              |
+ |  cmp < admit_limit --+--> let the next square into   |
+ |                      |    the packer                 |
+ |  square_finished ----+--> admitted - 1               |
+ |                                                      |
+ |  k_cnt dreg -- + C_TILE -- cmp time --> release_en   |
+ |  wave: the same cmp lets W squares through together  |
+ +------------------------------------------------------+
+```
+
+## Leaf cells
+
+| Cell | Where it sits | Job |
+| --- | --- | --- |
+| `dreg` | packer, ready, credit, PHY, gather, unpack, release, CU | stores the value |
+| `word_mux`, `src_mux`, `read_mux`, `policy_mux`, `cnt_mux`, `load_mux`, `lane_mux`, `byte_mux` | the blocks in layer 5 | pick one input |
+| `shift << 8` | packer | one new byte into the high side of the flit |
+| `shift >> 8` | unpack | one byte out of the flit |
+| `shift` of records | PHY | move one stage closer to the compute die |
+| `addsub` | credit, release counters | count up or down |
+| `cmp` | packer fire, credit `> 0`, scheduler `cmp_min`, release versus `admit_limit` | a select bit |
+
+The five score blocks are not in this table. Their ports are layer 4.
 
 ## What a later wire changes
 
 | Pin | Layer that owns it |
 | --- | --- |
 | `send_en[*]`, `grant_idx[*]`, `grant_valid[*]` | the boundary drawn in layer 1 |
-| accept count inside `credit` | layer 4c |
+| accept count inside `credit` | layer 5d |
 | delay lanes inside `phy_box` | layer 3 |
 
 Release, packer, `ready`, the five score blocks, and unpack keep the ports drawn above.
