@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Hop adapter - layer diagram</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui, 'DejaVu Sans', 'Segoe UI', Arial, sans-serif;color:#0f172a;background:#f8fafc}
+header{padding:14px 24px 0}
+h1{font-size:19px;margin:0 0 4px}
+.note{font-size:13px;color:#475569;margin:0 0 10px}
+nav{display:flex;gap:6px;padding:0 24px 8px;border-bottom:1px solid #cbd5e1;flex-wrap:wrap}
+nav a{padding:7px 14px;font-size:14px;text-decoration:none;color:#1e293b;border:1px solid #cbd5e1;
+  border-bottom:none;border-radius:8px 8px 0 0;background:#e2e8f0}
+section.view{display:none;padding:14px 24px 30px}
+section.view:target{display:block}
+body:not(:has(section.view:target)) section.view:first-of-type{display:block}
+h2{font-size:16px;margin:4px 0 2px}
+.legend{font-size:12.5px;color:#475569;margin:0 0 8px}
+.legend .d{color:#2563eb;font-weight:700}.legend .c{color:#ea580c;font-weight:700}
+.diagram{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;max-width:100%;height:auto}
+a.open{cursor:pointer}
+a.open:hover rect{fill:#dbeafe}
+</style></head><body>
+<header><h1>Hop adapter - layer diagram</h1>
+<p class="note">One view per depth. A blue frame opens the next layer. A grey frame is a leaf. Score blocks do not open. Arrow text is the connection name.</p></header><nav>
+<a href="#top">L0 top</a>
+<a href="#inside_top">L1 CU + PU</a>
+<a href="#inside_pu">L2 PU path</a>
+<a href="#inside_scores">L2 scores</a>
+<a href="#inside_grant">L2 grant path</a>
+<a href="#inside_cu">L2 CU</a>
+<a href="#inside_packer">L3 packer</a>
+<a href="#inside_ready">L3 ready</a>
+<a href="#inside_sched">L3 scheduler</a>
+<a href="#inside_credit">L3 credit</a>
+<a href="#inside_phy">L3 phy</a>
+<a href="#inside_gather">L3 gather</a>
+<a href="#inside_unpack">L3 unpack</a>
+<a href="#inside_release">L3 release</a>
+<a href="#inside_fsm">L3 release_fsm</a>
+<a href="#inside_pol">L3 policy_reg</a>
+<a href="#inside_adm">L3 admit_reg</a>
+<a href="#inside_gate">L3 send_gate</a>
+</nav>
+<section class="view" id="top">
+<h2>L0 - hop_top</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 450 148" width="450" height="148" role="img" aria-label="L0 - hop_top">
+<defs><marker id="ah-d-top" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-top" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 132.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-top)"/>
+<text x="72.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">panel_byte</text>
+<polyline points="12.0,58.0 132.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-top)"/>
+<text x="72.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">other_flit</text>
+<polyline points="300.0,42.0 438.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-top)"/>
+<text x="369.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">out_flit</text>
+<polyline points="300.0,58.0 438.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-top)"/>
+<text x="369.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">done</text>
+<a href="#inside_top" class="open"><rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">hop_top</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">hop_top</text></a>
+</svg>
+</section>
+<section class="view" id="inside_top">
+<h2>L1 - inside hop_top</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 706 220" width="706" height="220" role="img" aria-label="L1 - inside hop_top">
+<defs><marker id="ah-d-inside_top" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_top" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="388.0,92.0 388.0,114.0 300.0,114.0 300.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="110.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">release_en</text>
+<polyline points="388.0,92.0 388.0,132.0 300.0,132.0 300.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="128.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">W</text>
+<polyline points="388.0,92.0 388.0,150.0 300.0,150.0 300.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="146.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">policy_id</text>
+<polyline points="388.0,92.0 388.0,168.0 300.0,168.0 300.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="164.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">admit_limit</text>
+<polyline points="388.0,92.0 388.0,186.0 300.0,186.0 300.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="182.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">send_en</text>
+<polyline points="300.0,42.0 388.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_top)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">credit_count</text>
+<polyline points="300.0,49.2 388.0,49.2" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_top)"/>
+<text x="344.0" y="42.2" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">ready_count</text>
+<polyline points="300.0,56.4 388.0,56.4" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_top)"/>
+<text x="344.0" y="49.4" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">grant_idx</text>
+<polyline points="300.0,63.6 388.0,63.6" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="56.6" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">grant_valid</text>
+<polyline points="300.0,70.8 388.0,70.8" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="63.8" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">first_done</text>
+<polyline points="300.0,78.0 388.0,78.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_top)"/>
+<text x="344.0" y="71.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">wave_done</text>
+<a href="#inside_pu" class="open"><rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_pu</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">hop_processing</text></a>
+<a href="#inside_cu" class="open"><rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_cu</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">hop_control</text></a>
+</svg>
+</section>
+<section class="view" id="inside_pu">
+<h2>L2 - inside u_pu, the path</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 1218 148" width="1218" height="148" role="img" aria-label="L2 - inside u_pu, the path">
+<defs><marker id="ah-d-inside_pu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_pu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_pu)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">release_en</text>
+<polyline points="12.0,42.0 388.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_pu)"/>
+<text x="200.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">panel_byte</text>
+<polyline points="12.0,42.0 644.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_pu)"/>
+<text x="328.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">other_flit</text>
+<polyline points="300.0,60.0 388.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_pu)"/>
+<text x="344.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">square</text>
+<polyline points="556.0,60.0 644.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_pu)"/>
+<text x="600.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="812.0,42.0 900.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_pu)"/>
+<text x="856.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="812.0,58.0 1206.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_pu)"/>
+<text x="1009.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">to_scores</text>
+<polyline points="12.0,58.0 900.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_pu)"/>
+<text x="456.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">policy_id</text>
+<polyline points="1068.0,60.0 1206.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_pu)"/>
+<text x="1137.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">grant_idx</text>
+<a href="#inside_release" class="open"><rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_release</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">release</text></a>
+<a href="#inside_packer" class="open"><rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_packer</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">packer</text></a>
+<a href="#inside_ready" class="open"><rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_ready</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">ready_mem</text></a>
+<a href="#inside_sched" class="open"><rect x="900.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="984.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_sched</text><text x="984.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">scheduler</text></a>
+</svg>
+</section>
+<section class="view" id="inside_scores">
+<h2>L2 - score blocks, ports only</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 1474 148" width="1474" height="148" role="img" aria-label="L2 - score blocks, ports only">
+<defs><marker id="ah-d-inside_scores" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_scores" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="12.0,60.0 388.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="200.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="12.0,60.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="328.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="12.0,60.0 900.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="456.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="12.0,60.0 1156.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="584.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="300.0,60.0 1462.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="881.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score</text>
+<polyline points="556.0,60.0 1462.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="1009.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score</text>
+<polyline points="812.0,60.0 1462.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="1137.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score</text>
+<polyline points="1068.0,60.0 1462.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="1265.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score</text>
+<polyline points="1324.0,60.0 1462.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_scores)"/>
+<text x="1393.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_fcfs</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">score_fcfs</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_edf</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">score_edf</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_firing</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">score_firing</text>
+<rect x="900.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="984.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_shared</text><text x="984.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">score_shared</text>
+<rect x="1156.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="1240.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_row</text><text x="1240.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">score_row</text>
+</svg>
+</section>
+<section class="view" id="inside_grant">
+<h2>L2 - inside u_pu, grant to unpack</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 1218 148" width="1218" height="148" role="img" aria-label="L2 - inside u_pu, grant to unpack">
+<defs><marker id="ah-d-inside_grant" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_grant" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 132.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_grant)"/>
+<text x="72.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">grant_idx</text>
+<polyline points="12.0,58.0 132.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_grant)"/>
+<text x="72.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">send_en</text>
+<polyline points="300.0,42.0 344.0,42.0 344.0,60.0 388.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_grant)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">pass_en</text>
+<polyline points="300.0,58.0 1206.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_grant)"/>
+<text x="753.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">credit_count</text>
+<polyline points="556.0,60.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_grant)"/>
+<text x="600.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">arrived</text>
+<polyline points="812.0,60.0 900.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_grant)"/>
+<text x="856.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">out_flit</text>
+<polyline points="1068.0,60.0 1206.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_grant)"/>
+<text x="1137.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">panel_byte</text>
+<polyline points="12.0,74.0 132.0,74.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_grant)"/>
+<text x="72.0" y="67.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">credit_return</text>
+<a href="#inside_credit" class="open"><rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_credit</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">credit</text></a>
+<a href="#inside_phy" class="open"><rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_phy</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">phy_box</text></a>
+<a href="#inside_gather" class="open"><rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_gather</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">gather</text></a>
+<a href="#inside_unpack" class="open"><rect x="900.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="984.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_unpack</text><text x="984.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">unpack</text></a>
+</svg>
+</section>
+<section class="view" id="inside_cu">
+<h2>L2 - inside u_cu</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 1218 148" width="1218" height="148" role="img" aria-label="L2 - inside u_cu">
+<defs><marker id="ah-d-inside_cu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_cu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="300.0,42.0 1206.0,42.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_cu)"/>
+<text x="753.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">release_en</text>
+<polyline points="300.0,58.0 1206.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_cu)"/>
+<text x="753.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">W</text>
+<polyline points="556.0,60.0 1206.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_cu)"/>
+<text x="881.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">policy_id</text>
+<polyline points="812.0,60.0 1206.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_cu)"/>
+<text x="1009.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">admit_limit</text>
+<polyline points="12.0,42.0 900.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_cu)"/>
+<text x="456.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">credit_count</text>
+<polyline points="12.0,58.0 900.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_cu)"/>
+<text x="456.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">grant_valid</text>
+<polyline points="1068.0,60.0 1206.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_cu)"/>
+<text x="1137.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">send_en</text>
+<a href="#inside_fsm" class="open"><rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_fsm</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">release_fsm</text></a>
+<a href="#inside_pol" class="open"><rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_pol</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">policy_reg</text></a>
+<a href="#inside_adm" class="open"><rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_adm</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">admit_reg</text></a>
+<a href="#inside_gate" class="open"><rect x="900.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="984.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_gate</text><text x="984.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">send_gate</text></a>
+</svg>
+</section>
+<section class="view" id="inside_packer">
+<h2>L3 - inside u_packer</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 962 294" width="962" height="294" role="img" aria-label="L3 - inside u_packer">
+<defs><marker id="ah-d-inside_packer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_packer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_packer)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">panel_byte</text>
+<polyline points="300.0,60.0 344.0,60.0 344.0,42.0 388.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_packer)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">shifted</text>
+<polyline points="644.0,92.0 644.0,242.0 556.0,242.0 556.0,92.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_packer)"/>
+<text x="600.0" y="238.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">hold</text>
+<polyline points="556.0,60.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_packer)"/>
+<text x="600.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">d</text>
+<polyline points="428.0,188.0 516.0,188.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_packer)"/>
+<text x="472.0" y="181.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">byte_cnt</text>
+<polyline points="516.0,220.0 516.0,260.0 556.0,260.0 556.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_packer)"/>
+<text x="536.0" y="256.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">fire</text>
+<polyline points="812.0,58.0 950.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_packer)"/>
+<text x="881.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">payload</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_shift</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">shift_l8</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_word_mux</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_word</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="260.0" y="156.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="344.0" y="184.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_cnt</text><text x="344.0" y="204.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">addsub</text>
+<rect x="516.0" y="156.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="600.0" y="184.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_fire</text><text x="600.0" y="204.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">cmp</text>
+</svg>
+</section>
+<section class="view" id="inside_ready">
+<h2>L3 - inside u_ready</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 962 148" width="962" height="148" role="img" aria-label="L3 - inside u_ready">
+<defs><marker id="ah-d-inside_ready" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_ready" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 132.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_ready)"/>
+<text x="72.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<polyline points="12.0,58.0 132.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_ready)"/>
+<text x="72.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">other_flit</text>
+<polyline points="300.0,60.0 388.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_ready)"/>
+<text x="344.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">d</text>
+<polyline points="556.0,60.0 600.0,60.0 600.0,42.0 644.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_ready)"/>
+<text x="600.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">q</text>
+<polyline points="12.0,58.0 644.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_ready)"/>
+<text x="328.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">grant_idx</text>
+<polyline points="812.0,60.0 950.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_ready)"/>
+<text x="881.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">record</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_src_mux</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_slot</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_read_mux</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+</svg>
+</section>
+<section class="view" id="inside_sched">
+<h2>L3 - inside u_sched</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 706 148" width="706" height="148" role="img" aria-label="L3 - inside u_sched">
+<defs><marker id="ah-d-inside_sched" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_sched" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 132.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="72.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score_fcfs</text>
+<polyline points="12.0,49.2 132.0,49.2" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="72.0" y="42.2" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score_edf</text>
+<polyline points="12.0,56.4 132.0,56.4" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="72.0" y="49.4" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score_firing</text>
+<polyline points="12.0,63.6 132.0,63.6" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="72.0" y="56.6" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score_shared</text>
+<polyline points="12.0,70.8 132.0,70.8" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="72.0" y="63.8" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score_row</text>
+<polyline points="12.0,78.0 132.0,78.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_sched)"/>
+<text x="72.0" y="71.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">policy_id</text>
+<polyline points="300.0,60.0 388.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="344.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">score</text>
+<polyline points="556.0,42.0 694.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_sched)"/>
+<text x="625.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">grant_idx</text>
+<polyline points="556.0,58.0 694.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_sched)"/>
+<text x="625.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">grant_valid</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_policy_mux</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_cmp_min</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">cmp</text>
+</svg>
+</section>
+<section class="view" id="inside_credit">
+<h2>L3 - inside u_credit</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 1218 166" width="1218" height="166" role="img" aria-label="L3 - inside u_credit">
+<defs><marker id="ah-d-inside_credit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_credit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 132.0,42.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_credit)"/>
+<text x="72.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">accept</text>
+<polyline points="12.0,58.0 132.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_credit)"/>
+<text x="72.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">credit_return</text>
+<polyline points="644.0,92.0 644.0,114.0 300.0,114.0 300.0,92.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_credit)"/>
+<text x="472.0" y="110.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">count</text>
+<polyline points="300.0,60.0 344.0,60.0 344.0,42.0 388.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_credit)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">next</text>
+<polyline points="644.0,92.0 644.0,132.0 556.0,132.0 556.0,92.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_credit)"/>
+<text x="600.0" y="128.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">hold</text>
+<polyline points="556.0,60.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_credit)"/>
+<text x="600.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">d</text>
+<polyline points="812.0,66.0 856.0,66.0 856.0,60.0 900.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_credit)"/>
+<text x="856.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">count</text>
+<polyline points="812.0,78.0 1206.0,78.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_credit)"/>
+<text x="1009.0" y="71.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">credit_count</text>
+<polyline points="1068.0,60.0 1206.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_credit)"/>
+<text x="1137.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">gt0</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_addsub</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">addsub</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_cnt_mux</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_count</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="900.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="984.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_nz</text><text x="984.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">cmp</text>
+</svg>
+</section>
+<section class="view" id="inside_phy">
+<h2>L3 - inside u_phy, one lane</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 1474 148" width="1474" height="148" role="img" aria-label="L3 - inside u_phy, one lane">
+<defs><marker id="ah-d-inside_phy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_phy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 132.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="72.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">payload</text>
+<polyline points="12.0,58.0 132.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_phy)"/>
+<text x="72.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">pass_en</text>
+<polyline points="388.0,92.0 388.0,114.0 300.0,114.0 300.0,92.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="344.0" y="110.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">hold</text>
+<polyline points="300.0,60.0 388.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="344.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">d</text>
+<polyline points="556.0,58.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="600.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">q</text>
+<polyline points="812.0,60.0 900.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="856.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">q</text>
+<polyline points="1068.0,60.0 1156.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="1112.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">q</text>
+<polyline points="1324.0,60.0 1462.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_phy)"/>
+<text x="1393.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">arrived</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_load_mux</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_s0</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_s1</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="900.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="984.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_s2</text><text x="984.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="1156.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="1240.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_s3</text><text x="1240.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_gather">
+<h2>L3 - inside u_gather</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 706 148" width="706" height="148" role="img" aria-label="L3 - inside u_gather">
+<defs><marker id="ah-d-inside_gather" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_gather" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_gather)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">lane</text>
+<polyline points="300.0,60.0 388.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_gather)"/>
+<text x="344.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">d</text>
+<polyline points="556.0,60.0 694.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_gather)"/>
+<text x="625.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">out_flit</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_lane_mux</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_out</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_unpack">
+<h2>L3 - inside u_unpack</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 962 148" width="962" height="148" role="img" aria-label="L3 - inside u_unpack">
+<defs><marker id="ah-d-inside_unpack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_unpack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_unpack)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">out_flit</text>
+<polyline points="300.0,42.0 388.0,42.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_unpack)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">shifted</text>
+<polyline points="644.0,92.0 644.0,114.0 556.0,114.0 556.0,92.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_unpack)"/>
+<text x="600.0" y="110.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">hold</text>
+<polyline points="556.0,60.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_unpack)"/>
+<text x="600.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">d</text>
+<polyline points="300.0,58.0 950.0,58.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_unpack)"/>
+<text x="625.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">panel_byte</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_shift</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">shift_r8</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_byte_mux</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_word</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_release">
+<h2>L3 - inside u_release</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 962 148" width="962" height="148" role="img" aria-label="L3 - inside u_release">
+<defs><marker id="ah-d-inside_release" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_release" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,42.0 388.0,42.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_release)"/>
+<text x="200.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">admit_limit</text>
+<polyline points="644.0,92.0 644.0,114.0 556.0,114.0 556.0,92.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_release)"/>
+<text x="600.0" y="110.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">admitted</text>
+<polyline points="556.0,60.0 950.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_release)"/>
+<text x="753.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">let_square</text>
+<polyline points="300.0,60.0 950.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_release)"/>
+<text x="625.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">k</text>
+<polyline points="12.0,60.0 644.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_release)"/>
+<text x="328.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">square_finished</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_k</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_admit_cmp</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">cmp</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_admitted</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_fsm">
+<h2>L3 - inside u_fsm</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 962 148" width="962" height="148" role="img" aria-label="L3 - inside u_fsm">
+<defs><marker id="ah-d-inside_fsm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_fsm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="388.0,92.0 388.0,114.0 300.0,114.0 300.0,92.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_fsm)"/>
+<text x="344.0" y="110.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">state</text>
+<polyline points="300.0,42.0 344.0,42.0 344.0,60.0 388.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_fsm)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">state_next</text>
+<polyline points="300.0,58.0 644.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_fsm)"/>
+<text x="472.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">k_next</text>
+<polyline points="556.0,58.0 950.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_fsm)"/>
+<text x="753.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">release_en</text>
+<polyline points="812.0,60.0 950.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_fsm)"/>
+<text x="881.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">W</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_next</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">ctrl_next</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_state</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+<rect x="644.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="728.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_k</text><text x="728.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_pol">
+<h2>L3 - inside u_pol</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 450 148" width="450" height="148" role="img" aria-label="L3 - inside u_pol">
+<defs><marker id="ah-d-inside_pol" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_pol" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_pol)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">policy_next</text>
+<polyline points="300.0,60.0 438.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_pol)"/>
+<text x="369.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">policy_id</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_policy</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_adm">
+<h2>L3 - inside u_adm</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 450 148" width="450" height="148" role="img" aria-label="L3 - inside u_adm">
+<defs><marker id="ah-d-inside_adm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_adm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_adm)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">admit_next</text>
+<polyline points="300.0,60.0 438.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_adm)"/>
+<text x="369.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">admit_limit</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_admit</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">dreg</text>
+</svg>
+</section>
+<section class="view" id="inside_gate">
+<h2>L3 - inside u_gate</h2>
+<p class="legend"><span class="d">Blue</span> = data, <span class="c">orange</span> = control. Blue frame opens the next depth.</p>
+<svg class="diagram" viewBox="0 0 706 148" width="706" height="148" role="img" aria-label="L3 - inside u_gate">
+<defs><marker id="ah-d-inside_gate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="ah-c-inside_gate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs>
+<polyline points="12.0,60.0 132.0,60.0" fill="none" stroke="#2563eb" stroke-width="1.7" marker-end="url(#ah-d-inside_gate)"/>
+<text x="72.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#2563eb">credit_count</text>
+<polyline points="300.0,60.0 344.0,60.0 344.0,42.0 388.0,42.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_gate)"/>
+<text x="344.0" y="35.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">gt0</text>
+<polyline points="12.0,58.0 388.0,58.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_gate)"/>
+<text x="200.0" y="51.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">grant_valid</text>
+<polyline points="556.0,60.0 694.0,60.0" fill="none" stroke="#ea580c" stroke-width="1.7" marker-end="url(#ah-c-inside_gate)"/>
+<text x="625.0" y="53.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#ea580c">send_en</text>
+<rect x="132.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="216.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_nz</text><text x="216.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">cmp</text>
+<rect x="388.0" y="28.0" width="168.0" height="64.0" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><text x="472.0" y="56.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#0f172a">u_and</text><text x="472.0" y="76.0" text-anchor="middle" font-family="ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas, monospace" font-size="12" fill="#334155">mux</text>
+</svg>
+</section>
+</body></html>

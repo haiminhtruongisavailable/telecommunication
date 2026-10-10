@@ -17,12 +17,13 @@ Tile k is released at T_k = T_0 + k * C_tile. Deadline is D_k = T_k + extra. Sam
 3. `golden/hop.py` for the method.
 4. `docs/workflow-scores-and-wires.md` for the wave scores, the control unit beside the processing unit, and which pins may grow. Golden behavior is unchanged until that file is implemented. Explain that split from the file, not from chat.
 5. `docs/architecture-ascii.md` for the same split drawn layer by layer, in the I05 order: top, control, processing, then the inner blocks.
-6. `docs/bulk-other-stack.md` for the other-stack / p / RR story (why FCFS misses at K=16).
-7. `results/sweep.csv` for numbers.
-8. `eval/hop_2node.cfg` for the BookSim FCFS hop.
-9. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
-10. `docs/ieee-one-hop-program.md` for P1 to P5.
-11. `PLAN.md` for the longer calendar.
+6. `docs/arch-view/index.html` for that drawing as a page of layers. Open a blue frame to go deeper. Score blocks do not open.
+7. `docs/bulk-other-stack.md` for the other-stack / p / RR story (why FCFS misses at K=16).
+8. `results/sweep.csv` for numbers.
+9. `eval/hop_2node.cfg` for the BookSim FCFS hop.
+10. `RULEBOOK-GROK-CLI-TO-D2D.md` for PRs.
+11. `docs/ieee-one-hop-program.md` for P1 to P5.
+12. `PLAN.md` for the longer calendar.
 
 Do not invent photonics, a mesh, or a BookSim EDF fork.
 
