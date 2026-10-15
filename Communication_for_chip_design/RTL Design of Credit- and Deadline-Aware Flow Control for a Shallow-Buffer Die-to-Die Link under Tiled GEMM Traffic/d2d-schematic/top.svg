@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 660" width="1600" height="660" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1600" height="660" fill="#fff"/>
+<rect x="250" y="20" width="1100" height="620" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="450" y="180" width="330" height="430" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="900" y="180" width="300" height="230" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,220 1220,220 1220,150 430,150 430,220 450,220" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,244 1240,244 1240,130 410,130 410,244 450,244" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,268 1260,268 1260,110 390,110 390,268 450,268" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,292 1280,292 1280,90 370,90 370,292 450,292" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,316 1300,316 1300,70 350,70 350,316 450,316" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,220 900,220" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,244 900,244" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,268 900,268" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,292 900,292" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,316 900,316" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,340 900,340" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,420 450,420" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,444 450,444" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,468 450,468" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,492 450,492" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,532 450,532" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,556 450,556" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,580 450,580" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,460 1350,460" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,484 1350,484" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,508 1350,508" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,532 1350,532" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,556 1350,556" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,356 1350,356" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="356" x2="264" y2="356" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="356" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="886" y1="364" x2="900" y2="364" stroke="#000" stroke-width="1.3"/>
+<circle cx="883" cy="364" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="436" y1="356" x2="450" y2="356" stroke="#000" stroke-width="1.3"/>
+<circle cx="433" cy="356" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="380" x2="264" y2="380" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="380" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="886" y1="388" x2="900" y2="388" stroke="#000" stroke-width="1.3"/>
+<circle cx="883" cy="388" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="436" y1="380" x2="450" y2="380" stroke="#000" stroke-width="1.3"/>
+<circle cx="433" cy="380" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M450,220 L443,216.5 L443,223.5 Z" fill="#000"/>
+<path d="M450,244 L443,240.5 L443,247.5 Z" fill="#000"/>
+<path d="M450,268 L443,264.5 L443,271.5 Z" fill="#000"/>
+<path d="M450,292 L443,288.5 L443,295.5 Z" fill="#000"/>
+<path d="M450,316 L443,312.5 L443,319.5 Z" fill="#000"/>
+<path d="M450,356 L443,352.5 L443,359.5 Z" fill="#000"/>
+<path d="M450,380 L443,376.5 L443,383.5 Z" fill="#000"/>
+<path d="M450,420 L443,416.5 L443,423.5 Z" fill="#000"/>
+<path d="M450,444 L443,440.5 L443,447.5 Z" fill="#000"/>
+<path d="M450,468 L443,464.5 L443,471.5 Z" fill="#000"/>
+<path d="M450,492 L443,488.5 L443,495.5 Z" fill="#000"/>
+<path d="M450,532 L443,528.5 L443,535.5 Z" fill="#000"/>
+<path d="M450,556 L443,552.5 L443,559.5 Z" fill="#000"/>
+<path d="M450,580 L443,576.5 L443,583.5 Z" fill="#000"/>
+<path d="M900,220 L893,216.5 L893,223.5 Z" fill="#000"/>
+<path d="M900,244 L893,240.5 L893,247.5 Z" fill="#000"/>
+<path d="M900,268 L893,264.5 L893,271.5 Z" fill="#000"/>
+<path d="M900,292 L893,288.5 L893,295.5 Z" fill="#000"/>
+<path d="M900,316 L893,312.5 L893,319.5 Z" fill="#000"/>
+<path d="M900,340 L893,336.5 L893,343.5 Z" fill="#000"/>
+<path d="M900,364 L893,360.5 L893,367.5 Z" fill="#000"/>
+<path d="M900,388 L893,384.5 L893,391.5 Z" fill="#000"/>
+<rect x="247" y="353" width="6" height="6" fill="#000"/>
+<rect x="247" y="377" width="6" height="6" fill="#000"/>
+<rect x="247" y="417" width="6" height="6" fill="#000"/>
+<rect x="247" y="441" width="6" height="6" fill="#000"/>
+<rect x="247" y="465" width="6" height="6" fill="#000"/>
+<rect x="247" y="489" width="6" height="6" fill="#000"/>
+<rect x="247" y="529" width="6" height="6" fill="#000"/>
+<rect x="247" y="553" width="6" height="6" fill="#000"/>
+<rect x="247" y="577" width="6" height="6" fill="#000"/>
+<rect x="1347" y="353" width="6" height="6" fill="#000"/>
+<rect x="1347" y="457" width="6" height="6" fill="#000"/>
+<rect x="1347" y="481" width="6" height="6" fill="#000"/>
+<rect x="1347" y="505" width="6" height="6" fill="#000"/>
+<rect x="1347" y="529" width="6" height="6" fill="#000"/>
+<rect x="1347" y="553" width="6" height="6" fill="#000"/>
+<text x="615.0" y="196" font-size="11" text-anchor="middle">hop_processing</text>
+<text x="615.0" y="212" font-size="13" text-anchor="middle" font-weight="bold">u_pu</text>
+<text x="455" y="224" font-size="11" text-anchor="start">release_en</text>
+<text x="455" y="248" font-size="11" text-anchor="start">[7:0] W</text>
+<text x="455" y="272" font-size="11" text-anchor="start">[2:0] policy_id</text>
+<text x="455" y="296" font-size="11" text-anchor="start">[7:0] admit_limit</text>
+<text x="455" y="320" font-size="11" text-anchor="start">[N_WIRES-1:0] send_en</text>
+<text x="455" y="360" font-size="11" text-anchor="start">clk</text>
+<text x="455" y="384" font-size="11" text-anchor="start">rst</text>
+<text x="455" y="424" font-size="11" text-anchor="start">panel_valid</text>
+<text x="455" y="448" font-size="11" text-anchor="start">[7:0] panel_byte</text>
+<text x="455" y="472" font-size="11" text-anchor="start">[7:0] tile_id</text>
+<text x="455" y="496" font-size="11" text-anchor="start">panel_sel</text>
+<text x="455" y="536" font-size="11" text-anchor="start">other_valid</text>
+<text x="455" y="560" font-size="11" text-anchor="start">[255:0] other_flit</text>
+<text x="455" y="584" font-size="11" text-anchor="start">[31:0] other_deadline</text>
+<text x="775" y="224" font-size="11" text-anchor="end">[7:0] credit_count</text>
+<text x="775" y="248" font-size="11" text-anchor="end">[8:0] ready_count</text>
+<text x="775" y="272" font-size="11" text-anchor="end">[N_WIRES×8-1:0] grant_idx</text>
+<text x="775" y="296" font-size="11" text-anchor="end">[N_WIRES-1:0] grant_valid</text>
+<text x="775" y="320" font-size="11" text-anchor="end">first_done</text>
+<text x="775" y="344" font-size="11" text-anchor="end">wave_done</text>
+<text x="775" y="464" font-size="11" text-anchor="end">out_valid</text>
+<text x="775" y="488" font-size="11" text-anchor="end">[255:0] out_flit</text>
+<text x="775" y="512" font-size="11" text-anchor="end">[7:0] out_tile</text>
+<text x="775" y="536" font-size="11" text-anchor="end">out_panel_sel</text>
+<text x="775" y="560" font-size="11" text-anchor="end">[N_TILES×32-1:0] t_last_bus</text>
+<text x="1050.0" y="196" font-size="11" text-anchor="middle">hop_control</text>
+<text x="1050.0" y="212" font-size="13" text-anchor="middle" font-weight="bold">u_cu</text>
+<text x="905" y="224" font-size="11" text-anchor="start">[7:0] credit_count</text>
+<text x="905" y="248" font-size="11" text-anchor="start">[8:0] ready_count</text>
+<text x="905" y="272" font-size="11" text-anchor="start">[N_WIRES×8-1:0] grant_idx</text>
+<text x="905" y="296" font-size="11" text-anchor="start">[N_WIRES-1:0] grant_valid</text>
+<text x="905" y="320" font-size="11" text-anchor="start">first_done</text>
+<text x="905" y="344" font-size="11" text-anchor="start">wave_done</text>
+<text x="905" y="368" font-size="11" text-anchor="start">clk</text>
+<text x="905" y="392" font-size="11" text-anchor="start">rst</text>
+<text x="1195" y="224" font-size="11" text-anchor="end">release_en</text>
+<text x="1195" y="248" font-size="11" text-anchor="end">[7:0] W</text>
+<text x="1195" y="272" font-size="11" text-anchor="end">[2:0] policy_id</text>
+<text x="1195" y="296" font-size="11" text-anchor="end">[7:0] admit_limit</text>
+<text x="1195" y="320" font-size="11" text-anchor="end">[N_WIRES-1:0] send_en</text>
+<text x="1195" y="360" font-size="11" text-anchor="end">done</text>
+<text x="240" y="361" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="385" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="425" font-size="14" text-anchor="end">panel_valid</text>
+<text x="240" y="449" font-size="14" text-anchor="end">[7:0] panel_byte</text>
+<text x="240" y="473" font-size="14" text-anchor="end">[7:0] tile_id</text>
+<text x="240" y="497" font-size="14" text-anchor="end">panel_sel</text>
+<text x="240" y="537" font-size="14" text-anchor="end">other_valid</text>
+<text x="240" y="561" font-size="14" text-anchor="end">[255:0] other_flit</text>
+<text x="240" y="585" font-size="14" text-anchor="end">[31:0] other_deadline</text>
+<text x="1360" y="361" font-size="14" text-anchor="start">done</text>
+<text x="1360" y="465" font-size="14" text-anchor="start">out_valid</text>
+<text x="1360" y="489" font-size="14" text-anchor="start">[255:0] out_flit</text>
+<text x="1360" y="513" font-size="14" text-anchor="start">[7:0] out_tile</text>
+<text x="1360" y="537" font-size="14" text-anchor="start">out_panel_sel</text>
+<text x="1360" y="561" font-size="14" text-anchor="start">[N_TILES×32-1:0] t_last_bus</text>
+<text x="800.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">hop_top</text>
+<text x="800" y="145" font-size="10" text-anchor="start" font-style="italic" fill="#444">release_en</text>
+<text x="800" y="125" font-size="10" text-anchor="start" font-style="italic" fill="#444">W</text>
+<text x="800" y="105" font-size="10" text-anchor="start" font-style="italic" fill="#444">policy_id</text>
+<text x="800" y="85" font-size="10" text-anchor="start" font-style="italic" fill="#444">admit_limit</text>
+<text x="800" y="65" font-size="10" text-anchor="start" font-style="italic" fill="#444">send_en</text>
+<text x="878" y="367.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="428" y="359.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="878" y="391.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="428" y="383.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>

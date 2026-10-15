@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>D2D hop adapter - schematic</title>
+<style>
+html,body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif}
+nav{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid #ccc;position:sticky;top:0;background:#fff;z-index:2}
+nav a{padding:5px 10px;border:1px solid #bbb;border-radius:4px;color:#000;text-decoration:none;font-size:13px}
+nav a.on{background:#000;color:#fff;border-color:#000}
+nav .back{margin-left:auto}
+.bar{padding:8px 14px;font-size:14px;display:flex;gap:18px;align-items:center}
+.bar a{font-size:13px;color:#1f6feb}
+section{display:none}section.on{display:block}
+section svg{display:block;width:100%;height:auto;max-width:1700px;margin:0 auto}
+.hot:hover{fill-opacity:.08}
+.key{font-size:12px;color:#555;padding:4px 14px}
+</style></head><body>
+<nav>%NAV%<a class="back" id="back" href="#top">&larr; back</a></nav>
+<div class="key">Click a box to open its inside. Dashed box = drawn but not stated in the doc (inferred). Red dashed stub = no driver, dashed stub = unused; the tag names the finding.</div>
+%SECTIONS%
+<script>
+var PARENT=%PARENTS%;
+function show(){var h=(location.hash||'#top').slice(1);if(!document.getElementById('v-'+h))h='top';
+document.querySelectorAll('section').forEach(function(s){s.classList.toggle('on',s.id==='v-'+h)});
+document.querySelectorAll('nav a.tab').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+h)});
+var b=document.getElementById('back');b.style.visibility=PARENT[h]?'visible':'hidden';if(PARENT[h])b.setAttribute('href','#'+PARENT[h]);
+b.innerHTML='&larr; back to '+(PARENT[h]||'');window.scrollTo(0,0);}
+window.addEventListener('hashchange',show);show();
+</script></body></html>

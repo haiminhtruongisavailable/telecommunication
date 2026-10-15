@@ -1,0 +1,1095 @@
+{
+ "name": "unpack",
+ "W": 1550,
+ "H": 420,
+ "frame": {
+  "x0": 250,
+  "y0": 20,
+  "x1": 1300,
+  "y1": 400,
+  "title": "unpack"
+ },
+ "ports": {
+  "flit": {
+   "side": "L",
+   "y": 170,
+   "dir": "in",
+   "wexpr": "256",
+   "width": 256
+  },
+  "in_valid": {
+   "side": "L",
+   "y": 200,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "clk": {
+   "side": "L",
+   "y": 240,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "rst": {
+   "side": "L",
+   "y": 264,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "panel_byte": {
+   "side": "R",
+   "y": 150,
+   "dir": "out",
+   "wexpr": "8",
+   "width": 8
+  },
+  "out_tile": {
+   "side": "R",
+   "y": 330,
+   "dir": "out",
+   "wexpr": "8",
+   "width": 8
+  },
+  "out_panel_sel": {
+   "side": "R",
+   "y": 360,
+   "dir": "out",
+   "wexpr": "1",
+   "width": 1
+  }
+ },
+ "inst": {
+  "byte_mux": {
+   "module": "assign",
+   "head": null,
+   "inst": "byte_mux",
+   "x": 520,
+   "y": 130,
+   "w": 110,
+   "h": 80,
+   "pins": {
+    "sel": {
+     "side": "L",
+     "dy": 20,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "1",
+     "width": 1
+    },
+    "0": {
+     "side": "L",
+     "dy": 40,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "256",
+     "width": 256
+    },
+    "1": {
+     "side": "L",
+     "dy": 60,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "256",
+     "width": 256
+    },
+    "y": {
+     "side": "R",
+     "dy": 40,
+     "dir": "out",
+     "nolabel": true,
+     "wexpr": "256",
+     "width": 256
+    }
+   },
+   "center": "byte_mux"
+  },
+  "u_word": {
+   "module": "dreg",
+   "head": "dreg \u00b7 256 DFF",
+   "inst": "u_word",
+   "x": 680,
+   "y": 78,
+   "w": 150,
+   "h": 110,
+   "pins": {
+    "clk": {
+     "side": "L",
+     "dy": 52,
+     "dir": "in",
+     "wexpr": "1",
+     "width": 1
+    },
+    "rst": {
+     "side": "L",
+     "dy": 72,
+     "dir": "in",
+     "wexpr": "1",
+     "width": 1
+    },
+    "d": {
+     "side": "L",
+     "dy": 92,
+     "dir": "in",
+     "wexpr": "256",
+     "width": 256
+    },
+    "q": {
+     "side": "R",
+     "dy": 72,
+     "dir": "out",
+     "wexpr": "256",
+     "width": 256
+    }
+   }
+  },
+  "lo8": {
+   "module": "assign",
+   "head": null,
+   "inst": "lo8",
+   "x": 950,
+   "y": 135,
+   "w": 70,
+   "h": 30,
+   "pins": {
+    "a": {
+     "side": "L",
+     "dy": 15,
+     "dir": "in",
+     "nolabel": true,
+     "wexpr": "256",
+     "width": 256
+    },
+    "y": {
+     "side": "R",
+     "dy": 15,
+     "dir": "out",
+     "nolabel": true,
+     "wexpr": "8",
+     "width": 8
+    }
+   },
+   "center": "[7:0]"
+  },
+  "shr": {
+   "module": "assign",
+   "head": null,
+   "inst": "shr",
+   "x": 950,
+   "y": 230,
+   "w": 80,
+   "h": 30,
+   "pins": {
+    "a": {
+     "side": "L",
+     "dy": 15,
+     "dir": "in",
+     "nolabel": true,
+     "wexpr": "256",
+     "width": 256
+    },
+    "y": {
+     "side": "R",
+     "dy": 15,
+     "dir": "out",
+     "nolabel": true,
+     "wexpr": "256",
+     "width": 256
+    }
+   },
+   "center": ">> 8",
+   "inferred": true
+  }
+ },
+ "nets": {
+  "flit": {
+   "lines": [
+    [
+     [
+      250,
+      170
+     ],
+     [
+      520,
+      170
+     ]
+    ]
+   ]
+  },
+  "take_byte": {
+   "lines": [
+    [
+     [
+      250,
+      200
+     ],
+     [
+      480,
+      200
+     ],
+     [
+      480,
+      150
+     ],
+     [
+      520,
+      150
+     ]
+    ]
+   ]
+  },
+  "word_d": {
+   "lines": [
+    [
+     [
+      630,
+      170
+     ],
+     [
+      680,
+      170
+     ]
+    ]
+   ]
+  },
+  "word": {
+   "lines": [
+    [
+     [
+      830,
+      150
+     ],
+     [
+      950,
+      150
+     ]
+    ],
+    [
+     [
+      880,
+      150
+     ],
+     [
+      880,
+      245
+     ],
+     [
+      950,
+      245
+     ]
+    ]
+   ],
+   "labels": [
+    [
+     890,
+     144
+    ]
+   ]
+  },
+  "panel_byte": {
+   "lines": [
+    [
+     [
+      1020,
+      150
+     ],
+     [
+      1300,
+      150
+     ]
+    ]
+   ]
+  },
+  "shifted": {
+   "lines": [
+    [
+     [
+      1030,
+      245
+     ],
+     [
+      1060,
+      245
+     ],
+     [
+      1060,
+      300
+     ],
+     [
+      490,
+      300
+     ],
+     [
+      490,
+      190
+     ],
+     [
+      520,
+      190
+     ]
+    ]
+   ],
+   "labels": [
+    [
+     700,
+     295
+    ]
+   ]
+  },
+  "clk": {
+   "stub": [
+    "PORT.clk",
+    "u_word.clk"
+   ]
+  },
+  "rst": {
+   "stub": [
+    "PORT.rst",
+    "u_word.rst"
+   ]
+  },
+  "out_tile": {
+   "nodriver": [
+    "PORT.out_tile"
+   ],
+   "finding": "F21"
+  },
+  "out_panel_sel": {
+   "nodriver": [
+    "PORT.out_panel_sel"
+   ],
+   "finding": "F21"
+  }
+ },
+ "pins": {
+  "byte_mux.sel": {
+   "xy": [
+    520,
+    150
+   ],
+   "side": "L",
+   "dy": 20,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "1",
+   "width": 1
+  },
+  "byte_mux.0": {
+   "xy": [
+    520,
+    170
+   ],
+   "side": "L",
+   "dy": 40,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "256",
+   "width": 256
+  },
+  "byte_mux.1": {
+   "xy": [
+    520,
+    190
+   ],
+   "side": "L",
+   "dy": 60,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "256",
+   "width": 256
+  },
+  "byte_mux.y": {
+   "xy": [
+    630,
+    170
+   ],
+   "side": "R",
+   "dy": 40,
+   "dir": "out",
+   "nolabel": true,
+   "wexpr": "256",
+   "width": 256
+  },
+  "u_word.clk": {
+   "xy": [
+    680,
+    130
+   ],
+   "side": "L",
+   "dy": 52,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "u_word.rst": {
+   "xy": [
+    680,
+    150
+   ],
+   "side": "L",
+   "dy": 72,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "u_word.d": {
+   "xy": [
+    680,
+    170
+   ],
+   "side": "L",
+   "dy": 92,
+   "dir": "in",
+   "wexpr": "256",
+   "width": 256
+  },
+  "u_word.q": {
+   "xy": [
+    830,
+    150
+   ],
+   "side": "R",
+   "dy": 72,
+   "dir": "out",
+   "wexpr": "256",
+   "width": 256
+  },
+  "lo8.a": {
+   "xy": [
+    950,
+    150
+   ],
+   "side": "L",
+   "dy": 15,
+   "dir": "in",
+   "nolabel": true,
+   "wexpr": "256",
+   "width": 256
+  },
+  "lo8.y": {
+   "xy": [
+    1020,
+    150
+   ],
+   "side": "R",
+   "dy": 15,
+   "dir": "out",
+   "nolabel": true,
+   "wexpr": "8",
+   "width": 8
+  },
+  "shr.a": {
+   "xy": [
+    950,
+    245
+   ],
+   "side": "L",
+   "dy": 15,
+   "dir": "in",
+   "nolabel": true,
+   "wexpr": "256",
+   "width": 256
+  },
+  "shr.y": {
+   "xy": [
+    1030,
+    245
+   ],
+   "side": "R",
+   "dy": 15,
+   "dir": "out",
+   "nolabel": true,
+   "wexpr": "256",
+   "width": 256
+  },
+  "PORT.flit": {
+   "xy": [
+    250,
+    170
+   ],
+   "side": "L",
+   "y": 170,
+   "dir": "in",
+   "wexpr": "256",
+   "width": 256
+  },
+  "PORT.in_valid": {
+   "xy": [
+    250,
+    200
+   ],
+   "side": "L",
+   "y": 200,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "PORT.clk": {
+   "xy": [
+    250,
+    240
+   ],
+   "side": "L",
+   "y": 240,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "PORT.rst": {
+   "xy": [
+    250,
+    264
+   ],
+   "side": "L",
+   "y": 264,
+   "dir": "in",
+   "wexpr": "1",
+   "width": 1
+  },
+  "PORT.panel_byte": {
+   "xy": [
+    1300,
+    150
+   ],
+   "side": "R",
+   "y": 150,
+   "dir": "out",
+   "wexpr": "8",
+   "width": 8
+  },
+  "PORT.out_tile": {
+   "xy": [
+    1300,
+    330
+   ],
+   "side": "R",
+   "y": 330,
+   "dir": "out",
+   "wexpr": "8",
+   "width": 8
+  },
+  "PORT.out_panel_sel": {
+   "xy": [
+    1300,
+    360
+   ],
+   "side": "R",
+   "y": 360,
+   "dir": "out",
+   "wexpr": "1",
+   "width": 1
+  }
+ },
+ "texts": [
+  {
+   "x": 575.0,
+   "y": 174.2,
+   "s": "byte_mux",
+   "fs": 12,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "byte_mux",
+   "bbox": [
+    544.28,
+    164.83999999999997,
+    605.72,
+    176.83999999999997
+   ]
+  },
+  {
+   "x": 525,
+   "y": 154,
+   "s": "sel",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "byte_mux",
+   "pin": "sel",
+   "bbox": [
+    525,
+    145.42,
+    544.14,
+    156.42
+   ]
+  },
+  {
+   "x": 525,
+   "y": 174,
+   "s": "0",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "byte_mux",
+   "pin": "0",
+   "bbox": [
+    525,
+    165.42,
+    531.38,
+    176.42
+   ]
+  },
+  {
+   "x": 525,
+   "y": 194,
+   "s": "1",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "byte_mux",
+   "pin": "1",
+   "bbox": [
+    525,
+    185.42,
+    531.38,
+    196.42
+   ]
+  },
+  {
+   "x": 755.0,
+   "y": 94,
+   "s": "dreg \u00b7 256 DFF",
+   "fs": 11,
+   "anchor": "middle",
+   "owner": "u_word",
+   "bbox": [
+    710.34,
+    85.42,
+    799.6600000000001,
+    96.42
+   ]
+  },
+  {
+   "x": 755.0,
+   "y": 110,
+   "s": "u_word",
+   "fs": 13,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "u_word",
+   "bbox": [
+    730.04,
+    99.86,
+    779.9599999999999,
+    112.86
+   ]
+  },
+  {
+   "x": 685,
+   "y": 134,
+   "s": "clk",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "u_word",
+   "pin": "clk",
+   "bbox": [
+    685,
+    125.42,
+    704.14,
+    136.42
+   ]
+  },
+  {
+   "x": 685,
+   "y": 154,
+   "s": "rst",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "u_word",
+   "pin": "rst",
+   "bbox": [
+    685,
+    145.42,
+    704.14,
+    156.42
+   ]
+  },
+  {
+   "x": 685,
+   "y": 174,
+   "s": "[255:0] d",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "u_word",
+   "pin": "d",
+   "bbox": [
+    685,
+    165.42,
+    742.42,
+    176.42
+   ]
+  },
+  {
+   "x": 825,
+   "y": 154,
+   "s": "[255:0] q",
+   "fs": 11,
+   "anchor": "end",
+   "owner": "u_word",
+   "pin": "q",
+   "bbox": [
+    767.58,
+    145.42,
+    825.0,
+    156.42
+   ]
+  },
+  {
+   "x": 985.0,
+   "y": 154.2,
+   "s": "[7:0]",
+   "fs": 12,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "lo8",
+   "bbox": [
+    965.8,
+    144.83999999999997,
+    1004.1999999999999,
+    156.83999999999997
+   ]
+  },
+  {
+   "x": 990.0,
+   "y": 249.2,
+   "s": ">> 8",
+   "fs": 12,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "shr",
+   "bbox": [
+    974.64,
+    239.83999999999997,
+    1005.36,
+    251.83999999999997
+   ]
+  },
+  {
+   "x": 240,
+   "y": 175,
+   "s": "[255:0] flit",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    142.56,
+    164.08,
+    240.0,
+    178.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 205,
+   "s": "in_valid",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    175.04000000000002,
+    194.08,
+    240.0,
+    208.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 245,
+   "s": "clk",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    215.64,
+    234.08,
+    240.0,
+    248.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 269,
+   "s": "rst",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    215.64,
+    258.08,
+    240.0,
+    272.08
+   ]
+  },
+  {
+   "x": 1310,
+   "y": 155,
+   "s": "[7:0] panel_byte",
+   "fs": 14,
+   "anchor": "start",
+   "owner": "PORT",
+   "bbox": [
+    1310,
+    144.08,
+    1439.92,
+    158.08
+   ]
+  },
+  {
+   "x": 1310,
+   "y": 335,
+   "s": "[7:0] out_tile",
+   "fs": 14,
+   "anchor": "start",
+   "owner": "PORT",
+   "bbox": [
+    1310,
+    324.08,
+    1423.68,
+    338.08
+   ]
+  },
+  {
+   "x": 1310,
+   "y": 365,
+   "s": "out_panel_sel",
+   "fs": 14,
+   "anchor": "start",
+   "owner": "PORT",
+   "bbox": [
+    1310,
+    354.08,
+    1415.56,
+    368.08
+   ]
+  },
+  {
+   "x": 775.0,
+   "y": 48,
+   "s": "unpack",
+   "fs": 20,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "FRAME",
+   "bbox": [
+    736.6,
+    32.4,
+    813.4,
+    52.4
+   ]
+  },
+  {
+   "x": 890,
+   "y": 144,
+   "s": "word",
+   "fs": 10,
+   "anchor": "start",
+   "owner": "net",
+   "net": "word",
+   "italic": true,
+   "bbox": [
+    890,
+    136.2,
+    913.2,
+    146.2
+   ]
+  },
+  {
+   "x": 700,
+   "y": 295,
+   "s": "shifted",
+   "fs": 10,
+   "anchor": "start",
+   "owner": "net",
+   "net": "shifted",
+   "italic": true,
+   "bbox": [
+    700,
+    287.2,
+    740.6,
+    297.2
+   ]
+  },
+  {
+   "x": 658,
+   "y": 133.5,
+   "s": "clk",
+   "fs": 10,
+   "anchor": "end",
+   "owner": "stub",
+   "net": "clk",
+   "italic": true,
+   "bbox": [
+    640.6,
+    125.7,
+    658.0,
+    135.7
+   ]
+  },
+  {
+   "x": 658,
+   "y": 153.5,
+   "s": "rst",
+   "fs": 10,
+   "anchor": "end",
+   "owner": "stub",
+   "net": "rst",
+   "italic": true,
+   "bbox": [
+    640.6,
+    145.7,
+    658.0,
+    155.7
+   ]
+  },
+  {
+   "x": 1282,
+   "y": 333.5,
+   "s": "no driver \u00b7 F21",
+   "fs": 10,
+   "anchor": "end",
+   "owner": "stub",
+   "net": "out_tile",
+   "italic": true,
+   "warn": true,
+   "bbox": [
+    1195.0,
+    325.7,
+    1282.0,
+    335.7
+   ]
+  },
+  {
+   "x": 1282,
+   "y": 363.5,
+   "s": "no driver \u00b7 F21",
+   "fs": 10,
+   "anchor": "end",
+   "owner": "stub",
+   "net": "out_panel_sel",
+   "italic": true,
+   "warn": true,
+   "bbox": [
+    1195.0,
+    355.7,
+    1282.0,
+    365.7
+   ]
+  }
+ ],
+ "stubs": [
+  {
+   "net": "clk",
+   "ref": "PORT.clk",
+   "seg": [
+    [
+     250,
+     240
+    ],
+    [
+     264,
+     240
+    ]
+   ],
+   "circ": [
+    267,
+    240
+   ]
+  },
+  {
+   "net": "clk",
+   "ref": "u_word.clk",
+   "seg": [
+    [
+     666,
+     130
+    ],
+    [
+     680,
+     130
+    ]
+   ],
+   "circ": [
+    663,
+    130
+   ]
+  },
+  {
+   "net": "rst",
+   "ref": "PORT.rst",
+   "seg": [
+    [
+     250,
+     264
+    ],
+    [
+     264,
+     264
+    ]
+   ],
+   "circ": [
+    267,
+    264
+   ]
+  },
+  {
+   "net": "rst",
+   "ref": "u_word.rst",
+   "seg": [
+    [
+     666,
+     150
+    ],
+    [
+     680,
+     150
+    ]
+   ],
+   "circ": [
+    663,
+    150
+   ]
+  },
+  {
+   "net": "out_tile",
+   "ref": "PORT.out_tile",
+   "seg": [
+    [
+     1286,
+     330
+    ],
+    [
+     1300,
+     330
+    ]
+   ],
+   "nodriver": true
+  },
+  {
+   "net": "out_panel_sel",
+   "ref": "PORT.out_panel_sel",
+   "seg": [
+    [
+     1286,
+     360
+    ],
+    [
+     1300,
+     360
+    ]
+   ],
+   "nodriver": true
+  }
+ ],
+ "junctions": [
+  {
+   "net": "word",
+   "p": [
+    880,
+    150
+   ]
+  }
+ ]
+}

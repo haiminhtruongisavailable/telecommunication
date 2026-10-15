@@ -1,0 +1,50 @@
+[doc] 15 hop_top pins, 11 CU<->PU wires, record 336 bits
+[doc] PASS
+[top] spec: 2 instances, 26 nets; drawing: 2 boxes, 50 wire segments, 0 junction dots, 0 plain crossings, 68 labels
+[top] PASS
+[cu] spec: 8 instances, 17 nets; drawing: 8 boxes, 23 wire segments, 0 junction dots, 0 plain crossings, 47 labels
+   . unused: cu.ready_count (F9)
+   . unused: cu.grant_idx (F9)
+[cu] PASS
+[fsm] spec: 7 instances, 9 nets; drawing: 7 boxes, 29 wire segments, 4 junction dots, 1 plain crossings, 33 labels
+[fsm] PASS
+[pu] spec: 12 instances, 42 nets; drawing: 12 boxes, 83 wire segments, 9 junction dots, 7 plain crossings, 149 labels
+   . no driver: pu.square_finished (F3)
+   . unused: pu.let_square (F4)
+   . no driver: pu.credit_return (F6)
+   . unused: pu.gt0 (F12)
+   . unused: pu.unpack_byte (F21)
+   . no driver: pu.first_done (F5)
+   . no driver: pu.wave_done (F5)
+   . no driver: pu.t_last_bus (F5)
+   . loop: pu grant_idx -> record -> score_edf (F7)
+   . loop: pu grant_idx -> record -> score_fcfs (F7)
+   . loop: pu grant_idx -> record -> score_firing (F7)
+   . loop: pu grant_idx -> record -> score_row (F7)
+   . loop: pu grant_idx -> record -> score_shared (F7)
+[pu] PASS
+[release] spec: 4 instances, 10 nets; drawing: 4 boxes, 24 wire segments, 2 junction dots, 1 plain crossings, 24 labels
+   . unused: release.W (F26)
+[release] PASS
+[packer] spec: 12 instances, 18 nets; drawing: 12 boxes, 58 wire segments, 8 junction dots, 2 plain crossings, 61 labels
+[packer] PASS
+[ready] spec: 9 instances, 23 nets; drawing: 9 boxes, 47 wire segments, 4 junction dots, 2 plain crossings, 59 labels
+   . no driver: ready.pk_rest (F16)
+   . no driver: ready.ot_rest (F16)
+[ready] PASS
+[sched] spec: 2 instances, 9 nets; drawing: 2 boxes, 9 wire segments, 0 junction dots, 0 plain crossings, 22 labels
+[sched] PASS
+[credit] spec: 8 instances, 13 nets; drawing: 8 boxes, 36 wire segments, 7 junction dots, 2 plain crossings, 33 labels
+[credit] PASS
+[phy] spec: 10 instances, 16 nets; drawing: 10 boxes, 40 wire segments, 1 junction dots, 0 plain crossings, 68 labels
+   . widen: phy.pass_en breaks at N_WIRES=2 (F18)
+   . widen: phy.pass_en breaks at N_WIRES=4 (F18)
+   . no driver: phy.prev (F22)
+   . no driver: phy.rr (F23)
+[phy] PASS
+[unpack] spec: 4 instances, 10 nets; drawing: 4 boxes, 18 wire segments, 1 junction dots, 0 plain crossings, 26 labels
+   . no driver: unpack.take_byte (F21)
+   . no driver: unpack.out_tile (F21)
+   . no driver: unpack.out_panel_sel (F21)
+[unpack] PASS
+ALL PASS

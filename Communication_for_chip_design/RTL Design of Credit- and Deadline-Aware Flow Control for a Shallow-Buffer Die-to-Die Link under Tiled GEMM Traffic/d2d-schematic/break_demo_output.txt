@@ -1,0 +1,30 @@
+B01 L1 top      CU<->PU wire send_en deleted
+     -> exit 1 CAUGHT: - [draw] nets drawn-only [], spec-only ['send_en'] | - [draw] net label 'send_en' is not next to net send_en
+B02 L1 top      doc pin 'done' dropped from hop_top
+     -> exit 1 CAUGHT: [doc] FAIL: 1 problem(s)
+B03 L2 cu       policy_id wire end moved 10px off its pin
+     -> exit 1 CAUGHT: - [draw] net policy_id: dangling wire end at (960, 282) | - [draw] net policy_id: wire passes through pin(s) ['u_pol.q'] | - [draw] net policy_id: missing ['u_pol.q'] extra [] | - [draw] policy_id#0 segment (960, 282)-(1350, 282) crosses box u_pol | - [draw] label '[2:0] q' is crossed by wire policy
+B04 L3 fsm      k_cnt fan-out junction dots removed
+     -> exit 1 CAUGHT: - [draw] junction dots wrong: missing {('k_cnt', (910, 372)), ('k_cnt', (540, 450))} extra set()
+B05 L2 pu       u_sched score_fcfs/score_edf pins swapped
+     -> exit 1 CAUGHT: - [draw] net score_fcfs: missing ['u_sched.score_fcfs'] extra ['u_sched.score_edf'] | - [draw] net score_edf: missing ['u_sched.score_edf'] extra ['u_sched.score_fcfs']
+B06 L2 pu       comb-loop acknowledgement removed
+     -> exit 1 CAUGHT: - [loop] pu: combinational loop with no register through nets ['grant_idx', 'record', 'score_edf'] (not acknowledged) | - [loop] pu: combinational loop with no register through nets ['grant_idx', 'record', 'score_fcfs'] (not acknowledged) | - [loop] pu: combinational loop with no register through ne
+B07 L3 release  second driver on let_square
+     -> exit 1 CAUGHT: - [net] release: net let_square has 2 drivers ['cmp_lt.y', 'u_admitted.q']
+B08 L3 packer   u_word.d width 256 -> 128
+     -> exit 1 CAUGHT: - [net] packer: width mismatch on net word_d at base params: {'word_mux.y': 256, 'u_word.d': 128} | - [draw] u_word.d: dir/width in/256 != spec in/128
+B09 L3 ready    net wr loses its reader
+     -> exit 1 CAUGHT: - [net] ready: net wr is read by nobody
+B10 L3 sched    frame pin score_row removed (frame != parent box)
+     -> exit 1 CAUGHT: - [net] sched: frame ports {'policy_id': ('in', '3'), 'score_fcfs': ('in', '32'), 'score_edf': ('in', '32'), 'score_firing': ('in', '32'), 'score_shared': ('in', '32'), 'grant_valid': ('out', 'N_WIRES'), 'grant_idx': ('out', 'N_WIRES*8')} != parent pins {'policy_id': ('in', '3'), 'score_fcfs': ('in'
+B11 L3 sched    stale comb-loop acknowledgement
+     -> exit 1 CAUGHT: - [loop] stale acknowledgement {'kind': 'comb_loop', 'view': 'sched', 'nets': ['score_sel'], 'finding': 'F7'}
+B12 L3 credit   wire routed through u_count box
+     -> exit 1 CAUGHT: - [draw] net gt0: dangling wire end at (1150, 150) | - [draw] net gt0: dangling wire end at (1150, 330) | - [draw] net gt0: not one connected wire tree | - [draw] gt0#2 segment (1150, 150)-(1150, 330) crosses box u_count | - [draw] label 'dreg · 8 DFF · rst K' is crossed by wire gt0#2 | - [draw] lab
+B13 L3 phy      N_WIRES=2 width break no longer acknowledged
+     -> exit 1 CAUGHT: - [widen] phy: net pass_en mismatches when N_WIRES=2: {'PORT.pass_en': 2, 'load_mux.sel': 1} (not acknowledged) | - [widen] phy: net pass_en mismatches when N_WIRES=4: {'PORT.pass_en': 4, 'load_mux.sel': 1} (not acknowledged)
+B14 L3 unpack   'no driver' stub for take_byte removed
+     -> exit 1 CAUGHT: - [draw] nodriver net take_byte: dashed stub at byte_mux.sel not drawn
+clean check.py -> exit 0
+ALL BREAKS CAUGHT

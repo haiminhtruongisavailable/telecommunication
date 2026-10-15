@@ -1,0 +1,5414 @@
+{
+ "title": "D2D hop adapter (hop_top) - schematic spec from the architecture doc",
+ "source": {
+  "kind": "doc-only",
+  "why": "arch/*.v is not written (A:L12); no CU/PU Verilog on any branch",
+  "doc": "source/architecture-ascii.md",
+  "doc2": "source/workflow-scores-and-wires.md",
+  "commit": "8a0d7dd95d101640066a23ecef0392b96de495fc"
+ },
+ "params": {
+  "N_WIRES": 1,
+  "W_FLIT": 256,
+  "TILE_W": 8,
+  "SEQ_W": 16,
+  "DL_W": 32,
+  "IDX_W": 8,
+  "CW": 8,
+  "TIME_W": 32,
+  "POLICY_W": 3,
+  "WAVE_W": 8,
+  "N_TILES": 8,
+  "SLOTS": 256,
+  "D_PHY": 4,
+  "K": 16,
+  "REC_W": 336
+ },
+ "param_src": {
+  "N_TILES": "not in A:L18-29; value from rtl/hop_top.v:6 (finding F24)",
+  "SLOTS": "A:L25 IDX_W '256 slots'",
+  "D_PHY": "rtl/hop_top.v:5, W:L67 'D_phy = 4'",
+  "K": "A:L26 'K = 16 fits', rtl/hop_top.v:4",
+  "REC_W": "sum of the record table A:L67-78"
+ },
+ "leaf_comb": {
+  "score_fcfs": [
+   [
+    "record",
+    "score"
+   ]
+  ],
+  "score_edf": [
+   [
+    "record",
+    "score"
+   ]
+  ],
+  "score_firing": [
+   [
+    "record",
+    "score"
+   ]
+  ],
+  "score_shared": [
+   [
+    "record",
+    "score"
+   ]
+  ],
+  "score_row": [
+   [
+    "record",
+    "score"
+   ]
+  ]
+ },
+ "known": [],
+ "views": [
+  {
+   "id": "top",
+   "module": "hop_top",
+   "level": 1,
+   "title": "L1 - inside hop_top",
+   "parent": null,
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L35"
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L35"
+    },
+    {
+     "name": "panel_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L36"
+    },
+    {
+     "name": "panel_byte",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L37"
+    },
+    {
+     "name": "tile_id",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L38"
+    },
+    {
+     "name": "panel_sel",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L39"
+    },
+    {
+     "name": "other_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L40"
+    },
+    {
+     "name": "other_flit",
+     "dir": "in",
+     "width": "256",
+     "src": "A:L41"
+    },
+    {
+     "name": "other_deadline",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L42"
+    },
+    {
+     "name": "out_valid",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L43"
+    },
+    {
+     "name": "out_flit",
+     "dir": "out",
+     "width": "256",
+     "src": "A:L44"
+    },
+    {
+     "name": "out_tile",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L45"
+    },
+    {
+     "name": "out_panel_sel",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L46"
+    },
+    {
+     "name": "done",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L47"
+    },
+    {
+     "name": "t_last_bus",
+     "dir": "out",
+     "width": "N_TILES*32",
+     "src": "A:L48"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "u_cu",
+     "module": "hop_control",
+     "kind": "block",
+     "src": "A:L106",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L108"
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L109"
+      },
+      {
+       "name": "credit_count",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L59"
+      },
+      {
+       "name": "ready_count",
+       "dir": "in",
+       "width": "9",
+       "src": "A:L60"
+      },
+      {
+       "name": "grant_idx",
+       "dir": "in",
+       "width": "N_WIRES*8",
+       "src": "A:L61"
+      },
+      {
+       "name": "grant_valid",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": "A:L62"
+      },
+      {
+       "name": "first_done",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L63"
+      },
+      {
+       "name": "wave_done",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L63"
+      },
+      {
+       "name": "release_en",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L54"
+      },
+      {
+       "name": "W",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L55"
+      },
+      {
+       "name": "policy_id",
+       "dir": "out",
+       "width": "3",
+       "src": "A:L56"
+      },
+      {
+       "name": "admit_limit",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L57"
+      },
+      {
+       "name": "send_en",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": "A:L58"
+      },
+      {
+       "name": "done",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L124"
+      }
+     ],
+     "link": "cu"
+    },
+    {
+     "inst": "u_pu",
+     "module": "hop_processing",
+     "kind": "block",
+     "src": "A:L106",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L108"
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L109"
+      },
+      {
+       "name": "release_en",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L54"
+      },
+      {
+       "name": "W",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L55"
+      },
+      {
+       "name": "policy_id",
+       "dir": "in",
+       "width": "3",
+       "src": "A:L56"
+      },
+      {
+       "name": "admit_limit",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L57"
+      },
+      {
+       "name": "send_en",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": "A:L58"
+      },
+      {
+       "name": "panel_valid",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L178"
+      },
+      {
+       "name": "panel_byte",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L178"
+      },
+      {
+       "name": "tile_id",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L178"
+      },
+      {
+       "name": "panel_sel",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L178"
+      },
+      {
+       "name": "other_valid",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L189"
+      },
+      {
+       "name": "other_flit",
+       "dir": "in",
+       "width": "256",
+       "src": "A:L189"
+      },
+      {
+       "name": "other_deadline",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L189"
+      },
+      {
+       "name": "credit_count",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L59"
+      },
+      {
+       "name": "ready_count",
+       "dir": "out",
+       "width": "9",
+       "src": "A:L60"
+      },
+      {
+       "name": "grant_idx",
+       "dir": "out",
+       "width": "N_WIRES*8",
+       "src": "A:L61"
+      },
+      {
+       "name": "grant_valid",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": "A:L62"
+      },
+      {
+       "name": "first_done",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L63"
+      },
+      {
+       "name": "wave_done",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L63"
+      },
+      {
+       "name": "out_valid",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L43"
+      },
+      {
+       "name": "out_flit",
+       "dir": "out",
+       "width": "256",
+       "src": "A:L44"
+      },
+      {
+       "name": "out_tile",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L448"
+      },
+      {
+       "name": "out_panel_sel",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L448"
+      },
+      {
+       "name": "t_last_bus",
+       "dir": "out",
+       "width": "N_TILES*32",
+       "src": "A:L48"
+      }
+     ],
+     "link": "pu"
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_cu.clk",
+      "u_pu.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_cu.rst",
+      "u_pu.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "release_en": {
+     "pins": [
+      "u_cu.release_en",
+      "u_pu.release_en"
+     ],
+     "src": "A:L54"
+    },
+    "W": {
+     "pins": [
+      "u_cu.W",
+      "u_pu.W"
+     ],
+     "src": "A:L55"
+    },
+    "policy_id": {
+     "pins": [
+      "u_cu.policy_id",
+      "u_pu.policy_id"
+     ],
+     "src": "A:L56"
+    },
+    "admit_limit": {
+     "pins": [
+      "u_cu.admit_limit",
+      "u_pu.admit_limit"
+     ],
+     "src": "A:L57"
+    },
+    "send_en": {
+     "pins": [
+      "u_cu.send_en",
+      "u_pu.send_en"
+     ],
+     "src": "A:L58"
+    },
+    "credit_count": {
+     "pins": [
+      "u_pu.credit_count",
+      "u_cu.credit_count"
+     ],
+     "src": "A:L59"
+    },
+    "ready_count": {
+     "pins": [
+      "u_pu.ready_count",
+      "u_cu.ready_count"
+     ],
+     "src": "A:L60"
+    },
+    "grant_idx": {
+     "pins": [
+      "u_pu.grant_idx",
+      "u_cu.grant_idx"
+     ],
+     "src": "A:L61"
+    },
+    "grant_valid": {
+     "pins": [
+      "u_pu.grant_valid",
+      "u_cu.grant_valid"
+     ],
+     "src": "A:L62"
+    },
+    "first_done": {
+     "pins": [
+      "u_pu.first_done",
+      "u_cu.first_done"
+     ],
+     "src": "A:L63"
+    },
+    "wave_done": {
+     "pins": [
+      "u_pu.wave_done",
+      "u_cu.wave_done"
+     ],
+     "src": "A:L63"
+    },
+    "panel_valid": {
+     "pins": [
+      "PORT.panel_valid",
+      "u_pu.panel_valid"
+     ],
+     "src": "A:L99-L101"
+    },
+    "panel_byte": {
+     "pins": [
+      "PORT.panel_byte",
+      "u_pu.panel_byte"
+     ],
+     "src": "A:L99-L101"
+    },
+    "tile_id": {
+     "pins": [
+      "PORT.tile_id",
+      "u_pu.tile_id"
+     ],
+     "src": "A:L99-L101"
+    },
+    "panel_sel": {
+     "pins": [
+      "PORT.panel_sel",
+      "u_pu.panel_sel"
+     ],
+     "src": "A:L99-L101"
+    },
+    "other_valid": {
+     "pins": [
+      "PORT.other_valid",
+      "u_pu.other_valid"
+     ],
+     "src": "A:L99-L101"
+    },
+    "other_flit": {
+     "pins": [
+      "PORT.other_flit",
+      "u_pu.other_flit"
+     ],
+     "src": "A:L99-L101"
+    },
+    "other_deadline": {
+     "pins": [
+      "PORT.other_deadline",
+      "u_pu.other_deadline"
+     ],
+     "src": "A:L99-L101"
+    },
+    "out_valid": {
+     "pins": [
+      "u_pu.out_valid",
+      "PORT.out_valid"
+     ],
+     "src": "A:L43-48"
+    },
+    "out_flit": {
+     "pins": [
+      "u_pu.out_flit",
+      "PORT.out_flit"
+     ],
+     "src": "A:L43-48"
+    },
+    "out_tile": {
+     "pins": [
+      "u_pu.out_tile",
+      "PORT.out_tile"
+     ],
+     "src": "A:L43-48"
+    },
+    "out_panel_sel": {
+     "pins": [
+      "u_pu.out_panel_sel",
+      "PORT.out_panel_sel"
+     ],
+     "src": "A:L43-48"
+    },
+    "t_last_bus": {
+     "pins": [
+      "u_pu.t_last_bus",
+      "PORT.t_last_bus"
+     ],
+     "src": "A:L43-48"
+    },
+    "done": {
+     "pins": [
+      "u_cu.done",
+      "PORT.done"
+     ],
+     "src": "A:L124"
+    }
+   }
+  },
+  {
+   "id": "cu",
+   "module": "hop_control",
+   "level": 2,
+   "title": "L2 - inside u_cu (hop_control)",
+   "parent": [
+    "top",
+    "u_cu"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L108"
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L109"
+    },
+    {
+     "name": "credit_count",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L59"
+    },
+    {
+     "name": "ready_count",
+     "dir": "in",
+     "width": "9",
+     "src": "A:L60"
+    },
+    {
+     "name": "grant_idx",
+     "dir": "in",
+     "width": "N_WIRES*8",
+     "src": "A:L61"
+    },
+    {
+     "name": "grant_valid",
+     "dir": "in",
+     "width": "N_WIRES",
+     "src": "A:L62"
+    },
+    {
+     "name": "first_done",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L63"
+    },
+    {
+     "name": "wave_done",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L63"
+    },
+    {
+     "name": "release_en",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L54"
+    },
+    {
+     "name": "W",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L55"
+    },
+    {
+     "name": "policy_id",
+     "dir": "out",
+     "width": "3",
+     "src": "A:L56"
+    },
+    {
+     "name": "admit_limit",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L57"
+    },
+    {
+     "name": "send_en",
+     "dir": "out",
+     "width": "N_WIRES",
+     "src": "A:L58"
+    },
+    {
+     "name": "done",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L124"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "u_fsm",
+     "module": "release_fsm",
+     "kind": "block",
+     "src": "A:L143-149",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "release_en",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L148"
+      },
+      {
+       "name": "W",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L149"
+      }
+     ],
+     "link": "fsm"
+    },
+    {
+     "inst": "c_policy",
+     "module": "const",
+     "kind": "const",
+     "center": "POLICY",
+     "src": "A:L143-150",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "3",
+       "src": ""
+      }
+     ],
+     "inferred": "policy_reg has no input pin anywhere (F11)"
+    },
+    {
+     "inst": "u_pol",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L143 policy_reg",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "3",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "3",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "c_admit",
+     "module": "const",
+     "kind": "const",
+     "center": "ADMIT_LIMIT",
+     "src": "A:L153-154",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ],
+     "inferred": "admit_limit_reg has no input pin anywhere (F11)"
+    },
+    {
+     "inst": "u_adm",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L153 admit_limit_reg",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "cmp_gt0",
+     "module": "assign",
+     "kind": "comb",
+     "center": "> 0",
+     "src": "A:L158 compare > 0",
+     "ports": [
+      {
+       "name": "in",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "and_send",
+     "module": "assign",
+     "kind": "comb",
+     "center": "&",
+     "src": "A:L158-159",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "cmp_nf",
+     "module": "assign",
+     "kind": "comb",
+     "center": "< 256",
+     "src": "A:L60 ready_count",
+     "ports": [
+      {
+       "name": "in",
+       "dir": "in",
+       "width": "9",
+       "src": ""
+      },
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "release only while ready_count is below 256 slots"
+    },
+    {
+     "inst": "and_rel",
+     "module": "assign",
+     "kind": "comb",
+     "center": "&",
+     "src": "A:L148",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "release_en leaves CU only when the fsm asks and ready is not full"
+    },
+    {
+     "inst": "done_cmb",
+     "module": "assign",
+     "kind": "comb",
+     "center": "done = ?",
+     "src": "A:L161 (operator not given, F10)",
+     "ports": [
+      {
+       "name": "first",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "wave",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_fsm.clk",
+      "u_pol.clk",
+      "u_adm.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_fsm.rst",
+      "u_pol.rst",
+      "u_adm.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "rel_fsm": {
+     "pins": [
+      "u_fsm.release_en",
+      "and_rel.a"
+     ],
+     "src": "A:L148"
+    },
+    "ready_count": {
+     "pins": [
+      "PORT.ready_count",
+      "cmp_nf.in"
+     ],
+     "src": "A:L60"
+    },
+    "not_full": {
+     "pins": [
+      "cmp_nf.out",
+      "and_rel.b"
+     ],
+     "src": "A:L60"
+    },
+    "release_en": {
+     "pins": [
+      "and_rel.y",
+      "PORT.release_en"
+     ],
+     "src": "A:L148"
+    },
+    "W": {
+     "pins": [
+      "u_fsm.W",
+      "PORT.W"
+     ],
+     "src": "A:L149"
+    },
+    "POLICY": {
+     "pins": [
+      "c_policy.out",
+      "u_pol.d"
+     ],
+     "src": "F11"
+    },
+    "policy_id": {
+     "pins": [
+      "u_pol.q",
+      "PORT.policy_id"
+     ],
+     "src": "A:L150"
+    },
+    "ADMIT_LIMIT": {
+     "pins": [
+      "c_admit.out",
+      "u_adm.d"
+     ],
+     "src": "F11"
+    },
+    "admit_limit": {
+     "pins": [
+      "u_adm.q",
+      "PORT.admit_limit"
+     ],
+     "src": "A:L154"
+    },
+    "credit_count": {
+     "pins": [
+      "PORT.credit_count",
+      "cmp_gt0.in"
+     ],
+     "src": "A:L157"
+    },
+    "gt0": {
+     "pins": [
+      "cmp_gt0.out",
+      "and_send.a"
+     ],
+     "src": "A:L158"
+    },
+    "grant_valid": {
+     "pins": [
+      "PORT.grant_valid",
+      "and_send.b"
+     ],
+     "src": "A:L159"
+    },
+    "send_en": {
+     "pins": [
+      "and_send.y",
+      "PORT.send_en"
+     ],
+     "src": "A:L158"
+    },
+    "first_done": {
+     "pins": [
+      "PORT.first_done",
+      "done_cmb.first"
+     ],
+     "src": "A:L161"
+    },
+    "wave_done": {
+     "pins": [
+      "PORT.wave_done",
+      "done_cmb.wave"
+     ],
+     "src": "A:L161"
+    },
+    "done": {
+     "pins": [
+      "done_cmb.y",
+      "PORT.done"
+     ],
+     "src": "A:L161"
+    },
+    "grant_idx": {
+     "pins": [
+      "PORT.grant_idx"
+     ],
+     "src": "A:L119",
+     "unused": {
+      "reason": "CU does not scan slots; the index stays inside PU",
+      "finding": "F9"
+     }
+    }
+   }
+  },
+  {
+   "id": "fsm",
+   "module": "release_fsm",
+   "level": 3,
+   "title": "L3 - inside u_cu/u_fsm (release_fsm)",
+   "parent": [
+    "cu",
+    "u_fsm"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "release_en",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L148"
+    },
+    {
+     "name": "W",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L149"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "u_t",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L27 TIME_W cycle count",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ],
+     "inferred": "a time counter is implied by 'cmp time' (A:L467) and TIME_W 'cycle count' (A:L27)"
+    },
+    {
+     "inst": "inc_t",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+ 1",
+     "src": "A:L27",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ],
+     "inferred": "a time counter is implied by 'cmp time' (A:L467) and TIME_W 'cycle count' (A:L27)"
+    },
+    {
+     "inst": "u_k_cnt",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L467 k_cnt dreg",
+     "head_extra": "rst T_0",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "add_c",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+ C_TILE",
+     "src": "A:L467 + C_TILE",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "mux_k",
+     "module": "assign",
+     "kind": "comb",
+     "center": "mux",
+     "src": "A:L467",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ],
+     "inferred": "hold k_cnt until a release; the doc draws no enable"
+    },
+    {
+     "inst": "cmp_t",
+     "module": "assign",
+     "kind": "comb",
+     "center": ">=",
+     "src": "A:L467 cmp time --> release_en",
+     "ports": [
+      {
+       "name": "t",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "k",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "c_W",
+     "module": "const",
+     "kind": "const",
+     "center": "W",
+     "src": "A:L146 'one wave of W', A:L29 WAVE_W",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_t.clk",
+      "u_k_cnt.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_t.rst",
+      "u_k_cnt.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "t": {
+     "pins": [
+      "u_t.q",
+      "inc_t.a",
+      "cmp_t.t"
+     ],
+     "src": "A:L467"
+    },
+    "t_next": {
+     "pins": [
+      "inc_t.y",
+      "u_t.d"
+     ],
+     "src": "inferred"
+    },
+    "k_cnt": {
+     "pins": [
+      "u_k_cnt.q",
+      "add_c.a",
+      "mux_k.0",
+      "cmp_t.k"
+     ],
+     "src": "A:L467"
+    },
+    "k_plus": {
+     "pins": [
+      "add_c.y",
+      "mux_k.1"
+     ],
+     "src": "A:L467"
+    },
+    "k_d": {
+     "pins": [
+      "mux_k.y",
+      "u_k_cnt.d"
+     ],
+     "src": "inferred"
+    },
+    "release_en": {
+     "pins": [
+      "cmp_t.y",
+      "PORT.release_en",
+      "mux_k.sel"
+     ],
+     "src": "A:L467"
+    },
+    "W": {
+     "pins": [
+      "c_W.out",
+      "PORT.W"
+     ],
+     "src": "A:L149"
+    }
+   }
+  },
+  {
+   "id": "pu",
+   "module": "hop_processing",
+   "level": 2,
+   "title": "L2 - inside u_pu (hop_processing)",
+   "parent": [
+    "top",
+    "u_pu"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L108"
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L109"
+    },
+    {
+     "name": "release_en",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L54"
+    },
+    {
+     "name": "W",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L55"
+    },
+    {
+     "name": "policy_id",
+     "dir": "in",
+     "width": "3",
+     "src": "A:L56"
+    },
+    {
+     "name": "admit_limit",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L57"
+    },
+    {
+     "name": "send_en",
+     "dir": "in",
+     "width": "N_WIRES",
+     "src": "A:L58"
+    },
+    {
+     "name": "panel_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L178"
+    },
+    {
+     "name": "panel_byte",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L178"
+    },
+    {
+     "name": "tile_id",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L178"
+    },
+    {
+     "name": "panel_sel",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L178"
+    },
+    {
+     "name": "other_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L189"
+    },
+    {
+     "name": "other_flit",
+     "dir": "in",
+     "width": "256",
+     "src": "A:L189"
+    },
+    {
+     "name": "other_deadline",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L189"
+    },
+    {
+     "name": "credit_count",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L59"
+    },
+    {
+     "name": "ready_count",
+     "dir": "out",
+     "width": "9",
+     "src": "A:L60"
+    },
+    {
+     "name": "grant_idx",
+     "dir": "out",
+     "width": "N_WIRES*8",
+     "src": "A:L61"
+    },
+    {
+     "name": "grant_valid",
+     "dir": "out",
+     "width": "N_WIRES",
+     "src": "A:L62"
+    },
+    {
+     "name": "first_done",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L63"
+    },
+    {
+     "name": "wave_done",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L63"
+    },
+    {
+     "name": "out_valid",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L43"
+    },
+    {
+     "name": "out_flit",
+     "dir": "out",
+     "width": "256",
+     "src": "A:L44"
+    },
+    {
+     "name": "out_tile",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L448"
+    },
+    {
+     "name": "out_panel_sel",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L448"
+    },
+    {
+     "name": "t_last_bus",
+     "dir": "out",
+     "width": "N_TILES*32",
+     "src": "A:L48"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "u_release",
+     "module": "release",
+     "kind": "block",
+     "src": "A:L181-187",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "release_en",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L454"
+      },
+      {
+       "name": "W",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L454"
+      },
+      {
+       "name": "admit_limit",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L454"
+      },
+      {
+       "name": "square_finished",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L454"
+      },
+      {
+       "name": "let_square",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L463"
+      }
+     ],
+     "link": "release"
+    },
+    {
+     "inst": "u_packer",
+     "module": "packer",
+     "kind": "block",
+     "src": "A:L181-186",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "let_square",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L463"
+      },
+      {
+       "name": "panel_valid",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L259"
+      },
+      {
+       "name": "panel_byte",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L259"
+      },
+      {
+       "name": "tile_id",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L259"
+      },
+      {
+       "name": "panel_sel",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L259"
+      },
+      {
+       "name": "rec_valid",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L288 fire"
+      },
+      {
+       "name": "rec_seq",
+       "dir": "out",
+       "width": "16",
+       "src": "A:L288 seq+1"
+      },
+      {
+       "name": "rec_tile",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L288"
+      },
+      {
+       "name": "rec_sel",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L288"
+      },
+      {
+       "name": "rec_payload",
+       "dir": "out",
+       "width": "256",
+       "src": "A:L280"
+      }
+     ],
+     "link": "packer"
+    },
+    {
+     "inst": "u_ready",
+     "module": "ready_mem",
+     "kind": "block",
+     "src": "A:L189-191",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rec_valid",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L299"
+      },
+      {
+       "name": "rec_seq",
+       "dir": "in",
+       "width": "16",
+       "src": "A:L299"
+      },
+      {
+       "name": "rec_tile",
+       "dir": "in",
+       "width": "8",
+       "src": "A:L299"
+      },
+      {
+       "name": "rec_sel",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L299"
+      },
+      {
+       "name": "rec_payload",
+       "dir": "in",
+       "width": "256",
+       "src": "A:L299"
+      },
+      {
+       "name": "other_valid",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L304"
+      },
+      {
+       "name": "other_flit",
+       "dir": "in",
+       "width": "256",
+       "src": "A:L299"
+      },
+      {
+       "name": "other_deadline",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L299"
+      },
+      {
+       "name": "grant_idx",
+       "dir": "in",
+       "width": "N_WIRES*8",
+       "src": "A:L316"
+      },
+      {
+       "name": "consume",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": "A:L323 (inferred pin, F17)"
+      },
+      {
+       "name": "record",
+       "dir": "out",
+       "width": "REC_W",
+       "src": "A:L319-320 granted flit"
+      },
+      {
+       "name": "score_rec",
+       "dir": "out",
+       "width": "REC_W",
+       "src": "A:L309 slot register"
+      },
+      {
+       "name": "ready_count",
+       "dir": "out",
+       "width": "9",
+       "src": "A:L323"
+      }
+     ],
+     "link": "ready"
+    },
+    {
+     "inst": "u_fcfs",
+     "module": "score_fcfs",
+     "kind": "block",
+     "src": "A:L195-198 (closed, A:L232)",
+     "ports": [
+      {
+       "name": "record",
+       "dir": "in",
+       "width": "REC_W",
+       "src": "A:L235-236"
+      },
+      {
+       "name": "score",
+       "dir": "out",
+       "width": "32",
+       "src": "A:L248"
+      }
+     ]
+    },
+    {
+     "inst": "u_edf",
+     "module": "score_edf",
+     "kind": "block",
+     "src": "A:L195-198 (closed, A:L232)",
+     "ports": [
+      {
+       "name": "record",
+       "dir": "in",
+       "width": "REC_W",
+       "src": "A:L235-236"
+      },
+      {
+       "name": "score",
+       "dir": "out",
+       "width": "32",
+       "src": "A:L248"
+      }
+     ]
+    },
+    {
+     "inst": "u_firing",
+     "module": "score_firing",
+     "kind": "block",
+     "src": "A:L195-198 (closed, A:L232)",
+     "ports": [
+      {
+       "name": "record",
+       "dir": "in",
+       "width": "REC_W",
+       "src": "A:L235-236"
+      },
+      {
+       "name": "score",
+       "dir": "out",
+       "width": "32",
+       "src": "A:L248"
+      }
+     ]
+    },
+    {
+     "inst": "u_shared",
+     "module": "score_shared",
+     "kind": "block",
+     "src": "A:L195-198 (closed, A:L232)",
+     "ports": [
+      {
+       "name": "record",
+       "dir": "in",
+       "width": "REC_W",
+       "src": "A:L235-236"
+      },
+      {
+       "name": "score",
+       "dir": "out",
+       "width": "32",
+       "src": "A:L248"
+      }
+     ]
+    },
+    {
+     "inst": "u_row",
+     "module": "score_row",
+     "kind": "block",
+     "src": "A:L195-198 (closed, A:L232)",
+     "ports": [
+      {
+       "name": "record",
+       "dir": "in",
+       "width": "REC_W",
+       "src": "A:L235-236"
+      },
+      {
+       "name": "score",
+       "dir": "out",
+       "width": "32",
+       "src": "A:L248"
+      }
+     ]
+    },
+    {
+     "inst": "u_sched",
+     "module": "scheduler",
+     "kind": "block",
+     "src": "A:L202-206",
+     "ports": [
+      {
+       "name": "policy_id",
+       "dir": "in",
+       "width": "3",
+       "src": "A:L336"
+      },
+      {
+       "name": "score_fcfs",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L330"
+      },
+      {
+       "name": "score_edf",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L330"
+      },
+      {
+       "name": "score_firing",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L330"
+      },
+      {
+       "name": "score_shared",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L330"
+      },
+      {
+       "name": "score_row",
+       "dir": "in",
+       "width": "32",
+       "src": "A:L330"
+      },
+      {
+       "name": "grant_valid",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": "A:L348"
+      },
+      {
+       "name": "grant_idx",
+       "dir": "out",
+       "width": "N_WIRES*8",
+       "src": "A:L348"
+      }
+     ],
+     "link": "sched"
+    },
+    {
+     "inst": "u_credit",
+     "module": "credit",
+     "kind": "block",
+     "src": "A:L209-212",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "send_en",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": "A:L357"
+      },
+      {
+       "name": "grant_valid",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": "A:L357"
+      },
+      {
+       "name": "credit_return",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L357"
+      },
+      {
+       "name": "pass_en",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": "A:L393"
+      },
+      {
+       "name": "credit_count",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L383"
+      },
+      {
+       "name": "gt0",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L389"
+      }
+     ],
+     "link": "credit"
+    },
+    {
+     "inst": "u_phy",
+     "module": "phy_box",
+     "kind": "block",
+     "src": "A:L215-218",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "record",
+       "dir": "in",
+       "width": "REC_W",
+       "src": "A:L401 'payload, tile' / A:L320"
+      },
+      {
+       "name": "pass_en",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": "A:L400"
+      },
+      {
+       "name": "out_flit",
+       "dir": "out",
+       "width": "256",
+       "src": "A:L422"
+      },
+      {
+       "name": "out_valid",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L423 '+ valid'"
+      }
+     ],
+     "link": "phy"
+    },
+    {
+     "inst": "u_unpack",
+     "module": "unpack",
+     "kind": "block",
+     "src": "A:L221-224",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "flit",
+       "dir": "in",
+       "width": "256",
+       "src": "A:L432"
+      },
+      {
+       "name": "in_valid",
+       "dir": "in",
+       "width": "1",
+       "src": "A:L423"
+      },
+      {
+       "name": "out_tile",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L448"
+      },
+      {
+       "name": "out_panel_sel",
+       "dir": "out",
+       "width": "1",
+       "src": "A:L448"
+      },
+      {
+       "name": "panel_byte",
+       "dir": "out",
+       "width": "8",
+       "src": "A:L447"
+      }
+     ],
+     "link": "unpack"
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_release.clk",
+      "u_packer.clk",
+      "u_ready.clk",
+      "u_credit.clk",
+      "u_phy.clk",
+      "u_unpack.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_release.rst",
+      "u_packer.rst",
+      "u_ready.rst",
+      "u_credit.rst",
+      "u_phy.rst",
+      "u_unpack.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "release_en": {
+     "pins": [
+      "PORT.release_en",
+      "u_release.release_en"
+     ],
+     "src": "A:L172"
+    },
+    "W": {
+     "pins": [
+      "PORT.W",
+      "u_release.W"
+     ],
+     "src": "A:L172"
+    },
+    "admit_limit": {
+     "pins": [
+      "PORT.admit_limit",
+      "u_release.admit_limit"
+     ],
+     "src": "A:L183"
+    },
+    "square_finished": {
+     "pins": [
+      "u_release.square_finished"
+     ],
+     "src": "A:L454",
+     "nodriver": {
+      "reason": "no block produces it",
+      "finding": "F3"
+     }
+    },
+    "let_square": {
+     "pins": [
+      "u_release.let_square",
+      "u_packer.let_square"
+     ],
+     "src": "A:L463"
+    },
+    "panel_valid": {
+     "pins": [
+      "PORT.panel_valid",
+      "u_packer.panel_valid"
+     ],
+     "src": "A:L259"
+    },
+    "panel_byte": {
+     "pins": [
+      "PORT.panel_byte",
+      "u_packer.panel_byte"
+     ],
+     "src": "A:L259"
+    },
+    "tile_id": {
+     "pins": [
+      "PORT.tile_id",
+      "u_packer.tile_id"
+     ],
+     "src": "A:L259"
+    },
+    "panel_sel": {
+     "pins": [
+      "PORT.panel_sel",
+      "u_packer.panel_sel"
+     ],
+     "src": "A:L259"
+    },
+    "other_valid": {
+     "pins": [
+      "PORT.other_valid",
+      "u_ready.other_valid"
+     ],
+     "src": "A:L304"
+    },
+    "other_flit": {
+     "pins": [
+      "PORT.other_flit",
+      "u_ready.other_flit"
+     ],
+     "src": "A:L189, A:L299"
+    },
+    "other_deadline": {
+     "pins": [
+      "PORT.other_deadline",
+      "u_ready.other_deadline"
+     ],
+     "src": "A:L299"
+    },
+    "policy_id": {
+     "pins": [
+      "PORT.policy_id",
+      "u_sched.policy_id"
+     ],
+     "src": "A:L336"
+    },
+    "send_en": {
+     "pins": [
+      "PORT.send_en",
+      "u_credit.send_en"
+     ],
+     "src": "A:L357"
+    },
+    "grant_idx": {
+     "pins": [
+      "u_sched.grant_idx",
+      "PORT.grant_idx",
+      "u_ready.grant_idx"
+     ],
+     "src": "A:L316, A:L348"
+    },
+    "grant_valid": {
+     "pins": [
+      "u_sched.grant_valid",
+      "PORT.grant_valid",
+      "u_credit.grant_valid"
+     ],
+     "src": "A:L348, A:L357"
+    },
+    "pass_en": {
+     "pins": [
+      "u_credit.pass_en",
+      "u_phy.pass_en",
+      "u_ready.consume"
+     ],
+     "src": "A:L393, A:L400, A:L323 (consume inferred, F17)"
+    },
+    "credit_count": {
+     "pins": [
+      "u_credit.credit_count",
+      "PORT.credit_count"
+     ],
+     "src": "A:L211"
+    },
+    "gt0": {
+     "pins": [
+      "u_credit.gt0"
+     ],
+     "src": "A:L389",
+     "unused": {
+      "reason": "'gates send_en inside CU' but no PU->CU wire carries it",
+      "finding": "F12"
+     }
+    },
+    "score_rec": {
+     "pins": [
+      "u_ready.score_rec",
+      "u_fcfs.record",
+      "u_edf.record",
+      "u_firing.record",
+      "u_shared.record",
+      "u_row.record"
+     ],
+     "src": "A:L309 slot q, not the grant mux"
+    },
+    "record": {
+     "pins": [
+      "u_ready.record",
+      "u_phy.record"
+     ],
+     "src": "A:L319-320 granted flit into the PHY"
+    },
+    "ready_count": {
+     "pins": [
+      "u_ready.ready_count",
+      "PORT.ready_count"
+     ],
+     "src": "A:L323"
+    },
+    "out_flit": {
+     "pins": [
+      "u_phy.out_flit",
+      "PORT.out_flit",
+      "u_unpack.flit"
+     ],
+     "src": "A:L422, A:L432"
+    },
+    "out_valid": {
+     "pins": [
+      "u_phy.out_valid",
+      "PORT.out_valid",
+      "u_credit.credit_return",
+      "u_unpack.in_valid"
+     ],
+     "src": "A:L423"
+    },
+    "out_tile": {
+     "pins": [
+      "u_unpack.out_tile",
+      "PORT.out_tile"
+     ],
+     "src": "A:L448"
+    },
+    "out_panel_sel": {
+     "pins": [
+      "u_unpack.out_panel_sel",
+      "PORT.out_panel_sel"
+     ],
+     "src": "A:L448"
+    },
+    "unpack_byte": {
+     "pins": [
+      "u_unpack.panel_byte"
+     ],
+     "src": "A:L447",
+     "unused": {
+      "reason": "hop_top has no byte output (A:L33-48)",
+      "finding": "F21"
+     }
+    },
+    "first_done": {
+     "pins": [
+      "PORT.first_done"
+     ],
+     "src": "A:L121",
+     "nodriver": {
+      "reason": "no PU block produces it",
+      "finding": "F5"
+     }
+    },
+    "wave_done": {
+     "pins": [
+      "PORT.wave_done"
+     ],
+     "src": "A:L122",
+     "nodriver": {
+      "reason": "no PU block produces it",
+      "finding": "F5"
+     }
+    },
+    "t_last_bus": {
+     "pins": [
+      "PORT.t_last_bus"
+     ],
+     "src": "A:L48",
+     "nodriver": {
+      "reason": "no PU block produces it",
+      "finding": "F5"
+     }
+    },
+    "score_fcfs": {
+     "pins": [
+      "u_fcfs.score",
+      "u_sched.score_fcfs"
+     ],
+     "src": "A:L330"
+    },
+    "score_edf": {
+     "pins": [
+      "u_edf.score",
+      "u_sched.score_edf"
+     ],
+     "src": "A:L330"
+    },
+    "score_firing": {
+     "pins": [
+      "u_firing.score",
+      "u_sched.score_firing"
+     ],
+     "src": "A:L330"
+    },
+    "score_shared": {
+     "pins": [
+      "u_shared.score",
+      "u_sched.score_shared"
+     ],
+     "src": "A:L330"
+    },
+    "score_row": {
+     "pins": [
+      "u_row.score",
+      "u_sched.score_row"
+     ],
+     "src": "A:L330"
+    },
+    "rec_valid": {
+     "pins": [
+      "u_packer.rec_valid",
+      "u_ready.rec_valid"
+     ],
+     "src": "A:L182 records, A:L299"
+    },
+    "rec_seq": {
+     "pins": [
+      "u_packer.rec_seq",
+      "u_ready.rec_seq"
+     ],
+     "src": "A:L182 records, A:L299"
+    },
+    "rec_tile": {
+     "pins": [
+      "u_packer.rec_tile",
+      "u_ready.rec_tile"
+     ],
+     "src": "A:L182 records, A:L299"
+    },
+    "rec_sel": {
+     "pins": [
+      "u_packer.rec_sel",
+      "u_ready.rec_sel"
+     ],
+     "src": "A:L182 records, A:L299"
+    },
+    "rec_payload": {
+     "pins": [
+      "u_packer.rec_payload",
+      "u_ready.rec_payload"
+     ],
+     "src": "A:L182 records, A:L299"
+    }
+   }
+  },
+  {
+   "id": "release",
+   "module": "release",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_release (release, 5g)",
+   "parent": [
+    "pu",
+    "u_release"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "release_en",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L454"
+    },
+    {
+     "name": "W",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L454"
+    },
+    {
+     "name": "admit_limit",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L454"
+    },
+    {
+     "name": "square_finished",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L454"
+    },
+    {
+     "name": "let_square",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L463"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "u_admitted",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L460 admitted[7:0] -- dreg",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "min_cap",
+     "module": "assign",
+     "kind": "comb",
+     "center": "min",
+     "src": "A:L468 lets W squares through",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ],
+     "inferred": "the comparator limit is min(W, admit_limit)"
+    },
+    {
+     "inst": "cmp_lt",
+     "module": "assign",
+     "kind": "comb",
+     "center": "<",
+     "src": "A:L463 cmp < admit_limit",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "and_adm",
+     "module": "assign",
+     "kind": "comb",
+     "center": "&",
+     "src": "A:L463",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "a square is admitted when let and release_en"
+    },
+    {
+     "inst": "addsub_adm",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+ \u2212",
+     "src": "A:L465 admitted - 1",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "inc",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "dec",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ],
+     "inferred": "the +1 on admission is implied, not drawn"
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_admitted.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_admitted.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "admitted": {
+     "pins": [
+      "u_admitted.q",
+      "cmp_lt.a",
+      "addsub_adm.a"
+     ],
+     "src": "A:L460"
+    },
+    "admit_limit": {
+     "pins": [
+      "PORT.admit_limit",
+      "min_cap.b"
+     ],
+     "src": "A:L463"
+    },
+    "W": {
+     "pins": [
+      "PORT.W",
+      "min_cap.a"
+     ],
+     "src": "A:L468"
+    },
+    "cap": {
+     "pins": [
+      "min_cap.y",
+      "cmp_lt.b"
+     ],
+     "src": "A:L468"
+    },
+    "let_square": {
+     "pins": [
+      "cmp_lt.y",
+      "PORT.let_square",
+      "and_adm.a"
+     ],
+     "src": "A:L463"
+    },
+    "release_en": {
+     "pins": [
+      "PORT.release_en",
+      "and_adm.b"
+     ],
+     "src": "A:L454"
+    },
+    "admit_now": {
+     "pins": [
+      "and_adm.y",
+      "addsub_adm.inc"
+     ],
+     "src": "inferred"
+    },
+    "square_finished": {
+     "pins": [
+      "PORT.square_finished",
+      "addsub_adm.dec"
+     ],
+     "src": "A:L465"
+    },
+    "admitted_d": {
+     "pins": [
+      "addsub_adm.y",
+      "u_admitted.d"
+     ],
+     "src": "A:L465"
+    }
+   }
+  },
+  {
+   "id": "packer",
+   "module": "packer",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_packer (packer, 5a)",
+   "parent": [
+    "pu",
+    "u_packer"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "let_square",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L463"
+    },
+    {
+     "name": "panel_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L259"
+    },
+    {
+     "name": "panel_byte",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L259"
+    },
+    {
+     "name": "tile_id",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L259"
+    },
+    {
+     "name": "panel_sel",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L259"
+    },
+    {
+     "name": "rec_valid",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L288 fire"
+    },
+    {
+     "name": "rec_seq",
+     "dir": "out",
+     "width": "16",
+     "src": "A:L288 seq+1"
+    },
+    {
+     "name": "rec_tile",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L288"
+    },
+    {
+     "name": "rec_sel",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L288"
+    },
+    {
+     "name": "rec_payload",
+     "dir": "out",
+     "width": "256",
+     "src": "A:L280"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "shl",
+     "module": "assign",
+     "kind": "comb",
+     "center": "{lo,byte}",
+     "src": "A:L265-268",
+     "ports": [
+      {
+       "name": "word",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "byte",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "and_let",
+     "module": "assign",
+     "kind": "comb",
+     "center": "&",
+     "src": "A:L463",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "a byte is shifted only when this square was admitted"
+    },
+    {
+     "inst": "c_zero",
+     "module": "const",
+     "kind": "const",
+     "center": "256'd0",
+     "src": "A:L273 fire -> 0",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "word_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "word_mux",
+     "src": "A:L272-275",
+     "ports": [
+      {
+       "name": "fire",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "valid",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "zero",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "shifted",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "hold",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_word",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L280 dreg 256",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_cnt",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L283 byte_cnt[5:0]",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "6",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "6",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "inc_cnt",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+ 1",
+     "src": "A:L283 +1",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "6",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "6",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "eq32",
+     "module": "assign",
+     "kind": "comb",
+     "center": "== 32",
+     "src": "A:L283 cmp == 32 -> fire",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "6",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "c_zero6",
+     "module": "const",
+     "kind": "const",
+     "center": "6'd0",
+     "src": "A:L286",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "6",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "cnt_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "mux",
+     "src": "A:L286 cnt_mux (fire ? 0 : cnt+1)",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "6",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "6",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "6",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_seq",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L288",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "16",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "16",
+       "src": ""
+      }
+     ],
+     "inferred": "seq register implied by 'seq+1' (A:L288); not drawn in 5a"
+    },
+    {
+     "inst": "inc_seq",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+ 1",
+     "src": "A:L288 seq+1",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "16",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "16",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "seq_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "mux",
+     "src": "A:L288",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "16",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "16",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "16",
+       "src": ""
+      }
+     ],
+     "inferred": "seq register implied by 'seq+1' (A:L288); not drawn in 5a"
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_word.clk",
+      "u_cnt.clk",
+      "u_seq.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_word.rst",
+      "u_cnt.rst",
+      "u_seq.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "panel_byte": {
+     "pins": [
+      "PORT.panel_byte",
+      "shl.byte"
+     ],
+     "src": "A:L267"
+    },
+    "let_square": {
+     "pins": [
+      "PORT.let_square",
+      "and_let.a"
+     ],
+     "src": "A:L463"
+    },
+    "panel_valid": {
+     "pins": [
+      "PORT.panel_valid",
+      "and_let.b"
+     ],
+     "src": "A:L272"
+    },
+    "pack_en": {
+     "pins": [
+      "and_let.y",
+      "word_mux.valid"
+     ],
+     "src": "A:L272"
+    },
+    "shifted": {
+     "pins": [
+      "shl.y",
+      "word_mux.shifted"
+     ],
+     "src": "A:L270"
+    },
+    "zero": {
+     "pins": [
+      "c_zero.out",
+      "word_mux.zero"
+     ],
+     "src": "A:L273"
+    },
+    "word_d": {
+     "pins": [
+      "word_mux.y",
+      "u_word.d"
+     ],
+     "src": "A:L278"
+    },
+    "rec_payload": {
+     "pins": [
+      "u_word.q",
+      "PORT.rec_payload",
+      "shl.word",
+      "word_mux.hold"
+     ],
+     "src": "A:L265 hold, A:L280 payload"
+    },
+    "byte_cnt": {
+     "pins": [
+      "u_cnt.q",
+      "inc_cnt.a"
+     ],
+     "src": "A:L283"
+    },
+    "cnt_inc": {
+     "pins": [
+      "inc_cnt.y",
+      "eq32.a",
+      "cnt_mux.0"
+     ],
+     "src": "A:L283-286"
+    },
+    "fire": {
+     "pins": [
+      "eq32.y",
+      "word_mux.fire",
+      "cnt_mux.sel",
+      "seq_mux.sel",
+      "PORT.rec_valid"
+     ],
+     "src": "A:L283, A:L288"
+    },
+    "cnt_zero": {
+     "pins": [
+      "c_zero6.out",
+      "cnt_mux.1"
+     ],
+     "src": "A:L286"
+    },
+    "cnt_d": {
+     "pins": [
+      "cnt_mux.y",
+      "u_cnt.d"
+     ],
+     "src": "A:L286 -> dreg 6"
+    },
+    "seq": {
+     "pins": [
+      "u_seq.q",
+      "inc_seq.a",
+      "seq_mux.0"
+     ],
+     "src": "A:L288"
+    },
+    "seq_inc": {
+     "pins": [
+      "inc_seq.y",
+      "seq_mux.1",
+      "PORT.rec_seq"
+     ],
+     "src": "A:L288 seq+1"
+    },
+    "seq_d": {
+     "pins": [
+      "seq_mux.y",
+      "u_seq.d"
+     ],
+     "src": "inferred"
+    },
+    "tile_id": {
+     "pins": [
+      "PORT.tile_id",
+      "PORT.rec_tile"
+     ],
+     "src": "A:L288"
+    },
+    "panel_sel": {
+     "pins": [
+      "PORT.panel_sel",
+      "PORT.rec_sel"
+     ],
+     "src": "A:L288"
+    }
+   }
+  },
+  {
+   "id": "ready",
+   "module": "ready_mem",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_ready (ready, 5b)",
+   "parent": [
+    "pu",
+    "u_ready"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rec_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L299"
+    },
+    {
+     "name": "rec_seq",
+     "dir": "in",
+     "width": "16",
+     "src": "A:L299"
+    },
+    {
+     "name": "rec_tile",
+     "dir": "in",
+     "width": "8",
+     "src": "A:L299"
+    },
+    {
+     "name": "rec_sel",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L299"
+    },
+    {
+     "name": "rec_payload",
+     "dir": "in",
+     "width": "256",
+     "src": "A:L299"
+    },
+    {
+     "name": "other_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L304"
+    },
+    {
+     "name": "other_flit",
+     "dir": "in",
+     "width": "256",
+     "src": "A:L299"
+    },
+    {
+     "name": "other_deadline",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L299"
+    },
+    {
+     "name": "grant_idx",
+     "dir": "in",
+     "width": "N_WIRES*8",
+     "src": "A:L316"
+    },
+    {
+     "name": "consume",
+     "dir": "in",
+     "width": "N_WIRES",
+     "src": "A:L323 (inferred pin, F17)"
+    },
+    {
+     "name": "record",
+     "dir": "out",
+     "width": "REC_W",
+     "src": "A:L319-320 granted flit"
+    },
+    {
+     "name": "score_rec",
+     "dir": "out",
+     "width": "REC_W",
+     "src": "A:L309 slot register"
+    },
+    {
+     "name": "ready_count",
+     "dir": "out",
+     "width": "9",
+     "src": "A:L323"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "shl4",
+     "module": "assign",
+     "kind": "comb",
+     "center": "<< 4",
+     "src": "A:L71 D_k",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ],
+     "inferred": "C_tile is 16, so tile_id << 4 is tile_id * C_tile"
+    },
+    {
+     "inst": "c_extra",
+     "module": "const",
+     "kind": "const",
+     "center": "40",
+     "src": "A:L71",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ],
+     "inferred": "baseline extra is 40, the same slack as the golden"
+    },
+    {
+     "inst": "add_dk",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+",
+     "src": "A:L71 D_k = T_k + extra",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ],
+     "inferred": "with T_0 = 0 the drawn deadline is tile_id * 16 + 40"
+    },
+    {
+     "inst": "c_tail",
+     "module": "const",
+     "kind": "const",
+     "center": "16,1,0,1",
+     "src": "A:L74-77",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "22",
+       "src": ""
+      }
+     ],
+     "inferred": "flits_left 16, consumers 1, wave_id 0, is_gemm 1"
+    },
+    {
+     "inst": "cat_rest",
+     "module": "assign",
+     "kind": "comb",
+     "center": "{ }",
+     "src": "A:L71-77",
+     "ports": [
+      {
+       "name": "dl",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "tail",
+       "dir": "in",
+       "width": "22",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "54",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "c_ot",
+     "module": "const",
+     "kind": "const",
+     "center": "flit=1",
+     "src": "A:L74-77",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "47",
+       "src": ""
+      }
+     ],
+     "inferred": "other stack is one flit, not a GEMM square: seq tile sel 0, flits_left 1, is_gemm 0"
+    },
+    {
+     "inst": "cat_pk",
+     "module": "assign",
+     "kind": "comb",
+     "center": "{ }",
+     "src": "A:L299 packer record -> record fields A:L67-78",
+     "ports": [
+      {
+       "name": "valid",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "seq",
+       "dir": "in",
+       "width": "16",
+       "src": ""
+      },
+      {
+       "name": "tile",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "payload",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "rest",
+       "dir": "in",
+       "width": "54",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "cat_ot",
+     "module": "assign",
+     "kind": "comb",
+     "center": "{ }",
+     "src": "A:L299 other_flit + other_deadline",
+     "ports": [
+      {
+       "name": "valid",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "payload",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "deadline",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "rest",
+       "dir": "in",
+       "width": "47",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "src_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "src_mux",
+     "src": "A:L304 sel = other_valid",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_slot",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L309 slot dreg (one of 256 drawn, A:L296)",
+     "head_extra": "\u00d7 256",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "sel8",
+     "module": "assign",
+     "kind": "comb",
+     "center": "[7:0]",
+     "src": "A:L316 grant_idx[7:0]",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "N_WIRES*8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "read_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "read_mux",
+     "src": "A:L316",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "slot",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "wr_or",
+     "module": "assign",
+     "kind": "comb",
+     "center": "|",
+     "src": "A:L323 'a write'",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "b",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "a write = either source valid"
+    },
+    {
+     "inst": "cnt_as",
+     "module": "assign",
+     "kind": "comb",
+     "center": "+ \u2212",
+     "src": "A:L323 plus one / minus one",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "9",
+       "src": ""
+      },
+      {
+       "name": "inc",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "dec",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "9",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_cnt",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L323 separate dreg of 9 bits",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "9",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "9",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_slot.clk",
+      "u_cnt.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_slot.rst",
+      "u_cnt.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "rec_valid": {
+     "pins": [
+      "PORT.rec_valid",
+      "cat_pk.valid",
+      "wr_or.a"
+     ],
+     "src": "A:L299"
+    },
+    "rec_seq": {
+     "pins": [
+      "PORT.rec_seq",
+      "cat_pk.seq"
+     ],
+     "src": "A:L299"
+    },
+    "rec_tile": {
+     "pins": [
+      "PORT.rec_tile",
+      "cat_pk.tile",
+      "shl4.a"
+     ],
+     "src": "A:L299"
+    },
+    "tile16": {
+     "pins": [
+      "shl4.y",
+      "add_dk.a"
+     ],
+     "src": "A:L71"
+    },
+    "extra": {
+     "pins": [
+      "c_extra.out",
+      "add_dk.b"
+     ],
+     "src": "A:L71 extra = 40"
+    },
+    "deadline": {
+     "pins": [
+      "add_dk.y",
+      "cat_rest.dl"
+     ],
+     "src": "A:L71"
+    },
+    "pk_tail": {
+     "pins": [
+      "c_tail.out",
+      "cat_rest.tail"
+     ],
+     "src": "A:L74-77"
+    },
+    "rec_sel": {
+     "pins": [
+      "PORT.rec_sel",
+      "cat_pk.sel"
+     ],
+     "src": "A:L299"
+    },
+    "rec_payload": {
+     "pins": [
+      "PORT.rec_payload",
+      "cat_pk.payload"
+     ],
+     "src": "A:L299"
+    },
+    "pk_rest": {
+     "pins": [
+      "cat_rest.y",
+      "cat_pk.rest"
+     ],
+     "src": "A:L71-77"
+    },
+    "other_valid": {
+     "pins": [
+      "PORT.other_valid",
+      "src_mux.sel",
+      "wr_or.b",
+      "cat_ot.valid"
+     ],
+     "src": "A:L304"
+    },
+    "other_flit": {
+     "pins": [
+      "PORT.other_flit",
+      "cat_ot.payload"
+     ],
+     "src": "A:L299"
+    },
+    "other_deadline": {
+     "pins": [
+      "PORT.other_deadline",
+      "cat_ot.deadline"
+     ],
+     "src": "A:L299"
+    },
+    "ot_rest": {
+     "pins": [
+      "c_ot.out",
+      "cat_ot.rest"
+     ],
+     "src": "A:L74-77"
+    },
+    "rec_a": {
+     "pins": [
+      "cat_pk.y",
+      "src_mux.0"
+     ],
+     "src": "A:L299"
+    },
+    "rec_b": {
+     "pins": [
+      "cat_ot.y",
+      "src_mux.1"
+     ],
+     "src": "A:L299"
+    },
+    "wr_rec": {
+     "pins": [
+      "src_mux.y",
+      "u_slot.d"
+     ],
+     "src": "A:L307"
+    },
+    "slot": {
+     "pins": [
+      "u_slot.q",
+      "read_mux.slot",
+      "PORT.score_rec"
+     ],
+     "src": "A:L309, A:L314"
+    },
+    "grant_idx": {
+     "pins": [
+      "PORT.grant_idx",
+      "sel8.a"
+     ],
+     "src": "A:L316"
+    },
+    "gidx0": {
+     "pins": [
+      "sel8.y",
+      "read_mux.sel"
+     ],
+     "src": "A:L316"
+    },
+    "record": {
+     "pins": [
+      "read_mux.y",
+      "PORT.record"
+     ],
+     "src": "A:L319-320"
+    },
+    "wr": {
+     "pins": [
+      "wr_or.y",
+      "cnt_as.inc"
+     ],
+     "src": "inferred"
+    },
+    "consume": {
+     "pins": [
+      "PORT.consume",
+      "cnt_as.dec"
+     ],
+     "src": "A:L323"
+    },
+    "cnt_d": {
+     "pins": [
+      "cnt_as.y",
+      "u_cnt.d"
+     ],
+     "src": "A:L323"
+    },
+    "ready_count": {
+     "pins": [
+      "u_cnt.q",
+      "PORT.ready_count",
+      "cnt_as.a"
+     ],
+     "src": "A:L323"
+    }
+   }
+  },
+  {
+   "id": "sched",
+   "module": "scheduler",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_sched (scheduler, 5c)",
+   "parent": [
+    "pu",
+    "u_sched"
+   ],
+   "ports": [
+    {
+     "name": "policy_id",
+     "dir": "in",
+     "width": "3",
+     "src": "A:L336"
+    },
+    {
+     "name": "score_fcfs",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L330"
+    },
+    {
+     "name": "score_edf",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L330"
+    },
+    {
+     "name": "score_firing",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L330"
+    },
+    {
+     "name": "score_shared",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L330"
+    },
+    {
+     "name": "score_row",
+     "dir": "in",
+     "width": "32",
+     "src": "A:L330"
+    },
+    {
+     "name": "grant_valid",
+     "dir": "out",
+     "width": "N_WIRES",
+     "src": "A:L348"
+    },
+    {
+     "name": "grant_idx",
+     "dir": "out",
+     "width": "N_WIRES*8",
+     "src": "A:L348"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "policy_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "policy_mux",
+     "src": "A:L336",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "3",
+       "src": ""
+      },
+      {
+       "name": "in0",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "in1",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "in2",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "in3",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "in4",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "32",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "cmp_min",
+     "module": "cmp_min",
+     "kind": "comb",
+     "center": "cmp_min",
+     "src": "A:L341-349",
+     "ports": [
+      {
+       "name": "score",
+       "dir": "in",
+       "width": "32",
+       "src": ""
+      },
+      {
+       "name": "grant_valid",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": ""
+      },
+      {
+       "name": "grant_idx",
+       "dir": "out",
+       "width": "N_WIRES*8",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "policy_id": {
+     "pins": [
+      "PORT.policy_id",
+      "policy_mux.sel"
+     ],
+     "src": "A:L336"
+    },
+    "score_sel": {
+     "pins": [
+      "policy_mux.y",
+      "cmp_min.score"
+     ],
+     "src": "A:L338"
+    },
+    "grant_valid": {
+     "pins": [
+      "cmp_min.grant_valid",
+      "PORT.grant_valid"
+     ],
+     "src": "A:L348"
+    },
+    "grant_idx": {
+     "pins": [
+      "cmp_min.grant_idx",
+      "PORT.grant_idx"
+     ],
+     "src": "A:L348"
+    },
+    "score_fcfs": {
+     "pins": [
+      "PORT.score_fcfs",
+      "policy_mux.in0"
+     ],
+     "src": "A:L330"
+    },
+    "score_edf": {
+     "pins": [
+      "PORT.score_edf",
+      "policy_mux.in1"
+     ],
+     "src": "A:L330"
+    },
+    "score_firing": {
+     "pins": [
+      "PORT.score_firing",
+      "policy_mux.in2"
+     ],
+     "src": "A:L330"
+    },
+    "score_shared": {
+     "pins": [
+      "PORT.score_shared",
+      "policy_mux.in3"
+     ],
+     "src": "A:L330"
+    },
+    "score_row": {
+     "pins": [
+      "PORT.score_row",
+      "policy_mux.in4"
+     ],
+     "src": "A:L330"
+    }
+   }
+  },
+  {
+   "id": "credit",
+   "module": "credit",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_credit (credit, 5d)",
+   "parent": [
+    "pu",
+    "u_credit"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "send_en",
+     "dir": "in",
+     "width": "N_WIRES",
+     "src": "A:L357"
+    },
+    {
+     "name": "grant_valid",
+     "dir": "in",
+     "width": "N_WIRES",
+     "src": "A:L357"
+    },
+    {
+     "name": "credit_return",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L357"
+    },
+    {
+     "name": "pass_en",
+     "dir": "out",
+     "width": "N_WIRES",
+     "src": "A:L393"
+    },
+    {
+     "name": "credit_count",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L383"
+    },
+    {
+     "name": "gt0",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L389"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "and_pass",
+     "module": "assign",
+     "kind": "comb",
+     "center": "&",
+     "src": "A:L393",
+     "ports": [
+      {
+       "name": "send_en",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": ""
+      },
+      {
+       "name": "grant_valid",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": ""
+      },
+      {
+       "name": "gt0",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "N_WIRES",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "accept_ones",
+     "module": "assign",
+     "kind": "comb",
+     "center": "count 1s",
+     "src": "A:L362 accept_ones",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "N_WIRES",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "ret_count",
+     "module": "assign",
+     "kind": "comb",
+     "center": "count",
+     "src": "A:L362 ret_count",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "addsub",
+     "module": "assign",
+     "kind": "comb",
+     "center": "\u2212 a + r",
+     "src": "A:L369-374 addsub",
+     "ports": [
+      {
+       "name": "count",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "accept",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "returns",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "hold_eq",
+     "module": "assign",
+     "kind": "comb",
+     "center": "== 0",
+     "src": "A:L378-379",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "r",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "select for 'hold if accept and returns are 0'"
+    },
+    {
+     "inst": "cnt_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "mux",
+     "src": "A:L377 cnt_mux",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_count",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L383 dreg 8",
+     "head_extra": "rst K",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "cmp_gt0",
+     "module": "assign",
+     "kind": "comb",
+     "center": "> 0",
+     "src": "A:L389 cmp > 0",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "8",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_count.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_count.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "send_en": {
+     "pins": [
+      "PORT.send_en",
+      "and_pass.send_en"
+     ],
+     "src": "A:L357"
+    },
+    "grant_valid": {
+     "pins": [
+      "PORT.grant_valid",
+      "and_pass.grant_valid"
+     ],
+     "src": "A:L357"
+    },
+    "gt0": {
+     "pins": [
+      "cmp_gt0.y",
+      "and_pass.gt0",
+      "PORT.gt0"
+     ],
+     "src": "A:L389, A:L393"
+    },
+    "pass_en": {
+     "pins": [
+      "and_pass.y",
+      "PORT.pass_en",
+      "accept_ones.a"
+     ],
+     "src": "A:L393"
+    },
+    "accept": {
+     "pins": [
+      "accept_ones.y",
+      "addsub.accept",
+      "hold_eq.a"
+     ],
+     "src": "A:L362"
+    },
+    "credit_return": {
+     "pins": [
+      "PORT.credit_return",
+      "ret_count.a"
+     ],
+     "src": "A:L357"
+    },
+    "returns": {
+     "pins": [
+      "ret_count.y",
+      "addsub.returns",
+      "hold_eq.r"
+     ],
+     "src": "A:L362"
+    },
+    "next": {
+     "pins": [
+      "addsub.y",
+      "cnt_mux.0"
+     ],
+     "src": "A:L374"
+    },
+    "hold": {
+     "pins": [
+      "hold_eq.y",
+      "cnt_mux.sel"
+     ],
+     "src": "A:L378"
+    },
+    "cnt_d": {
+     "pins": [
+      "cnt_mux.y",
+      "u_count.d"
+     ],
+     "src": "A:L380"
+    },
+    "credit_count": {
+     "pins": [
+      "u_count.q",
+      "PORT.credit_count",
+      "addsub.count",
+      "cnt_mux.1",
+      "cmp_gt0.a"
+     ],
+     "src": "A:L383"
+    }
+   }
+  },
+  {
+   "id": "phy",
+   "module": "phy_box",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_phy (phy_box + gather, 5e)",
+   "parent": [
+    "pu",
+    "u_phy"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "record",
+     "dir": "in",
+     "width": "REC_W",
+     "src": "A:L401 'payload, tile' / A:L320"
+    },
+    {
+     "name": "pass_en",
+     "dir": "in",
+     "width": "N_WIRES",
+     "src": "A:L400"
+    },
+    {
+     "name": "out_flit",
+     "dir": "out",
+     "width": "256",
+     "src": "A:L422"
+    },
+    {
+     "name": "out_valid",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L423 '+ valid'"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "c_bub",
+     "module": "const",
+     "kind": "const",
+     "center": "0",
+     "src": "A:L405",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ],
+     "inferred": "stage 0 loads a bubble, not its own q"
+    },
+    {
+     "inst": "c_rr",
+     "module": "const",
+     "kind": "const",
+     "center": "0",
+     "src": "A:L423",
+     "ports": [
+      {
+       "name": "out",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "N_WIRES is 1, so the gather has one lane"
+    },
+    {
+     "inst": "load_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "load_mux",
+     "src": "A:L403-405 sel = pass_en",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_s0",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L409 dreg stage0 (D_phy = 4, W:L67)",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_s1",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L409 dreg stage1 (D_phy = 4, W:L67)",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_s2",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L409 dreg stage2 (D_phy = 4, W:L67)",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_s3",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L409 dreg stage3 (D_phy = 4, W:L67)",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "lane_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "lane_mux",
+     "src": "A:L422 sel = rr",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "lane0",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "REC_W",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "f_pay",
+     "module": "assign",
+     "kind": "comb",
+     "center": ".payload",
+     "src": "A:L422-424 dreg 256",
+     "ports": [
+      {
+       "name": "rec",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ],
+     "inferred": "field select of the 256-bit payload out of the record"
+    },
+    {
+     "inst": "f_val",
+     "module": "assign",
+     "kind": "comb",
+     "center": ".valid",
+     "src": "A:L424 + valid",
+     "ports": [
+      {
+       "name": "rec",
+       "dir": "in",
+       "width": "REC_W",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ],
+     "inferred": "field select of the valid bit"
+    },
+    {
+     "inst": "u_gflit",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L422 dreg 256",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_gvalid",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L424 + valid",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "1",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_s0.clk",
+      "u_s1.clk",
+      "u_s2.clk",
+      "u_s3.clk",
+      "u_gflit.clk",
+      "u_gvalid.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_s0.rst",
+      "u_s1.rst",
+      "u_s2.rst",
+      "u_s3.rst",
+      "u_gflit.rst",
+      "u_gvalid.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "pass_en": {
+     "pins": [
+      "PORT.pass_en",
+      "load_mux.sel"
+     ],
+     "src": "A:L400, A:L404"
+    },
+    "record": {
+     "pins": [
+      "PORT.record",
+      "load_mux.1"
+     ],
+     "src": "A:L401"
+    },
+    "prev": {
+     "pins": [
+      "c_bub.out",
+      "load_mux.0"
+     ],
+     "src": "A:L405 bubble into stage 0"
+    },
+    "s0_d": {
+     "pins": [
+      "load_mux.y",
+      "u_s0.d"
+     ],
+     "src": "A:L407"
+    },
+    "s0": {
+     "pins": [
+      "u_s0.q",
+      "u_s1.d"
+     ],
+     "src": "A:L409"
+    },
+    "s1": {
+     "pins": [
+      "u_s1.q",
+      "u_s2.d"
+     ],
+     "src": "A:L409"
+    },
+    "s2": {
+     "pins": [
+      "u_s2.q",
+      "u_s3.d"
+     ],
+     "src": "A:L409"
+    },
+    "arrived": {
+     "pins": [
+      "u_s3.q",
+      "lane_mux.lane0"
+     ],
+     "src": "A:L414"
+    },
+    "rr": {
+     "pins": [
+      "c_rr.out",
+      "lane_mux.sel"
+     ],
+     "src": "A:L423 const 0 while one lane"
+    },
+    "lane_rec": {
+     "pins": [
+      "lane_mux.y",
+      "f_pay.rec",
+      "f_val.rec"
+     ],
+     "src": "A:L422"
+    },
+    "pay": {
+     "pins": [
+      "f_pay.y",
+      "u_gflit.d"
+     ],
+     "src": "A:L422"
+    },
+    "val": {
+     "pins": [
+      "f_val.y",
+      "u_gvalid.d"
+     ],
+     "src": "A:L424"
+    },
+    "out_flit": {
+     "pins": [
+      "u_gflit.q",
+      "PORT.out_flit"
+     ],
+     "src": "A:L422"
+    },
+    "out_valid": {
+     "pins": [
+      "u_gvalid.q",
+      "PORT.out_valid"
+     ],
+     "src": "A:L424"
+    }
+   }
+  },
+  {
+   "id": "unpack",
+   "module": "unpack",
+   "level": 3,
+   "title": "L3 - inside u_pu/u_unpack (unpack, 5f)",
+   "parent": [
+    "pu",
+    "u_unpack"
+   ],
+   "ports": [
+    {
+     "name": "clk",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "rst",
+     "dir": "in",
+     "width": "1",
+     "src": ""
+    },
+    {
+     "name": "flit",
+     "dir": "in",
+     "width": "256",
+     "src": "A:L432"
+    },
+    {
+     "name": "in_valid",
+     "dir": "in",
+     "width": "1",
+     "src": "A:L423"
+    },
+    {
+     "name": "out_tile",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L448"
+    },
+    {
+     "name": "out_panel_sel",
+     "dir": "out",
+     "width": "1",
+     "src": "A:L448"
+    },
+    {
+     "name": "panel_byte",
+     "dir": "out",
+     "width": "8",
+     "src": "A:L447"
+    }
+   ],
+   "instances": [
+    {
+     "inst": "shr",
+     "module": "assign",
+     "kind": "comb",
+     "center": ">> 8",
+     "src": "A:L436 shift >> 8",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ],
+     "inferred": "shift input taken from the dreg (doc arrow from out_flit would shift only once, F21)"
+    },
+    {
+     "inst": "byte_mux",
+     "module": "assign",
+     "kind": "comb",
+     "center": "byte_mux",
+     "src": "A:L440 sel = take_byte",
+     "ports": [
+      {
+       "name": "sel",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "1",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "0",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "u_word",
+     "module": "dreg",
+     "kind": "dreg",
+     "src": "A:L444 dreg 256",
+     "head_extra": "",
+     "ports": [
+      {
+       "name": "clk",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "rst",
+       "dir": "in",
+       "width": "1",
+       "src": ""
+      },
+      {
+       "name": "d",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "q",
+       "dir": "out",
+       "width": "256",
+       "src": ""
+      }
+     ]
+    },
+    {
+     "inst": "lo8",
+     "module": "assign",
+     "kind": "comb",
+     "center": "[7:0]",
+     "src": "A:L436 low byte is the next panel_byte",
+     "ports": [
+      {
+       "name": "a",
+       "dir": "in",
+       "width": "256",
+       "src": ""
+      },
+      {
+       "name": "y",
+       "dir": "out",
+       "width": "8",
+       "src": ""
+      }
+     ]
+    }
+   ],
+   "nets": {
+    "clk": {
+     "pins": [
+      "PORT.clk",
+      "u_word.clk"
+     ],
+     "src": "A:L476 dreg stores on clk",
+     "stub": true
+    },
+    "rst": {
+     "pins": [
+      "PORT.rst",
+      "u_word.rst"
+     ],
+     "src": "A:L35",
+     "stub": true
+    },
+    "flit": {
+     "pins": [
+      "PORT.flit",
+      "byte_mux.0"
+     ],
+     "src": "A:L432"
+    },
+    "take_byte": {
+     "pins": [
+      "PORT.in_valid",
+      "byte_mux.sel"
+     ],
+     "src": "A:L440 shift when a flit arrives"
+    },
+    "shifted": {
+     "pins": [
+      "shr.y",
+      "byte_mux.1"
+     ],
+     "src": "A:L438"
+    },
+    "word_d": {
+     "pins": [
+      "byte_mux.y",
+      "u_word.d"
+     ],
+     "src": "A:L442"
+    },
+    "word": {
+     "pins": [
+      "u_word.q",
+      "shr.a",
+      "lo8.a"
+     ],
+     "src": "A:L446"
+    },
+    "panel_byte": {
+     "pins": [
+      "lo8.y",
+      "PORT.panel_byte"
+     ],
+     "src": "A:L447"
+    },
+    "out_tile": {
+     "pins": [
+      "PORT.out_tile"
+     ],
+     "src": "A:L448",
+     "nodriver": {
+      "reason": "tile_id is dropped at the gather (A:L422-424)",
+      "finding": "F21"
+     }
+    },
+    "out_panel_sel": {
+     "pins": [
+      "PORT.out_panel_sel"
+     ],
+     "src": "A:L448",
+     "nodriver": {
+      "reason": "panel_sel is dropped at the gather",
+      "finding": "F21"
+     }
+    }
+   }
+  }
+ ]
+}

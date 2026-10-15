@@ -1,0 +1,1552 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>D2D hop adapter - schematic</title>
+<style>
+html,body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif}
+nav{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid #ccc;position:sticky;top:0;background:#fff;z-index:2}
+nav a{padding:5px 10px;border:1px solid #bbb;border-radius:4px;color:#000;text-decoration:none;font-size:13px}
+nav a.on{background:#000;color:#fff;border-color:#000}
+nav .back{margin-left:auto}
+.bar{padding:8px 14px;font-size:14px;display:flex;gap:18px;align-items:center}
+.bar a{font-size:13px;color:#1f6feb}
+section{display:none}section.on{display:block}
+section svg{display:block;width:100%;height:auto;max-width:1700px;margin:0 auto}
+.hot:hover{fill-opacity:.08}
+.key{font-size:12px;color:#555;padding:4px 14px}
+</style></head><body>
+<nav><a class="tab" href="#top">L1 hop_top</a><a class="tab" href="#cu">L2 CU · u_cu</a><a class="tab" href="#pu">L2 PU · u_pu</a><a class="tab" href="#fsm">L3 u_fsm</a><a class="tab" href="#release">L3 u_release</a><a class="tab" href="#packer">L3 u_packer</a><a class="tab" href="#ready">L3 u_ready</a><a class="tab" href="#sched">L3 u_sched</a><a class="tab" href="#credit">L3 u_credit</a><a class="tab" href="#phy">L3 u_phy</a><a class="tab" href="#unpack">L3 u_unpack</a><a class="back" id="back" href="#top">&larr; back</a></nav>
+<div class="key">Click a box to open its inside. Dashed box = drawn but not stated in the doc (inferred). Red dashed stub = no driver, dashed stub = unused; the tag names the finding.</div>
+<section id="v-top"><div class="bar"><b>L1 - inside hop_top</b></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 660" width="1600" height="660" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1600" height="660" fill="#fff"/>
+<rect x="250" y="20" width="1100" height="620" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="450" y="180" width="330" height="430" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="900" y="180" width="300" height="230" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,220 1220,220 1220,150 430,150 430,220 450,220" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,244 1240,244 1240,130 410,130 410,244 450,244" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,268 1260,268 1260,110 390,110 390,268 450,268" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,292 1280,292 1280,90 370,90 370,292 450,292" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,316 1300,316 1300,70 350,70 350,316 450,316" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,220 900,220" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,244 900,244" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,268 900,268" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,292 900,292" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,316 900,316" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,340 900,340" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,420 450,420" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,444 450,444" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,468 450,468" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,492 450,492" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,532 450,532" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,556 450,556" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,580 450,580" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,460 1350,460" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,484 1350,484" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,508 1350,508" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,532 1350,532" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,556 1350,556" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,356 1350,356" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="356" x2="264" y2="356" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="356" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="886" y1="364" x2="900" y2="364" stroke="#000" stroke-width="1.3"/>
+<circle cx="883" cy="364" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="436" y1="356" x2="450" y2="356" stroke="#000" stroke-width="1.3"/>
+<circle cx="433" cy="356" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="380" x2="264" y2="380" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="380" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="886" y1="388" x2="900" y2="388" stroke="#000" stroke-width="1.3"/>
+<circle cx="883" cy="388" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="436" y1="380" x2="450" y2="380" stroke="#000" stroke-width="1.3"/>
+<circle cx="433" cy="380" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M450,220 L443,216.5 L443,223.5 Z" fill="#000"/>
+<path d="M450,244 L443,240.5 L443,247.5 Z" fill="#000"/>
+<path d="M450,268 L443,264.5 L443,271.5 Z" fill="#000"/>
+<path d="M450,292 L443,288.5 L443,295.5 Z" fill="#000"/>
+<path d="M450,316 L443,312.5 L443,319.5 Z" fill="#000"/>
+<path d="M450,356 L443,352.5 L443,359.5 Z" fill="#000"/>
+<path d="M450,380 L443,376.5 L443,383.5 Z" fill="#000"/>
+<path d="M450,420 L443,416.5 L443,423.5 Z" fill="#000"/>
+<path d="M450,444 L443,440.5 L443,447.5 Z" fill="#000"/>
+<path d="M450,468 L443,464.5 L443,471.5 Z" fill="#000"/>
+<path d="M450,492 L443,488.5 L443,495.5 Z" fill="#000"/>
+<path d="M450,532 L443,528.5 L443,535.5 Z" fill="#000"/>
+<path d="M450,556 L443,552.5 L443,559.5 Z" fill="#000"/>
+<path d="M450,580 L443,576.5 L443,583.5 Z" fill="#000"/>
+<path d="M900,220 L893,216.5 L893,223.5 Z" fill="#000"/>
+<path d="M900,244 L893,240.5 L893,247.5 Z" fill="#000"/>
+<path d="M900,268 L893,264.5 L893,271.5 Z" fill="#000"/>
+<path d="M900,292 L893,288.5 L893,295.5 Z" fill="#000"/>
+<path d="M900,316 L893,312.5 L893,319.5 Z" fill="#000"/>
+<path d="M900,340 L893,336.5 L893,343.5 Z" fill="#000"/>
+<path d="M900,364 L893,360.5 L893,367.5 Z" fill="#000"/>
+<path d="M900,388 L893,384.5 L893,391.5 Z" fill="#000"/>
+<rect x="247" y="353" width="6" height="6" fill="#000"/>
+<rect x="247" y="377" width="6" height="6" fill="#000"/>
+<rect x="247" y="417" width="6" height="6" fill="#000"/>
+<rect x="247" y="441" width="6" height="6" fill="#000"/>
+<rect x="247" y="465" width="6" height="6" fill="#000"/>
+<rect x="247" y="489" width="6" height="6" fill="#000"/>
+<rect x="247" y="529" width="6" height="6" fill="#000"/>
+<rect x="247" y="553" width="6" height="6" fill="#000"/>
+<rect x="247" y="577" width="6" height="6" fill="#000"/>
+<rect x="1347" y="353" width="6" height="6" fill="#000"/>
+<rect x="1347" y="457" width="6" height="6" fill="#000"/>
+<rect x="1347" y="481" width="6" height="6" fill="#000"/>
+<rect x="1347" y="505" width="6" height="6" fill="#000"/>
+<rect x="1347" y="529" width="6" height="6" fill="#000"/>
+<rect x="1347" y="553" width="6" height="6" fill="#000"/>
+<text x="615.0" y="196" font-size="11" text-anchor="middle">hop_processing</text>
+<text x="615.0" y="212" font-size="13" text-anchor="middle" font-weight="bold">u_pu</text>
+<text x="455" y="224" font-size="11" text-anchor="start">release_en</text>
+<text x="455" y="248" font-size="11" text-anchor="start">[7:0] W</text>
+<text x="455" y="272" font-size="11" text-anchor="start">[2:0] policy_id</text>
+<text x="455" y="296" font-size="11" text-anchor="start">[7:0] admit_limit</text>
+<text x="455" y="320" font-size="11" text-anchor="start">[N_WIRES-1:0] send_en</text>
+<text x="455" y="360" font-size="11" text-anchor="start">clk</text>
+<text x="455" y="384" font-size="11" text-anchor="start">rst</text>
+<text x="455" y="424" font-size="11" text-anchor="start">panel_valid</text>
+<text x="455" y="448" font-size="11" text-anchor="start">[7:0] panel_byte</text>
+<text x="455" y="472" font-size="11" text-anchor="start">[7:0] tile_id</text>
+<text x="455" y="496" font-size="11" text-anchor="start">panel_sel</text>
+<text x="455" y="536" font-size="11" text-anchor="start">other_valid</text>
+<text x="455" y="560" font-size="11" text-anchor="start">[255:0] other_flit</text>
+<text x="455" y="584" font-size="11" text-anchor="start">[31:0] other_deadline</text>
+<text x="775" y="224" font-size="11" text-anchor="end">[7:0] credit_count</text>
+<text x="775" y="248" font-size="11" text-anchor="end">[8:0] ready_count</text>
+<text x="775" y="272" font-size="11" text-anchor="end">[N_WIRES×8-1:0] grant_idx</text>
+<text x="775" y="296" font-size="11" text-anchor="end">[N_WIRES-1:0] grant_valid</text>
+<text x="775" y="320" font-size="11" text-anchor="end">first_done</text>
+<text x="775" y="344" font-size="11" text-anchor="end">wave_done</text>
+<text x="775" y="464" font-size="11" text-anchor="end">out_valid</text>
+<text x="775" y="488" font-size="11" text-anchor="end">[255:0] out_flit</text>
+<text x="775" y="512" font-size="11" text-anchor="end">[7:0] out_tile</text>
+<text x="775" y="536" font-size="11" text-anchor="end">out_panel_sel</text>
+<text x="775" y="560" font-size="11" text-anchor="end">[N_TILES×32-1:0] t_last_bus</text>
+<text x="1050.0" y="196" font-size="11" text-anchor="middle">hop_control</text>
+<text x="1050.0" y="212" font-size="13" text-anchor="middle" font-weight="bold">u_cu</text>
+<text x="905" y="224" font-size="11" text-anchor="start">[7:0] credit_count</text>
+<text x="905" y="248" font-size="11" text-anchor="start">[8:0] ready_count</text>
+<text x="905" y="272" font-size="11" text-anchor="start">[N_WIRES×8-1:0] grant_idx</text>
+<text x="905" y="296" font-size="11" text-anchor="start">[N_WIRES-1:0] grant_valid</text>
+<text x="905" y="320" font-size="11" text-anchor="start">first_done</text>
+<text x="905" y="344" font-size="11" text-anchor="start">wave_done</text>
+<text x="905" y="368" font-size="11" text-anchor="start">clk</text>
+<text x="905" y="392" font-size="11" text-anchor="start">rst</text>
+<text x="1195" y="224" font-size="11" text-anchor="end">release_en</text>
+<text x="1195" y="248" font-size="11" text-anchor="end">[7:0] W</text>
+<text x="1195" y="272" font-size="11" text-anchor="end">[2:0] policy_id</text>
+<text x="1195" y="296" font-size="11" text-anchor="end">[7:0] admit_limit</text>
+<text x="1195" y="320" font-size="11" text-anchor="end">[N_WIRES-1:0] send_en</text>
+<text x="1195" y="360" font-size="11" text-anchor="end">done</text>
+<text x="240" y="361" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="385" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="425" font-size="14" text-anchor="end">panel_valid</text>
+<text x="240" y="449" font-size="14" text-anchor="end">[7:0] panel_byte</text>
+<text x="240" y="473" font-size="14" text-anchor="end">[7:0] tile_id</text>
+<text x="240" y="497" font-size="14" text-anchor="end">panel_sel</text>
+<text x="240" y="537" font-size="14" text-anchor="end">other_valid</text>
+<text x="240" y="561" font-size="14" text-anchor="end">[255:0] other_flit</text>
+<text x="240" y="585" font-size="14" text-anchor="end">[31:0] other_deadline</text>
+<text x="1360" y="361" font-size="14" text-anchor="start">done</text>
+<text x="1360" y="465" font-size="14" text-anchor="start">out_valid</text>
+<text x="1360" y="489" font-size="14" text-anchor="start">[255:0] out_flit</text>
+<text x="1360" y="513" font-size="14" text-anchor="start">[7:0] out_tile</text>
+<text x="1360" y="537" font-size="14" text-anchor="start">out_panel_sel</text>
+<text x="1360" y="561" font-size="14" text-anchor="start">[N_TILES×32-1:0] t_last_bus</text>
+<text x="800.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">hop_top</text>
+<text x="800" y="145" font-size="10" text-anchor="start" font-style="italic" fill="#444">release_en</text>
+<text x="800" y="125" font-size="10" text-anchor="start" font-style="italic" fill="#444">W</text>
+<text x="800" y="105" font-size="10" text-anchor="start" font-style="italic" fill="#444">policy_id</text>
+<text x="800" y="85" font-size="10" text-anchor="start" font-style="italic" fill="#444">admit_limit</text>
+<text x="800" y="65" font-size="10" text-anchor="start" font-style="italic" fill="#444">send_en</text>
+<text x="878" y="367.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="428" y="359.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="878" y="391.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="428" y="383.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<a href="#pu"><rect class="hot" x="450" y="180" width="330" height="430" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_pu</title></rect></a>
+<a href="#cu"><rect class="hot" x="900" y="180" width="300" height="230" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_cu</title></rect></a>
+</svg>
+</section>
+<section id="v-cu"><div class="bar"><b>L2 - inside u_cu (hop_control)</b><a class="up" href="#top">&uarr; up to top (box u_cu)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 730" width="1600" height="730" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1600" height="730" fill="#fff"/>
+<rect x="250" y="20" width="1100" height="690" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="820" y="80" width="230" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="560" y="290" width="86" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="820" y="210" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="530" y="430" width="120" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="820" y="350" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="560" y="505" width="90" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="820" y="505" width="80" height="70" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="360" y="422" width="120" height="36" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="1100" y="100" width="100" height="48" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="820" y="620" width="130" height="70" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="1050,132 1075,132 1075,116 1100,116" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,440 360,440" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="480,440 480,196 1070,196 1070,136 1100,136" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,132 1350,132" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1050,156 1350,156" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="646,302 820,302" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="970,282 1350,282" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="650,442 820,442" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="970,422 1350,422" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,520 560,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="650,520 820,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,560 820,560" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="900,540 1350,540" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,640 820,640" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,670 820,670" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="950,655 1350,655" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="80" x2="264" y2="80" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="80" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="132" x2="820" y2="132" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="132" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="262" x2="820" y2="262" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="262" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="402" x2="820" y2="402" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="402" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="104" x2="264" y2="104" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="104" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="156" x2="820" y2="156" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="156" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="282" x2="820" y2="282" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="282" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="422" x2="820" y2="422" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="422" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="470" x2="264" y2="470" stroke="#000" stroke-width="1.3" stroke-dasharray="3,2"/>
+<path d="M820,132 L813,128.5 L813,135.5 Z" fill="#000"/>
+<path d="M820,156 L813,152.5 L813,159.5 Z" fill="#000"/>
+<path d="M820,262 L813,258.5 L813,265.5 Z" fill="#000"/>
+<path d="M820,282 L813,278.5 L813,285.5 Z" fill="#000"/>
+<path d="M820,302 L813,298.5 L813,305.5 Z" fill="#000"/>
+<path d="M820,402 L813,398.5 L813,405.5 Z" fill="#000"/>
+<path d="M820,422 L813,418.5 L813,425.5 Z" fill="#000"/>
+<path d="M820,442 L813,438.5 L813,445.5 Z" fill="#000"/>
+<path d="M560,520 L553,516.5 L553,523.5 Z" fill="#000"/>
+<path d="M820,520 L813,516.5 L813,523.5 Z" fill="#000"/>
+<path d="M820,560 L813,556.5 L813,563.5 Z" fill="#000"/>
+<path d="M360,440 L353,436.5 L353,443.5 Z" fill="#000"/>
+<path d="M1100,116 L1093,112.5 L1093,119.5 Z" fill="#000"/>
+<path d="M1100,136 L1093,132.5 L1093,139.5 Z" fill="#000"/>
+<path d="M820,640 L813,636.5 L813,643.5 Z" fill="#000"/>
+<path d="M820,670 L813,666.5 L813,673.5 Z" fill="#000"/>
+<rect x="247" y="77" width="6" height="6" fill="#000"/>
+<rect x="247" y="101" width="6" height="6" fill="#000"/>
+<rect x="247" y="437" width="6" height="6" fill="#000"/>
+<rect x="247" y="467" width="6" height="6" fill="#000"/>
+<rect x="247" y="517" width="6" height="6" fill="#000"/>
+<rect x="247" y="557" width="6" height="6" fill="#000"/>
+<rect x="247" y="637" width="6" height="6" fill="#000"/>
+<rect x="247" y="667" width="6" height="6" fill="#000"/>
+<rect x="1347" y="129" width="6" height="6" fill="#000"/>
+<rect x="1347" y="153" width="6" height="6" fill="#000"/>
+<rect x="1347" y="279" width="6" height="6" fill="#000"/>
+<rect x="1347" y="419" width="6" height="6" fill="#000"/>
+<rect x="1347" y="537" width="6" height="6" fill="#000"/>
+<rect x="1347" y="652" width="6" height="6" fill="#000"/>
+<text x="935.0" y="96" font-size="11" text-anchor="middle">release_fsm</text>
+<text x="935.0" y="112" font-size="13" text-anchor="middle" font-weight="bold">u_fsm</text>
+<text x="825" y="136" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="160" font-size="11" text-anchor="start">rst</text>
+<text x="1045" y="136" font-size="11" text-anchor="end">release_en</text>
+<text x="1045" y="160" font-size="11" text-anchor="end">[7:0] W</text>
+<text x="603.0" y="306.2" font-size="12" text-anchor="middle" font-weight="bold">POLICY</text>
+<text x="895.0" y="226" font-size="11" text-anchor="middle">dreg · 3 DFF</text>
+<text x="895.0" y="242" font-size="13" text-anchor="middle" font-weight="bold">u_pol</text>
+<text x="825" y="266" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="286" font-size="11" text-anchor="start">rst</text>
+<text x="825" y="306" font-size="11" text-anchor="start">[2:0] d</text>
+<text x="965" y="286" font-size="11" text-anchor="end">[2:0] q</text>
+<text x="590.0" y="446.2" font-size="12" text-anchor="middle" font-weight="bold">ADMIT_LIMIT</text>
+<text x="895.0" y="366" font-size="11" text-anchor="middle">dreg · 8 DFF</text>
+<text x="895.0" y="382" font-size="13" text-anchor="middle" font-weight="bold">u_adm</text>
+<text x="825" y="406" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="426" font-size="11" text-anchor="start">rst</text>
+<text x="825" y="446" font-size="11" text-anchor="start">[7:0] d</text>
+<text x="965" y="426" font-size="11" text-anchor="end">[7:0] q</text>
+<text x="605.0" y="524.2" font-size="12" text-anchor="middle" font-weight="bold">&gt; 0</text>
+<text x="860.0" y="546.3" font-size="18" text-anchor="middle" font-weight="bold">&amp;</text>
+<text x="420.0" y="444.2" font-size="12" text-anchor="middle" font-weight="bold">&lt; 256</text>
+<text x="1150.0" y="130.3" font-size="18" text-anchor="middle" font-weight="bold">&amp;</text>
+<text x="885.0" y="659.2" font-size="12" text-anchor="middle" font-weight="bold">done = ?</text>
+<text x="240" y="85" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="109" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="445" font-size="14" text-anchor="end">[8:0] ready_count</text>
+<text x="240" y="475" font-size="14" text-anchor="end">[N_WIRES×8-1:0] grant_idx</text>
+<text x="240" y="525" font-size="14" text-anchor="end">[7:0] credit_count</text>
+<text x="240" y="565" font-size="14" text-anchor="end">[N_WIRES-1:0] grant_valid</text>
+<text x="240" y="645" font-size="14" text-anchor="end">first_done</text>
+<text x="240" y="675" font-size="14" text-anchor="end">wave_done</text>
+<text x="1360" y="137" font-size="14" text-anchor="start">release_en</text>
+<text x="1360" y="161" font-size="14" text-anchor="start">[7:0] W</text>
+<text x="1360" y="287" font-size="14" text-anchor="start">[2:0] policy_id</text>
+<text x="1360" y="427" font-size="14" text-anchor="start">[7:0] admit_limit</text>
+<text x="1360" y="545" font-size="14" text-anchor="start">[N_WIRES-1:0] send_en</text>
+<text x="1360" y="660" font-size="14" text-anchor="start">done</text>
+<text x="800.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">hop_control</text>
+<text x="700" y="514" font-size="10" text-anchor="start" font-style="italic" fill="#444">gt0</text>
+<text x="798" y="135.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="265.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="405.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="159.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="798" y="285.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="798" y="425.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="268" y="473.5" font-size="10" text-anchor="start" font-style="italic" fill="#c00">unused · F9</text>
+<a href="#fsm"><rect class="hot" x="820" y="80" width="230" height="110" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_fsm</title></rect></a>
+</svg>
+</section>
+<section id="v-pu"><div class="bar"><b>L2 - inside u_pu (hop_processing)</b><a class="up" href="#top">&uarr; up to top (box u_pu)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 1140" width="2200" height="1140" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="2200" height="1140" fill="#fff"/>
+<rect x="260" y="20" width="1700" height="1100" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="440" y="100" width="280" height="200" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="440" y="320" width="280" height="210" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="820" y="320" width="330" height="420" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1220" y="110" width="220" height="64" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1220" y="190" width="220" height="64" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1220" y="270" width="220" height="64" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1220" y="350" width="220" height="64" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1220" y="430" width="220" height="64" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1520" y="100" width="280" height="400" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="440" y="815" width="280" height="215" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="820" y="815" width="280" height="215" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1200" y="815" width="280" height="215" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,64 1495,64 1495,134 1520,134" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,140 440,140" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,164 440,164" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,188 440,188" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,360 440,360" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,384 440,384" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,408 440,408" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,432 440,432" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,360 820,360" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,384 820,384" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,408 820,408" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,432 820,432" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,456 820,456" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,548 820,548" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,572 820,572" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,596 820,596" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1150,344 1165,344 1165,84 1960,84" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1150,384 1185,384" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1185,158 1185,478" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1185,158 1220,158" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1185,238 1220,238" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1185,318 1220,318" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1185,398 1220,398" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1185,478 1220,478" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1150,360 1175,360 1175,800 800,800 800,870 820,870" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1440,158 1520,158" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1440,238 1520,238" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1440,318 1520,318" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1440,398 1520,398" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1440,478 1520,478" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1800,158 1960,158" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1840,158 1840,780 410,780 410,894 440,894" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1800,238 1960,238" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1820,238 1820,760 790,760 790,640 820,640" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="260,870 440,870" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,918 820,918" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="760,918 760,664 820,664" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,966 740,966 740,1100 1960,1100" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,870 1200,870" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1140,870 1140,1060 1960,1060" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,894 1120,894 1120,1080 1960,1080" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1120,1050 320,1050 320,918 440,918" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1120,1018 1200,1018" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,140 760,140 760,80 320,80 320,336 440,336" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1480,870 1960,870" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1480,894 1960,894" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="260" y1="236" x2="274" y2="236" stroke="#000" stroke-width="1.3"/>
+<circle cx="277" cy="236" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="252" x2="440" y2="252" stroke="#000" stroke-width="1.3"/>
+<circle cx="423" cy="252" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="480" x2="440" y2="480" stroke="#000" stroke-width="1.3"/>
+<circle cx="423" cy="480" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="496" x2="820" y2="496" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="496" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="980" x2="440" y2="980" stroke="#000" stroke-width="1.3"/>
+<circle cx="423" cy="980" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="980" x2="820" y2="980" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="980" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1186" y1="980" x2="1200" y2="980" stroke="#000" stroke-width="1.3"/>
+<circle cx="1183" cy="980" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="260" y1="260" x2="274" y2="260" stroke="#000" stroke-width="1.3"/>
+<circle cx="277" cy="260" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="276" x2="440" y2="276" stroke="#000" stroke-width="1.3"/>
+<circle cx="423" cy="276" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="504" x2="440" y2="504" stroke="#000" stroke-width="1.3"/>
+<circle cx="423" cy="504" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="520" x2="820" y2="520" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="520" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="1004" x2="440" y2="1004" stroke="#000" stroke-width="1.3"/>
+<circle cx="423" cy="1004" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="1004" x2="820" y2="1004" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="1004" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1186" y1="1004" x2="1200" y2="1004" stroke="#000" stroke-width="1.3"/>
+<circle cx="1183" cy="1004" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="426" y1="212" x2="440" y2="212" stroke="#c00" stroke-width="1.3" stroke-dasharray="3,2"/>
+<line x1="720" y1="942" x2="734" y2="942" stroke="#000" stroke-width="1.3" stroke-dasharray="3,2"/>
+<line x1="1480" y1="918" x2="1494" y2="918" stroke="#000" stroke-width="1.3" stroke-dasharray="3,2"/>
+<line x1="1946" y1="560" x2="1960" y2="560" stroke="#c00" stroke-width="1.3" stroke-dasharray="3,2"/>
+<line x1="1946" y1="600" x2="1960" y2="600" stroke="#c00" stroke-width="1.3" stroke-dasharray="3,2"/>
+<line x1="1946" y1="640" x2="1960" y2="640" stroke="#c00" stroke-width="1.3" stroke-dasharray="3,2"/>
+<path d="M440,140 L433,136.5 L433,143.5 Z" fill="#000"/>
+<path d="M440,164 L433,160.5 L433,167.5 Z" fill="#000"/>
+<path d="M440,188 L433,184.5 L433,191.5 Z" fill="#000"/>
+<path d="M440,212 L433,208.5 L433,215.5 Z" fill="#000"/>
+<path d="M440,252 L433,248.5 L433,255.5 Z" fill="#000"/>
+<path d="M440,276 L433,272.5 L433,279.5 Z" fill="#000"/>
+<path d="M440,336 L433,332.5 L433,339.5 Z" fill="#000"/>
+<path d="M440,360 L433,356.5 L433,363.5 Z" fill="#000"/>
+<path d="M440,384 L433,380.5 L433,387.5 Z" fill="#000"/>
+<path d="M440,408 L433,404.5 L433,411.5 Z" fill="#000"/>
+<path d="M440,432 L433,428.5 L433,435.5 Z" fill="#000"/>
+<path d="M440,480 L433,476.5 L433,483.5 Z" fill="#000"/>
+<path d="M440,504 L433,500.5 L433,507.5 Z" fill="#000"/>
+<path d="M820,360 L813,356.5 L813,363.5 Z" fill="#000"/>
+<path d="M820,384 L813,380.5 L813,387.5 Z" fill="#000"/>
+<path d="M820,408 L813,404.5 L813,411.5 Z" fill="#000"/>
+<path d="M820,432 L813,428.5 L813,435.5 Z" fill="#000"/>
+<path d="M820,456 L813,452.5 L813,459.5 Z" fill="#000"/>
+<path d="M820,496 L813,492.5 L813,499.5 Z" fill="#000"/>
+<path d="M820,520 L813,516.5 L813,523.5 Z" fill="#000"/>
+<path d="M820,548 L813,544.5 L813,551.5 Z" fill="#000"/>
+<path d="M820,572 L813,568.5 L813,575.5 Z" fill="#000"/>
+<path d="M820,596 L813,592.5 L813,599.5 Z" fill="#000"/>
+<path d="M820,640 L813,636.5 L813,643.5 Z" fill="#000"/>
+<path d="M820,664 L813,660.5 L813,667.5 Z" fill="#000"/>
+<path d="M1220,158 L1213,154.5 L1213,161.5 Z" fill="#000"/>
+<path d="M1220,238 L1213,234.5 L1213,241.5 Z" fill="#000"/>
+<path d="M1220,318 L1213,314.5 L1213,321.5 Z" fill="#000"/>
+<path d="M1220,398 L1213,394.5 L1213,401.5 Z" fill="#000"/>
+<path d="M1220,478 L1213,474.5 L1213,481.5 Z" fill="#000"/>
+<path d="M1520,134 L1513,130.5 L1513,137.5 Z" fill="#000"/>
+<path d="M1520,158 L1513,154.5 L1513,161.5 Z" fill="#000"/>
+<path d="M1520,238 L1513,234.5 L1513,241.5 Z" fill="#000"/>
+<path d="M1520,318 L1513,314.5 L1513,321.5 Z" fill="#000"/>
+<path d="M1520,398 L1513,394.5 L1513,401.5 Z" fill="#000"/>
+<path d="M1520,478 L1513,474.5 L1513,481.5 Z" fill="#000"/>
+<path d="M440,870 L433,866.5 L433,873.5 Z" fill="#000"/>
+<path d="M440,894 L433,890.5 L433,897.5 Z" fill="#000"/>
+<path d="M440,918 L433,914.5 L433,921.5 Z" fill="#000"/>
+<path d="M440,980 L433,976.5 L433,983.5 Z" fill="#000"/>
+<path d="M440,1004 L433,1000.5 L433,1007.5 Z" fill="#000"/>
+<path d="M820,870 L813,866.5 L813,873.5 Z" fill="#000"/>
+<path d="M820,918 L813,914.5 L813,921.5 Z" fill="#000"/>
+<path d="M820,980 L813,976.5 L813,983.5 Z" fill="#000"/>
+<path d="M820,1004 L813,1000.5 L813,1007.5 Z" fill="#000"/>
+<path d="M1200,870 L1193,866.5 L1193,873.5 Z" fill="#000"/>
+<path d="M1200,1018 L1193,1014.5 L1193,1021.5 Z" fill="#000"/>
+<path d="M1200,980 L1193,976.5 L1193,983.5 Z" fill="#000"/>
+<path d="M1200,1004 L1193,1000.5 L1193,1007.5 Z" fill="#000"/>
+<rect x="257" y="61" width="6" height="6" fill="#000"/>
+<rect x="257" y="137" width="6" height="6" fill="#000"/>
+<rect x="257" y="161" width="6" height="6" fill="#000"/>
+<rect x="257" y="185" width="6" height="6" fill="#000"/>
+<rect x="257" y="233" width="6" height="6" fill="#000"/>
+<rect x="257" y="257" width="6" height="6" fill="#000"/>
+<rect x="257" y="357" width="6" height="6" fill="#000"/>
+<rect x="257" y="381" width="6" height="6" fill="#000"/>
+<rect x="257" y="405" width="6" height="6" fill="#000"/>
+<rect x="257" y="429" width="6" height="6" fill="#000"/>
+<rect x="257" y="545" width="6" height="6" fill="#000"/>
+<rect x="257" y="569" width="6" height="6" fill="#000"/>
+<rect x="257" y="593" width="6" height="6" fill="#000"/>
+<rect x="257" y="867" width="6" height="6" fill="#000"/>
+<rect x="1957" y="81" width="6" height="6" fill="#000"/>
+<rect x="1957" y="155" width="6" height="6" fill="#000"/>
+<rect x="1957" y="235" width="6" height="6" fill="#000"/>
+<rect x="1957" y="557" width="6" height="6" fill="#000"/>
+<rect x="1957" y="597" width="6" height="6" fill="#000"/>
+<rect x="1957" y="637" width="6" height="6" fill="#000"/>
+<rect x="1957" y="867" width="6" height="6" fill="#000"/>
+<rect x="1957" y="891" width="6" height="6" fill="#000"/>
+<rect x="1957" y="1057" width="6" height="6" fill="#000"/>
+<rect x="1957" y="1077" width="6" height="6" fill="#000"/>
+<rect x="1957" y="1097" width="6" height="6" fill="#000"/>
+<circle cx="1185" cy="238" r="3.6" fill="#000"/>
+<circle cx="1185" cy="318" r="3.6" fill="#000"/>
+<circle cx="1185" cy="398" r="3.6" fill="#000"/>
+<circle cx="1185" cy="384" r="3.6" fill="#000"/>
+<circle cx="1840" cy="158" r="3.6" fill="#000"/>
+<circle cx="1820" cy="238" r="3.6" fill="#000"/>
+<circle cx="760" cy="918" r="3.6" fill="#000"/>
+<circle cx="1140" cy="870" r="3.6" fill="#000"/>
+<circle cx="1120" cy="1018" r="3.6" fill="#000"/>
+<circle cx="1120" cy="1050" r="3.6" fill="#000"/>
+<text x="580.0" y="116" font-size="11" text-anchor="middle">release</text>
+<text x="580.0" y="132" font-size="13" text-anchor="middle" font-weight="bold">u_release</text>
+<text x="445" y="144" font-size="11" text-anchor="start">release_en</text>
+<text x="445" y="168" font-size="11" text-anchor="start">[7:0] W</text>
+<text x="445" y="192" font-size="11" text-anchor="start">[7:0] admit_limit</text>
+<text x="445" y="216" font-size="11" text-anchor="start">square_finished</text>
+<text x="445" y="256" font-size="11" text-anchor="start">clk</text>
+<text x="445" y="280" font-size="11" text-anchor="start">rst</text>
+<text x="715" y="144" font-size="11" text-anchor="end">let_square</text>
+<text x="580.0" y="336" font-size="11" text-anchor="middle">packer</text>
+<text x="580.0" y="352" font-size="13" text-anchor="middle" font-weight="bold">u_packer</text>
+<text x="445" y="340" font-size="11" text-anchor="start">let_square</text>
+<text x="445" y="364" font-size="11" text-anchor="start">panel_valid</text>
+<text x="445" y="388" font-size="11" text-anchor="start">[7:0] panel_byte</text>
+<text x="445" y="412" font-size="11" text-anchor="start">[7:0] tile_id</text>
+<text x="445" y="436" font-size="11" text-anchor="start">panel_sel</text>
+<text x="445" y="484" font-size="11" text-anchor="start">clk</text>
+<text x="445" y="508" font-size="11" text-anchor="start">rst</text>
+<text x="715" y="364" font-size="11" text-anchor="end">rec_valid</text>
+<text x="715" y="388" font-size="11" text-anchor="end">[15:0] rec_seq</text>
+<text x="715" y="412" font-size="11" text-anchor="end">[7:0] rec_tile</text>
+<text x="715" y="436" font-size="11" text-anchor="end">rec_sel</text>
+<text x="715" y="460" font-size="11" text-anchor="end">[255:0] rec_payload</text>
+<text x="985.0" y="336" font-size="11" text-anchor="middle">ready_mem</text>
+<text x="985.0" y="352" font-size="13" text-anchor="middle" font-weight="bold">u_ready</text>
+<text x="825" y="364" font-size="11" text-anchor="start">rec_valid</text>
+<text x="825" y="388" font-size="11" text-anchor="start">[15:0] rec_seq</text>
+<text x="825" y="412" font-size="11" text-anchor="start">[7:0] rec_tile</text>
+<text x="825" y="436" font-size="11" text-anchor="start">rec_sel</text>
+<text x="825" y="460" font-size="11" text-anchor="start">[255:0] rec_payload</text>
+<text x="825" y="500" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="524" font-size="11" text-anchor="start">rst</text>
+<text x="825" y="552" font-size="11" text-anchor="start">other_valid</text>
+<text x="825" y="576" font-size="11" text-anchor="start">[255:0] other_flit</text>
+<text x="825" y="600" font-size="11" text-anchor="start">[31:0] other_deadline</text>
+<text x="825" y="644" font-size="11" text-anchor="start">[N_WIRES×8-1:0] grant_idx</text>
+<text x="825" y="668" font-size="11" text-anchor="start">[N_WIRES-1:0] consume</text>
+<text x="1145" y="348" font-size="11" text-anchor="end">[8:0] ready_count</text>
+<text x="1145" y="364" font-size="11" text-anchor="end">[REC_W-1:0] record</text>
+<text x="1145" y="388" font-size="11" text-anchor="end">[REC_W-1:0] score_rec</text>
+<text x="1330.0" y="126" font-size="11" text-anchor="middle">score_fcfs</text>
+<text x="1330.0" y="142" font-size="13" text-anchor="middle" font-weight="bold">u_fcfs</text>
+<text x="1225" y="162" font-size="11" text-anchor="start">[REC_W-1:0] record</text>
+<text x="1435" y="162" font-size="11" text-anchor="end">[31:0] score</text>
+<text x="1330.0" y="206" font-size="11" text-anchor="middle">score_edf</text>
+<text x="1330.0" y="222" font-size="13" text-anchor="middle" font-weight="bold">u_edf</text>
+<text x="1225" y="242" font-size="11" text-anchor="start">[REC_W-1:0] record</text>
+<text x="1435" y="242" font-size="11" text-anchor="end">[31:0] score</text>
+<text x="1330.0" y="286" font-size="11" text-anchor="middle">score_firing</text>
+<text x="1330.0" y="302" font-size="13" text-anchor="middle" font-weight="bold">u_firing</text>
+<text x="1225" y="322" font-size="11" text-anchor="start">[REC_W-1:0] record</text>
+<text x="1435" y="322" font-size="11" text-anchor="end">[31:0] score</text>
+<text x="1330.0" y="366" font-size="11" text-anchor="middle">score_shared</text>
+<text x="1330.0" y="382" font-size="13" text-anchor="middle" font-weight="bold">u_shared</text>
+<text x="1225" y="402" font-size="11" text-anchor="start">[REC_W-1:0] record</text>
+<text x="1435" y="402" font-size="11" text-anchor="end">[31:0] score</text>
+<text x="1330.0" y="446" font-size="11" text-anchor="middle">score_row</text>
+<text x="1330.0" y="462" font-size="13" text-anchor="middle" font-weight="bold">u_row</text>
+<text x="1225" y="482" font-size="11" text-anchor="start">[REC_W-1:0] record</text>
+<text x="1435" y="482" font-size="11" text-anchor="end">[31:0] score</text>
+<text x="1660.0" y="116" font-size="11" text-anchor="middle">scheduler</text>
+<text x="1660.0" y="132" font-size="13" text-anchor="middle" font-weight="bold">u_sched</text>
+<text x="1525" y="138" font-size="11" text-anchor="start">[2:0] policy_id</text>
+<text x="1525" y="162" font-size="11" text-anchor="start">[31:0] score_fcfs</text>
+<text x="1525" y="242" font-size="11" text-anchor="start">[31:0] score_edf</text>
+<text x="1525" y="322" font-size="11" text-anchor="start">[31:0] score_firing</text>
+<text x="1525" y="402" font-size="11" text-anchor="start">[31:0] score_shared</text>
+<text x="1525" y="482" font-size="11" text-anchor="start">[31:0] score_row</text>
+<text x="1795" y="162" font-size="11" text-anchor="end">[N_WIRES-1:0] grant_valid</text>
+<text x="1795" y="242" font-size="11" text-anchor="end">[N_WIRES×8-1:0] grant_idx</text>
+<text x="580.0" y="831" font-size="11" text-anchor="middle">credit</text>
+<text x="580.0" y="847" font-size="13" text-anchor="middle" font-weight="bold">u_credit</text>
+<text x="445" y="874" font-size="11" text-anchor="start">[N_WIRES-1:0] send_en</text>
+<text x="445" y="898" font-size="11" text-anchor="start">[N_WIRES-1:0] grant_valid</text>
+<text x="445" y="922" font-size="11" text-anchor="start">credit_return</text>
+<text x="445" y="984" font-size="11" text-anchor="start">clk</text>
+<text x="445" y="1008" font-size="11" text-anchor="start">rst</text>
+<text x="715" y="922" font-size="11" text-anchor="end">[N_WIRES-1:0] pass_en</text>
+<text x="715" y="946" font-size="11" text-anchor="end">gt0</text>
+<text x="715" y="970" font-size="11" text-anchor="end">[7:0] credit_count</text>
+<text x="960.0" y="831" font-size="11" text-anchor="middle">phy_box</text>
+<text x="960.0" y="847" font-size="13" text-anchor="middle" font-weight="bold">u_phy</text>
+<text x="825" y="874" font-size="11" text-anchor="start">[REC_W-1:0] record</text>
+<text x="825" y="922" font-size="11" text-anchor="start">[N_WIRES-1:0] pass_en</text>
+<text x="825" y="984" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="1008" font-size="11" text-anchor="start">rst</text>
+<text x="1095" y="874" font-size="11" text-anchor="end">[255:0] out_flit</text>
+<text x="1095" y="898" font-size="11" text-anchor="end">out_valid</text>
+<text x="1340.0" y="831" font-size="11" text-anchor="middle">unpack</text>
+<text x="1340.0" y="847" font-size="13" text-anchor="middle" font-weight="bold">u_unpack</text>
+<text x="1205" y="874" font-size="11" text-anchor="start">[255:0] flit</text>
+<text x="1205" y="1022" font-size="11" text-anchor="start">in_valid</text>
+<text x="1205" y="984" font-size="11" text-anchor="start">clk</text>
+<text x="1205" y="1008" font-size="11" text-anchor="start">rst</text>
+<text x="1475" y="874" font-size="11" text-anchor="end">[7:0] out_tile</text>
+<text x="1475" y="898" font-size="11" text-anchor="end">out_panel_sel</text>
+<text x="1475" y="922" font-size="11" text-anchor="end">[7:0] panel_byte</text>
+<text x="250" y="69" font-size="14" text-anchor="end">[2:0] policy_id</text>
+<text x="250" y="145" font-size="14" text-anchor="end">release_en</text>
+<text x="250" y="169" font-size="14" text-anchor="end">[7:0] W</text>
+<text x="250" y="193" font-size="14" text-anchor="end">[7:0] admit_limit</text>
+<text x="250" y="241" font-size="14" text-anchor="end">clk</text>
+<text x="250" y="265" font-size="14" text-anchor="end">rst</text>
+<text x="250" y="365" font-size="14" text-anchor="end">panel_valid</text>
+<text x="250" y="389" font-size="14" text-anchor="end">[7:0] panel_byte</text>
+<text x="250" y="413" font-size="14" text-anchor="end">[7:0] tile_id</text>
+<text x="250" y="437" font-size="14" text-anchor="end">panel_sel</text>
+<text x="250" y="553" font-size="14" text-anchor="end">other_valid</text>
+<text x="250" y="577" font-size="14" text-anchor="end">[255:0] other_flit</text>
+<text x="250" y="601" font-size="14" text-anchor="end">[31:0] other_deadline</text>
+<text x="250" y="875" font-size="14" text-anchor="end">[N_WIRES-1:0] send_en</text>
+<text x="1970" y="89" font-size="14" text-anchor="start">[8:0] ready_count</text>
+<text x="1970" y="163" font-size="14" text-anchor="start">[N_WIRES-1:0] grant_valid</text>
+<text x="1970" y="243" font-size="14" text-anchor="start">[N_WIRES×8-1:0] grant_idx</text>
+<text x="1970" y="565" font-size="14" text-anchor="start">first_done</text>
+<text x="1970" y="605" font-size="14" text-anchor="start">wave_done</text>
+<text x="1970" y="645" font-size="14" text-anchor="start">[N_TILES×32-1:0] t_last_bus</text>
+<text x="1970" y="875" font-size="14" text-anchor="start">[7:0] out_tile</text>
+<text x="1970" y="899" font-size="14" text-anchor="start">out_panel_sel</text>
+<text x="1970" y="1065" font-size="14" text-anchor="start">[255:0] out_flit</text>
+<text x="1970" y="1085" font-size="14" text-anchor="start">out_valid</text>
+<text x="1970" y="1105" font-size="14" text-anchor="start">[7:0] credit_count</text>
+<text x="1110.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">hop_processing</text>
+<text x="1446" y="152" font-size="10" text-anchor="start" font-style="italic" fill="#444">score_fcfs</text>
+<text x="1446" y="232" font-size="10" text-anchor="start" font-style="italic" fill="#444">score_edf</text>
+<text x="1446" y="312" font-size="10" text-anchor="start" font-style="italic" fill="#444">score_firing</text>
+<text x="1446" y="392" font-size="10" text-anchor="start" font-style="italic" fill="#444">score_shared</text>
+<text x="1446" y="472" font-size="10" text-anchor="start" font-style="italic" fill="#444">score_row</text>
+<text x="1300" y="775" font-size="10" text-anchor="start" font-style="italic" fill="#444">grant_valid</text>
+<text x="1300" y="755" font-size="10" text-anchor="start" font-style="italic" fill="#444">grant_idx</text>
+<text x="713" y="700" font-size="10" text-anchor="start" font-style="italic" fill="#444">pass_en</text>
+<text x="1148" y="864" font-size="10" text-anchor="start" font-style="italic" fill="#444">out_flit</text>
+<text x="418" y="255.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="418" y="483.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="499.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="418" y="983.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="983.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="1178" y="983.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="418" y="279.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="418" y="507.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="798" y="523.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="418" y="1007.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="798" y="1007.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="1178" y="1007.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="422" y="215.5" font-size="10" text-anchor="end" font-style="italic" fill="#c00">no driver · F3</text>
+<text x="738" y="945.5" font-size="10" text-anchor="start" font-style="italic" fill="#c00">unused · F12</text>
+<text x="1498" y="921.5" font-size="10" text-anchor="start" font-style="italic" fill="#c00">unused · F21</text>
+<text x="1942" y="563.5" font-size="10" text-anchor="end" font-style="italic" fill="#c00">no driver · F5</text>
+<text x="1942" y="603.5" font-size="10" text-anchor="end" font-style="italic" fill="#c00">no driver · F5</text>
+<text x="1942" y="643.5" font-size="10" text-anchor="end" font-style="italic" fill="#c00">no driver · F5</text>
+<a href="#release"><rect class="hot" x="440" y="100" width="280" height="200" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_release</title></rect></a>
+<a href="#packer"><rect class="hot" x="440" y="320" width="280" height="210" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_packer</title></rect></a>
+<a href="#ready"><rect class="hot" x="820" y="320" width="330" height="420" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_ready</title></rect></a>
+<a href="#sched"><rect class="hot" x="1520" y="100" width="280" height="400" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_sched</title></rect></a>
+<a href="#credit"><rect class="hot" x="440" y="815" width="280" height="215" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_credit</title></rect></a>
+<a href="#phy"><rect class="hot" x="820" y="815" width="280" height="215" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_phy</title></rect></a>
+<a href="#unpack"><rect class="hot" x="1200" y="815" width="280" height="215" fill="#1f6feb" fill-opacity="0" stroke="none" style="cursor:pointer"><title>open u_unpack</title></rect></a>
+</svg>
+</section>
+<section id="v-fsm"><div class="bar"><b>L3 - inside u_cu/u_fsm (release_fsm)</b><a class="up" href="#cu">&uarr; up to cu (box u_fsm)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" width="1600" height="600" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1600" height="600" fill="#fff"/>
+<rect x="250" y="20" width="1100" height="560" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="700" y="80" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="450" y="157" width="90" height="30" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="980" y="137" width="90" height="60" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="700" y="300" width="180" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="560" y="352" width="72" height="80" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="400" y="377" width="110" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="980" y="508" width="86" height="24" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="850,152 980,152" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="880,152 880,60 420,60 420,172 450,172" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="540,172 700,172" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="880,372 950,372 950,182 980,182" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="910,372 910,450 380,450 380,392 400,392" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="540,450 540,412 560,412" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="510,392 560,392" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="632,392 700,392" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1070,167 1350,167" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,167 1100,250 530,250 530,372 560,372" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1066,520 1350,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="300" x2="264" y2="300" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="300" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="686" y1="132" x2="700" y2="132" stroke="#000" stroke-width="1.3"/>
+<circle cx="683" cy="132" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="686" y1="352" x2="700" y2="352" stroke="#000" stroke-width="1.3"/>
+<circle cx="683" cy="352" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="324" x2="264" y2="324" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="324" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="686" y1="152" x2="700" y2="152" stroke="#000" stroke-width="1.3"/>
+<circle cx="683" cy="152" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="686" y1="372" x2="700" y2="372" stroke="#000" stroke-width="1.3"/>
+<circle cx="683" cy="372" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M700,132 L693,128.5 L693,135.5 Z" fill="#000"/>
+<path d="M700,152 L693,148.5 L693,155.5 Z" fill="#000"/>
+<path d="M700,172 L693,168.5 L693,175.5 Z" fill="#000"/>
+<path d="M450,172 L443,168.5 L443,175.5 Z" fill="#000"/>
+<path d="M980,152 L973,148.5 L973,155.5 Z" fill="#000"/>
+<path d="M980,182 L973,178.5 L973,185.5 Z" fill="#000"/>
+<path d="M700,352 L693,348.5 L693,355.5 Z" fill="#000"/>
+<path d="M700,372 L693,368.5 L693,375.5 Z" fill="#000"/>
+<path d="M700,392 L693,388.5 L693,395.5 Z" fill="#000"/>
+<path d="M560,372 L553,368.5 L553,375.5 Z" fill="#000"/>
+<path d="M560,392 L553,388.5 L553,395.5 Z" fill="#000"/>
+<path d="M560,412 L553,408.5 L553,415.5 Z" fill="#000"/>
+<path d="M400,392 L393,388.5 L393,395.5 Z" fill="#000"/>
+<rect x="247" y="297" width="6" height="6" fill="#000"/>
+<rect x="247" y="321" width="6" height="6" fill="#000"/>
+<rect x="1347" y="164" width="6" height="6" fill="#000"/>
+<rect x="1347" y="517" width="6" height="6" fill="#000"/>
+<circle cx="880" cy="152" r="3.6" fill="#000"/>
+<circle cx="540" cy="450" r="3.6" fill="#000"/>
+<circle cx="910" cy="372" r="3.6" fill="#000"/>
+<circle cx="1100" cy="167" r="3.6" fill="#000"/>
+<text x="775.0" y="96" font-size="11" text-anchor="middle">dreg · 32 DFF</text>
+<text x="775.0" y="112" font-size="13" text-anchor="middle" font-weight="bold">u_t</text>
+<text x="705" y="136" font-size="11" text-anchor="start">clk</text>
+<text x="705" y="156" font-size="11" text-anchor="start">rst</text>
+<text x="705" y="176" font-size="11" text-anchor="start">[31:0] d</text>
+<text x="845" y="156" font-size="11" text-anchor="end">[31:0] q</text>
+<text x="495.0" y="176.2" font-size="12" text-anchor="middle" font-weight="bold">+ 1</text>
+<text x="1025.0" y="173.3" font-size="18" text-anchor="middle" font-weight="bold">&gt;=</text>
+<text x="790.0" y="316" font-size="11" text-anchor="middle">dreg · 32 DFF · rst T_0</text>
+<text x="790.0" y="332" font-size="13" text-anchor="middle" font-weight="bold">u_k_cnt</text>
+<text x="705" y="356" font-size="11" text-anchor="start">clk</text>
+<text x="705" y="376" font-size="11" text-anchor="start">rst</text>
+<text x="705" y="396" font-size="11" text-anchor="start">[31:0] d</text>
+<text x="875" y="376" font-size="11" text-anchor="end">[31:0] q</text>
+<text x="604.64" y="418.4" font-size="10" text-anchor="middle" font-weight="bold">mux</text>
+<text x="565" y="376" font-size="11" text-anchor="start">sel</text>
+<text x="565" y="396" font-size="11" text-anchor="start">1</text>
+<text x="565" y="416" font-size="11" text-anchor="start">0</text>
+<text x="455.0" y="396.2" font-size="12" text-anchor="middle" font-weight="bold">+ C_TILE</text>
+<text x="1023.0" y="524.2" font-size="12" text-anchor="middle" font-weight="bold">W</text>
+<text x="240" y="305" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="329" font-size="14" text-anchor="end">rst</text>
+<text x="1360" y="172" font-size="14" text-anchor="start">release_en</text>
+<text x="1360" y="525" font-size="14" text-anchor="start">[7:0] W</text>
+<text x="800.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">release_fsm</text>
+<text x="600" y="55" font-size="10" text-anchor="start" font-style="italic" fill="#444">t</text>
+<text x="600" y="166" font-size="10" text-anchor="start" font-style="italic" fill="#444">t_next</text>
+<text x="700" y="445" font-size="10" text-anchor="start" font-style="italic" fill="#444">k_cnt</text>
+<text x="700" y="245" font-size="10" text-anchor="start" font-style="italic" fill="#444">release_en</text>
+<text x="678" y="135.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="678" y="355.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="678" y="155.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="678" y="375.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>
+</section>
+<section id="v-release"><div class="bar"><b>L3 - inside u_pu/u_release (release, 5g)</b><a class="up" href="#pu">&uarr; up to pu (box u_release)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 560" width="1600" height="560" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1600" height="560" fill="#fff"/>
+<rect x="250" y="20" width="1100" height="520" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="560" y="150" width="130" height="60" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="820" y="140" width="80" height="60" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="820" y="300" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="400" y="352" width="70" height="40" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="560" y="362" width="100" height="80" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<polyline points="250,185 560,185" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,300 520,300 520,170 560,170" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="690,176 780,176 780,185 820,185" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="970,372 990,372 990,110 800,110 800,155 820,155" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="990,372 990,500 545,500 545,427 560,427" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="900,170 1350,170" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="940,170 940,250 380,250 380,362 400,362" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,382 400,382" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="470,377 560,377" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,402 560,402" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="660,392 820,392" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="220" x2="264" y2="220" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="220" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="352" x2="820" y2="352" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="352" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="244" x2="264" y2="244" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="244" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="372" x2="820" y2="372" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="372" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M560,170 L553,166.5 L553,173.5 Z" fill="#000"/>
+<path d="M560,185 L553,181.5 L553,188.5 Z" fill="#000"/>
+<path d="M820,155 L813,151.5 L813,158.5 Z" fill="#000"/>
+<path d="M820,185 L813,181.5 L813,188.5 Z" fill="#000"/>
+<path d="M820,352 L813,348.5 L813,355.5 Z" fill="#000"/>
+<path d="M820,372 L813,368.5 L813,375.5 Z" fill="#000"/>
+<path d="M820,392 L813,388.5 L813,395.5 Z" fill="#000"/>
+<path d="M400,362 L393,358.5 L393,365.5 Z" fill="#000"/>
+<path d="M400,382 L393,378.5 L393,385.5 Z" fill="#000"/>
+<path d="M560,377 L553,373.5 L553,380.5 Z" fill="#000"/>
+<path d="M560,402 L553,398.5 L553,405.5 Z" fill="#000"/>
+<path d="M560,427 L553,423.5 L553,430.5 Z" fill="#000"/>
+<rect x="247" y="182" width="6" height="6" fill="#000"/>
+<rect x="247" y="217" width="6" height="6" fill="#000"/>
+<rect x="247" y="241" width="6" height="6" fill="#000"/>
+<rect x="247" y="297" width="6" height="6" fill="#000"/>
+<rect x="247" y="379" width="6" height="6" fill="#000"/>
+<rect x="247" y="399" width="6" height="6" fill="#000"/>
+<rect x="1347" y="167" width="6" height="6" fill="#000"/>
+<circle cx="990" cy="372" r="3.6" fill="#000"/>
+<circle cx="940" cy="170" r="3.6" fill="#000"/>
+<text x="625.0" y="184.2" font-size="12" text-anchor="middle" font-weight="bold">min</text>
+<text x="860.0" y="176.3" font-size="18" text-anchor="middle" font-weight="bold">&lt;</text>
+<text x="895.0" y="316" font-size="11" text-anchor="middle">dreg · 8 DFF</text>
+<text x="895.0" y="332" font-size="13" text-anchor="middle" font-weight="bold">u_admitted</text>
+<text x="825" y="356" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="376" font-size="11" text-anchor="start">rst</text>
+<text x="825" y="396" font-size="11" text-anchor="start">[7:0] d</text>
+<text x="965" y="376" font-size="11" text-anchor="end">[7:0] q</text>
+<text x="435.0" y="378.3" font-size="18" text-anchor="middle" font-weight="bold">&amp;</text>
+<text x="610.0" y="406.2" font-size="12" text-anchor="middle" font-weight="bold">+ −</text>
+<text x="240" y="190" font-size="14" text-anchor="end">[7:0] admit_limit</text>
+<text x="240" y="225" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="249" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="305" font-size="14" text-anchor="end">[7:0] W</text>
+<text x="240" y="387" font-size="14" text-anchor="end">release_en</text>
+<text x="240" y="407" font-size="14" text-anchor="end">square_finished</text>
+<text x="1360" y="175" font-size="14" text-anchor="start">let_square</text>
+<text x="800.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">release</text>
+<text x="800" y="495" font-size="10" text-anchor="start" font-style="italic" fill="#444">admitted</text>
+<text x="600" y="245" font-size="10" text-anchor="start" font-style="italic" fill="#444">let_square</text>
+<text x="478" y="371" font-size="10" text-anchor="start" font-style="italic" fill="#444">admit_now</text>
+<text x="700" y="386" font-size="10" text-anchor="start" font-style="italic" fill="#444">admitted_d</text>
+<text x="798" y="355.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="375.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>
+</section>
+<section id="v-packer"><div class="bar"><b>L3 - inside u_pu/u_packer (packer, 5a)</b><a class="up" href="#pu">&uarr; up to pu (box u_packer)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1750 720" width="1750" height="720" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1750" height="720" fill="#fff"/>
+<rect x="250" y="20" width="1250" height="680" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="330" y="70" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="540" y="127" width="70" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="740" y="60" width="90" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="640" y="150" width="76" height="24" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="740" y="122" width="72" height="80" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="740" y="250" width="130" height="170" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="950" y="258" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="640" y="318" width="76" height="24" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="520" y="340" width="110" height="45" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="560" y="268" width="64" height="56" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="740" y="500" width="72" height="80" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="950" y="448" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="1160" y="505" width="70" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="480,142 540,142" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="610,142 625,142 625,75 740,75" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="625,142 625,190 725,190 725,182 740,182" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="716,162 740,162" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="812,162 840,162 840,215 310,215 310,162 330,162" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="830,75 1500,75" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="880,75 880,490 725,490 725,520 740,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="880,105 725,105 725,142 740,142" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="880,235 720,235 720,270 740,270" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,260 520,260 520,286 560,286" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,300 530,300 530,304 560,304" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="624,294 700,294 700,300 740,300" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="716,330 740,330" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,352 520,352" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="630,360 740,360" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="870,350 950,350" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,330 1500,330" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1130,330 1130,440 500,440 500,372 520,372" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="720,440 720,390 740,390" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="812,540 950,540" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,520 1160,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1130,520 1130,580 715,580 715,560 740,560" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1230,520 1500,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1260,520 1260,600 700,600 700,540 740,540" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,650 1500,650" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,674 1500,674" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="400" x2="264" y2="400" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="400" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="936" y1="310" x2="950" y2="310" stroke="#000" stroke-width="1.3"/>
+<circle cx="933" cy="310" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="316" y1="122" x2="330" y2="122" stroke="#000" stroke-width="1.3"/>
+<circle cx="313" cy="122" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="936" y1="500" x2="950" y2="500" stroke="#000" stroke-width="1.3"/>
+<circle cx="933" cy="500" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="424" x2="264" y2="424" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="424" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="936" y1="330" x2="950" y2="330" stroke="#000" stroke-width="1.3"/>
+<circle cx="933" cy="330" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="316" y1="142" x2="330" y2="142" stroke="#000" stroke-width="1.3"/>
+<circle cx="313" cy="142" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="936" y1="520" x2="950" y2="520" stroke="#000" stroke-width="1.3"/>
+<circle cx="933" cy="520" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M330,122 L323,118.5 L323,125.5 Z" fill="#000"/>
+<path d="M330,142 L323,138.5 L323,145.5 Z" fill="#000"/>
+<path d="M330,162 L323,158.5 L323,165.5 Z" fill="#000"/>
+<path d="M540,142 L533,138.5 L533,145.5 Z" fill="#000"/>
+<path d="M740,75 L733,71.5 L733,78.5 Z" fill="#000"/>
+<path d="M740,142 L733,138.5 L733,145.5 Z" fill="#000"/>
+<path d="M740,162 L733,158.5 L733,165.5 Z" fill="#000"/>
+<path d="M740,182 L733,178.5 L733,185.5 Z" fill="#000"/>
+<path d="M740,270 L733,266.5 L733,273.5 Z" fill="#000"/>
+<path d="M740,300 L733,296.5 L733,303.5 Z" fill="#000"/>
+<path d="M740,330 L733,326.5 L733,333.5 Z" fill="#000"/>
+<path d="M740,360 L733,356.5 L733,363.5 Z" fill="#000"/>
+<path d="M740,390 L733,386.5 L733,393.5 Z" fill="#000"/>
+<path d="M950,310 L943,306.5 L943,313.5 Z" fill="#000"/>
+<path d="M950,330 L943,326.5 L943,333.5 Z" fill="#000"/>
+<path d="M950,350 L943,346.5 L943,353.5 Z" fill="#000"/>
+<path d="M520,352 L513,348.5 L513,355.5 Z" fill="#000"/>
+<path d="M520,372 L513,368.5 L513,375.5 Z" fill="#000"/>
+<path d="M560,286 L553,282.5 L553,289.5 Z" fill="#000"/>
+<path d="M560,304 L553,300.5 L553,307.5 Z" fill="#000"/>
+<path d="M740,520 L733,516.5 L733,523.5 Z" fill="#000"/>
+<path d="M740,540 L733,536.5 L733,543.5 Z" fill="#000"/>
+<path d="M740,560 L733,556.5 L733,563.5 Z" fill="#000"/>
+<path d="M950,500 L943,496.5 L943,503.5 Z" fill="#000"/>
+<path d="M950,520 L943,516.5 L943,523.5 Z" fill="#000"/>
+<path d="M950,540 L943,536.5 L943,543.5 Z" fill="#000"/>
+<path d="M1160,520 L1153,516.5 L1153,523.5 Z" fill="#000"/>
+<rect x="247" y="297" width="6" height="6" fill="#000"/>
+<rect x="247" y="349" width="6" height="6" fill="#000"/>
+<rect x="247" y="397" width="6" height="6" fill="#000"/>
+<rect x="247" y="421" width="6" height="6" fill="#000"/>
+<rect x="247" y="647" width="6" height="6" fill="#000"/>
+<rect x="247" y="671" width="6" height="6" fill="#000"/>
+<rect x="1497" y="72" width="6" height="6" fill="#000"/>
+<rect x="1497" y="327" width="6" height="6" fill="#000"/>
+<rect x="1497" y="517" width="6" height="6" fill="#000"/>
+<rect x="1497" y="647" width="6" height="6" fill="#000"/>
+<rect x="1497" y="671" width="6" height="6" fill="#000"/>
+<rect x="247" y="257" width="6" height="6" fill="#000"/>
+<circle cx="625" cy="142" r="3.6" fill="#000"/>
+<circle cx="880" cy="75" r="3.6" fill="#000"/>
+<circle cx="880" cy="235" r="3.6" fill="#000"/>
+<circle cx="880" cy="105" r="3.6" fill="#000"/>
+<circle cx="720" cy="440" r="3.6" fill="#000"/>
+<circle cx="1130" cy="330" r="3.6" fill="#000"/>
+<circle cx="1130" cy="520" r="3.6" fill="#000"/>
+<circle cx="1260" cy="520" r="3.6" fill="#000"/>
+<text x="405.0" y="86" font-size="11" text-anchor="middle">dreg · 6 DFF</text>
+<text x="405.0" y="102" font-size="13" text-anchor="middle" font-weight="bold">u_cnt</text>
+<text x="335" y="126" font-size="11" text-anchor="start">clk</text>
+<text x="335" y="146" font-size="11" text-anchor="start">rst</text>
+<text x="335" y="166" font-size="11" text-anchor="start">[5:0] d</text>
+<text x="475" y="146" font-size="11" text-anchor="end">[5:0] q</text>
+<text x="575.0" y="146.2" font-size="12" text-anchor="middle" font-weight="bold">+ 1</text>
+<text x="785.0" y="79.2" font-size="12" text-anchor="middle" font-weight="bold">== 32</text>
+<text x="678.0" y="166.2" font-size="12" text-anchor="middle" font-weight="bold">6'd0</text>
+<text x="784.64" y="188.4" font-size="10" text-anchor="middle" font-weight="bold">mux</text>
+<text x="745" y="146" font-size="11" text-anchor="start">sel</text>
+<text x="745" y="166" font-size="11" text-anchor="start">1</text>
+<text x="745" y="186" font-size="11" text-anchor="start">0</text>
+<text x="805.0" y="384.2" font-size="12" text-anchor="middle" font-weight="bold">word_mux</text>
+<text x="745" y="274" font-size="11" text-anchor="start">fire</text>
+<text x="745" y="304" font-size="11" text-anchor="start">valid</text>
+<text x="745" y="334" font-size="11" text-anchor="start">zero</text>
+<text x="745" y="364" font-size="11" text-anchor="start">shifted</text>
+<text x="745" y="394" font-size="11" text-anchor="start">hold</text>
+<text x="1025.0" y="274" font-size="11" text-anchor="middle">dreg · 256 DFF</text>
+<text x="1025.0" y="290" font-size="13" text-anchor="middle" font-weight="bold">u_word</text>
+<text x="955" y="314" font-size="11" text-anchor="start">clk</text>
+<text x="955" y="334" font-size="11" text-anchor="start">rst</text>
+<text x="955" y="354" font-size="11" text-anchor="start">[255:0] d</text>
+<text x="1095" y="334" font-size="11" text-anchor="end">[255:0] q</text>
+<text x="678.0" y="334.2" font-size="12" text-anchor="middle" font-weight="bold">256'd0</text>
+<text x="575.0" y="366.7" font-size="12" text-anchor="middle" font-weight="bold">{lo,byte}</text>
+<text x="592.0" y="302.3" font-size="18" text-anchor="middle" font-weight="bold">&amp;</text>
+<text x="784.64" y="566.4" font-size="10" text-anchor="middle" font-weight="bold">mux</text>
+<text x="745" y="524" font-size="11" text-anchor="start">sel</text>
+<text x="745" y="544" font-size="11" text-anchor="start">1</text>
+<text x="745" y="564" font-size="11" text-anchor="start">0</text>
+<text x="1025.0" y="464" font-size="11" text-anchor="middle">dreg · 16 DFF</text>
+<text x="1025.0" y="480" font-size="13" text-anchor="middle" font-weight="bold">u_seq</text>
+<text x="955" y="504" font-size="11" text-anchor="start">clk</text>
+<text x="955" y="524" font-size="11" text-anchor="start">rst</text>
+<text x="955" y="544" font-size="11" text-anchor="start">[15:0] d</text>
+<text x="1095" y="524" font-size="11" text-anchor="end">[15:0] q</text>
+<text x="1195.0" y="524.2" font-size="12" text-anchor="middle" font-weight="bold">+ 1</text>
+<text x="240" y="305" font-size="14" text-anchor="end">panel_valid</text>
+<text x="240" y="357" font-size="14" text-anchor="end">[7:0] panel_byte</text>
+<text x="240" y="405" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="429" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="655" font-size="14" text-anchor="end">[7:0] tile_id</text>
+<text x="240" y="679" font-size="14" text-anchor="end">panel_sel</text>
+<text x="1510" y="80" font-size="14" text-anchor="start">rec_valid</text>
+<text x="1510" y="335" font-size="14" text-anchor="start">[255:0] rec_payload</text>
+<text x="1510" y="525" font-size="14" text-anchor="start">[15:0] rec_seq</text>
+<text x="1510" y="655" font-size="14" text-anchor="start">[7:0] rec_tile</text>
+<text x="1510" y="679" font-size="14" text-anchor="start">rec_sel</text>
+<text x="240" y="265" font-size="14" text-anchor="end">let_square</text>
+<text x="875.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">packer</text>
+<text x="560" y="210" font-size="10" text-anchor="start" font-style="italic" fill="#444">cnt_d</text>
+<text x="950" y="69" font-size="10" text-anchor="start" font-style="italic" fill="#444">fire</text>
+<text x="950" y="435" font-size="10" text-anchor="start" font-style="italic" fill="#444">hold</text>
+<text x="950" y="575" font-size="10" text-anchor="start" font-style="italic" fill="#444">seq</text>
+<text x="950" y="595" font-size="10" text-anchor="start" font-style="italic" fill="#444">seq+1</text>
+<text x="928" y="313.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="308" y="125.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="928" y="503.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="928" y="333.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="308" y="145.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="928" y="523.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>
+</section>
+<section id="v-ready"><div class="bar"><b>L3 - inside u_pu/u_ready (ready, 5b)</b><a class="up" href="#pu">&uarr; up to pu (box u_ready)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 920" width="1800" height="920" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1800" height="920" fill="#fff"/>
+<rect x="250" y="20" width="1300" height="860" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="500" y="90" width="160" height="190" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="520" y="660" width="100" height="40" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="520" y="728" width="70" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="700" y="652" width="120" height="100" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="700" y="788" width="110" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="900" y="660" width="140" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="300" y="458" width="90" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="370" y="250" width="50" height="40" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="500" y="330" width="160" height="120" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="760" y="170" width="110" height="100" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="920" y="118" width="180" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1140" y="145" width="70" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1240" y="140" width="140" height="70" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="920" y="500" width="100" height="80" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1100" y="448" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,110 500,110" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,158 500,158" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,182 500,182" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,374 500,374" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,398 500,398" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,134 500,134" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="490,134 490,680 520,680" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,206 500,206" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="340,206 340,260 370,260" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,350 500,350" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="330,350 330,280 370,280" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="470,350 470,305 730,305 730,225 760,225" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="420,270 450,270 450,292 880,292 880,520 920,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="660,190 760,190" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="660,390 740,390 740,250 760,250" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="870,210 920,210" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,190 1240,190" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1200,190 1200,230 1550,230" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="620,680 660,680 660,672 700,672" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="590,740 700,740" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="820,700 860,700 860,690 900,690" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="810,800 860,800 860,760 900,760" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1040,720 1040,830 442,830 442,240 500,240" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="390,470 450,470 450,430 500,430" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,70 1120,70 1120,160 1140,160" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1210,160 1240,160" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1380,175 1550,175" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,545 920,545" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1020,540 1100,540" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1250,520 1550,520" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1280,520 1280,600 900,600 900,565 920,565" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="460" x2="264" y2="460" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="460" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="906" y1="170" x2="920" y2="170" stroke="#000" stroke-width="1.3"/>
+<circle cx="903" cy="170" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1086" y1="500" x2="1100" y2="500" stroke="#000" stroke-width="1.3"/>
+<circle cx="1083" cy="500" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="484" x2="264" y2="484" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="484" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="906" y1="190" x2="920" y2="190" stroke="#000" stroke-width="1.3"/>
+<circle cx="903" cy="190" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1086" y1="520" x2="1100" y2="520" stroke="#000" stroke-width="1.3"/>
+<circle cx="1083" cy="520" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M500,110 L493,106.5 L493,113.5 Z" fill="#000"/>
+<path d="M500,134 L493,130.5 L493,137.5 Z" fill="#000"/>
+<path d="M500,158 L493,154.5 L493,161.5 Z" fill="#000"/>
+<path d="M500,182 L493,178.5 L493,185.5 Z" fill="#000"/>
+<path d="M500,206 L493,202.5 L493,209.5 Z" fill="#000"/>
+<path d="M500,240 L493,236.5 L493,243.5 Z" fill="#000"/>
+<path d="M520,680 L513,676.5 L513,683.5 Z" fill="#000"/>
+<path d="M700,672 L693,668.5 L693,675.5 Z" fill="#000"/>
+<path d="M700,740 L693,736.5 L693,743.5 Z" fill="#000"/>
+<path d="M900,690 L893,686.5 L893,693.5 Z" fill="#000"/>
+<path d="M900,760 L893,756.5 L893,763.5 Z" fill="#000"/>
+<path d="M370,260 L363,256.5 L363,263.5 Z" fill="#000"/>
+<path d="M370,280 L363,276.5 L363,283.5 Z" fill="#000"/>
+<path d="M500,350 L493,346.5 L493,353.5 Z" fill="#000"/>
+<path d="M500,374 L493,370.5 L493,377.5 Z" fill="#000"/>
+<path d="M500,398 L493,394.5 L493,401.5 Z" fill="#000"/>
+<path d="M500,430 L493,426.5 L493,433.5 Z" fill="#000"/>
+<path d="M760,190 L753,186.5 L753,193.5 Z" fill="#000"/>
+<path d="M760,225 L753,221.5 L753,228.5 Z" fill="#000"/>
+<path d="M760,250 L753,246.5 L753,253.5 Z" fill="#000"/>
+<path d="M920,170 L913,166.5 L913,173.5 Z" fill="#000"/>
+<path d="M920,190 L913,186.5 L913,193.5 Z" fill="#000"/>
+<path d="M920,210 L913,206.5 L913,213.5 Z" fill="#000"/>
+<path d="M1140,160 L1133,156.5 L1133,163.5 Z" fill="#000"/>
+<path d="M1240,160 L1233,156.5 L1233,163.5 Z" fill="#000"/>
+<path d="M1240,190 L1233,186.5 L1233,193.5 Z" fill="#000"/>
+<path d="M920,520 L913,516.5 L913,523.5 Z" fill="#000"/>
+<path d="M920,545 L913,541.5 L913,548.5 Z" fill="#000"/>
+<path d="M920,565 L913,561.5 L913,568.5 Z" fill="#000"/>
+<path d="M1100,500 L1093,496.5 L1093,503.5 Z" fill="#000"/>
+<path d="M1100,520 L1093,516.5 L1093,523.5 Z" fill="#000"/>
+<path d="M1100,540 L1093,536.5 L1093,543.5 Z" fill="#000"/>
+<rect x="247" y="67" width="6" height="6" fill="#000"/>
+<rect x="247" y="107" width="6" height="6" fill="#000"/>
+<rect x="247" y="131" width="6" height="6" fill="#000"/>
+<rect x="247" y="155" width="6" height="6" fill="#000"/>
+<rect x="247" y="179" width="6" height="6" fill="#000"/>
+<rect x="247" y="203" width="6" height="6" fill="#000"/>
+<rect x="247" y="347" width="6" height="6" fill="#000"/>
+<rect x="247" y="371" width="6" height="6" fill="#000"/>
+<rect x="247" y="395" width="6" height="6" fill="#000"/>
+<rect x="247" y="457" width="6" height="6" fill="#000"/>
+<rect x="247" y="481" width="6" height="6" fill="#000"/>
+<rect x="247" y="542" width="6" height="6" fill="#000"/>
+<rect x="1547" y="172" width="6" height="6" fill="#000"/>
+<rect x="1547" y="227" width="6" height="6" fill="#000"/>
+<rect x="1547" y="517" width="6" height="6" fill="#000"/>
+<circle cx="490" cy="134" r="3.6" fill="#000"/>
+<circle cx="340" cy="206" r="3.6" fill="#000"/>
+<circle cx="330" cy="350" r="3.6" fill="#000"/>
+<circle cx="470" cy="350" r="3.6" fill="#000"/>
+<circle cx="1200" cy="190" r="3.6" fill="#000"/>
+<circle cx="1280" cy="520" r="3.6" fill="#000"/>
+<text x="580.0" y="189.2" font-size="12" text-anchor="middle" font-weight="bold">{ }</text>
+<text x="505" y="114" font-size="11" text-anchor="start">seq</text>
+<text x="505" y="138" font-size="11" text-anchor="start">tile</text>
+<text x="505" y="162" font-size="11" text-anchor="start">sel</text>
+<text x="505" y="186" font-size="11" text-anchor="start">payload</text>
+<text x="505" y="210" font-size="11" text-anchor="start">valid</text>
+<text x="505" y="244" font-size="11" text-anchor="start">rest</text>
+<text x="570.0" y="684.2" font-size="12" text-anchor="middle" font-weight="bold">&lt;&lt; 4</text>
+<text x="555.0" y="744.2" font-size="12" text-anchor="middle" font-weight="bold">40</text>
+<text x="760.0" y="708.3" font-size="18" text-anchor="middle" font-weight="bold">+</text>
+<text x="755.0" y="804.2" font-size="12" text-anchor="middle" font-weight="bold">16,1,0,1</text>
+<text x="970.0" y="719.2" font-size="12" text-anchor="middle" font-weight="bold">{ }</text>
+<text x="905" y="694" font-size="11" text-anchor="start">dl</text>
+<text x="905" y="764" font-size="11" text-anchor="start">tail</text>
+<text x="345.0" y="474.2" font-size="12" text-anchor="middle" font-weight="bold">flit=1</text>
+<text x="395.0" y="276.3" font-size="18" text-anchor="middle" font-weight="bold">|</text>
+<text x="580.0" y="394.2" font-size="12" text-anchor="middle" font-weight="bold">{ }</text>
+<text x="505" y="354" font-size="11" text-anchor="start">valid</text>
+<text x="505" y="378" font-size="11" text-anchor="start">payload</text>
+<text x="505" y="402" font-size="11" text-anchor="start">deadline</text>
+<text x="505" y="434" font-size="11" text-anchor="start">rest</text>
+<text x="815.0" y="224.2" font-size="12" text-anchor="middle" font-weight="bold">src_mux</text>
+<text x="765" y="194" font-size="11" text-anchor="start">0</text>
+<text x="765" y="229" font-size="11" text-anchor="start">sel</text>
+<text x="765" y="254" font-size="11" text-anchor="start">1</text>
+<text x="1010.0" y="134" font-size="11" text-anchor="middle">dreg · REC_W DFF · × 256</text>
+<text x="1010.0" y="150" font-size="13" text-anchor="middle" font-weight="bold">u_slot</text>
+<text x="925" y="174" font-size="11" text-anchor="start">clk</text>
+<text x="925" y="194" font-size="11" text-anchor="start">rst</text>
+<text x="925" y="214" font-size="11" text-anchor="start">[REC_W-1:0] d</text>
+<text x="1095" y="194" font-size="11" text-anchor="end">[REC_W-1:0] q</text>
+<text x="1175.0" y="164.2" font-size="12" text-anchor="middle" font-weight="bold">[7:0]</text>
+<text x="1310.0" y="179.2" font-size="12" text-anchor="middle" font-weight="bold">read_mux</text>
+<text x="1245" y="164" font-size="11" text-anchor="start">sel</text>
+<text x="1245" y="194" font-size="11" text-anchor="start">slot</text>
+<text x="970.0" y="544.2" font-size="12" text-anchor="middle" font-weight="bold">+ −</text>
+<text x="1175.0" y="464" font-size="11" text-anchor="middle">dreg · 9 DFF</text>
+<text x="1175.0" y="480" font-size="13" text-anchor="middle" font-weight="bold">u_cnt</text>
+<text x="1105" y="504" font-size="11" text-anchor="start">clk</text>
+<text x="1105" y="524" font-size="11" text-anchor="start">rst</text>
+<text x="1105" y="544" font-size="11" text-anchor="start">[8:0] d</text>
+<text x="1245" y="524" font-size="11" text-anchor="end">[8:0] q</text>
+<text x="240" y="75" font-size="14" text-anchor="end">[N_WIRES×8-1:0] grant_idx</text>
+<text x="240" y="115" font-size="14" text-anchor="end">[15:0] rec_seq</text>
+<text x="240" y="139" font-size="14" text-anchor="end">[7:0] rec_tile</text>
+<text x="240" y="163" font-size="14" text-anchor="end">rec_sel</text>
+<text x="240" y="187" font-size="14" text-anchor="end">[255:0] rec_payload</text>
+<text x="240" y="211" font-size="14" text-anchor="end">rec_valid</text>
+<text x="240" y="355" font-size="14" text-anchor="end">other_valid</text>
+<text x="240" y="379" font-size="14" text-anchor="end">[255:0] other_flit</text>
+<text x="240" y="403" font-size="14" text-anchor="end">[31:0] other_deadline</text>
+<text x="240" y="465" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="489" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="550" font-size="14" text-anchor="end">[N_WIRES-1:0] consume</text>
+<text x="1560" y="180" font-size="14" text-anchor="start">[REC_W-1:0] record</text>
+<text x="1560" y="235" font-size="14" text-anchor="start">[REC_W-1:0] score_rec</text>
+<text x="1560" y="525" font-size="14" text-anchor="start">[8:0] ready_count</text>
+<text x="900.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">ready_mem</text>
+<text x="884" y="470" font-size="10" text-anchor="start" font-style="italic" fill="#444">wr</text>
+<text x="680" y="184" font-size="10" text-anchor="start" font-style="italic" fill="#444">rec_a</text>
+<text x="680" y="384" font-size="10" text-anchor="start" font-style="italic" fill="#444">rec_b</text>
+<text x="1124" y="205" font-size="10" text-anchor="start" font-style="italic" fill="#444">slot</text>
+<text x="898" y="173.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="1078" y="503.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="898" y="193.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="1078" y="523.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>
+</section>
+<section id="v-sched"><div class="bar"><b>L3 - inside u_pu/u_sched (scheduler, 5c)</b><a class="up" href="#pu">&uarr; up to pu (box u_sched)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1550 320" width="1550" height="320" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1550" height="320" fill="#fff"/>
+<rect x="250" y="20" width="1050" height="280" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="600" y="80" width="140" height="190" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="880" y="110" width="220" height="120" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,100 600,100" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,130 600,130" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,160 600,160" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,190 600,190" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,220 600,220" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,250 600,250" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="740,185 880,185" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,160 1300,160" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1100,200 1300,200" fill="none" stroke="#000" stroke-width="1.3"/>
+<path d="M600,100 L593,96.5 L593,103.5 Z" fill="#000"/>
+<path d="M600,130 L593,126.5 L593,133.5 Z" fill="#000"/>
+<path d="M600,160 L593,156.5 L593,163.5 Z" fill="#000"/>
+<path d="M600,190 L593,186.5 L593,193.5 Z" fill="#000"/>
+<path d="M600,220 L593,216.5 L593,223.5 Z" fill="#000"/>
+<path d="M600,250 L593,246.5 L593,253.5 Z" fill="#000"/>
+<path d="M880,185 L873,181.5 L873,188.5 Z" fill="#000"/>
+<rect x="247" y="97" width="6" height="6" fill="#000"/>
+<rect x="247" y="127" width="6" height="6" fill="#000"/>
+<rect x="247" y="157" width="6" height="6" fill="#000"/>
+<rect x="247" y="187" width="6" height="6" fill="#000"/>
+<rect x="247" y="217" width="6" height="6" fill="#000"/>
+<rect x="247" y="247" width="6" height="6" fill="#000"/>
+<rect x="1297" y="157" width="6" height="6" fill="#000"/>
+<rect x="1297" y="197" width="6" height="6" fill="#000"/>
+<text x="670.0" y="179.2" font-size="12" text-anchor="middle" font-weight="bold">policy_mux</text>
+<text x="605" y="104" font-size="11" text-anchor="start">sel</text>
+<text x="605" y="134" font-size="11" text-anchor="start">in0</text>
+<text x="605" y="164" font-size="11" text-anchor="start">in1</text>
+<text x="605" y="194" font-size="11" text-anchor="start">in2</text>
+<text x="605" y="224" font-size="11" text-anchor="start">in3</text>
+<text x="605" y="254" font-size="11" text-anchor="start">in4</text>
+<text x="990.0" y="126" font-size="11" text-anchor="middle">cmp</text>
+<text x="990.0" y="142" font-size="13" text-anchor="middle" font-weight="bold">cmp_min</text>
+<text x="885" y="189" font-size="11" text-anchor="start">[31:0] score</text>
+<text x="1095" y="164" font-size="11" text-anchor="end">[N_WIRES-1:0] grant_valid</text>
+<text x="1095" y="204" font-size="11" text-anchor="end">[N_WIRES×8-1:0] grant_idx</text>
+<text x="240" y="105" font-size="14" text-anchor="end">[2:0] policy_id</text>
+<text x="240" y="135" font-size="14" text-anchor="end">[31:0] score_fcfs</text>
+<text x="240" y="165" font-size="14" text-anchor="end">[31:0] score_edf</text>
+<text x="240" y="195" font-size="14" text-anchor="end">[31:0] score_firing</text>
+<text x="240" y="225" font-size="14" text-anchor="end">[31:0] score_shared</text>
+<text x="240" y="255" font-size="14" text-anchor="end">[31:0] score_row</text>
+<text x="1310" y="165" font-size="14" text-anchor="start">[N_WIRES-1:0] grant_valid</text>
+<text x="1310" y="205" font-size="14" text-anchor="start">[N_WIRES×8-1:0] grant_idx</text>
+<text x="775.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">scheduler</text>
+<text x="760" y="179" font-size="10" text-anchor="start" font-style="italic" fill="#444">score_sel</text>
+</svg>
+</section>
+<section id="v-credit"><div class="bar"><b>L3 - inside u_pu/u_credit (credit, 5d)</b><a class="up" href="#pu">&uarr; up to pu (box u_credit)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1750 500" width="1750" height="500" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1750" height="500" fill="#fff"/>
+<rect x="250" y="20" width="1250" height="460" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="480" y="80" width="70" height="80" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="640" y="210" width="110" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="640" y="290" width="110" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="830" y="200" width="110" height="120" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="830" y="360" width="110" height="50" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="1000" y="230" width="72" height="95" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1130" y="178" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1360" y="235" width="70" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,120 480,120" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,140 480,140" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1430,250 1500,250" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1460,250 1460,60 460,60 460,100 480,100" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="550,120 600,120 600,440 1500,440" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="600,225 640,225" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="750,225 830,225" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="780,225 780,395 830,395" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,305 640,305" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="750,305 830,305" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="800,305 800,375 830,375" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="940,275 1000,275" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="940,385 985,385 985,305 1000,305" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1072,270 1130,270" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1280,250 1360,250" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1310,250 1310,170 810,170 810,210 830,210" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="970,170 970,245 1000,245" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1330,250 1330,330 1500,330" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="200" x2="264" y2="200" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="200" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1116" y1="230" x2="1130" y2="230" stroke="#000" stroke-width="1.3"/>
+<circle cx="1113" cy="230" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="224" x2="264" y2="224" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="224" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1116" y1="250" x2="1130" y2="250" stroke="#000" stroke-width="1.3"/>
+<circle cx="1113" cy="250" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M480,100 L473,96.5 L473,103.5 Z" fill="#000"/>
+<path d="M480,120 L473,116.5 L473,123.5 Z" fill="#000"/>
+<path d="M480,140 L473,136.5 L473,143.5 Z" fill="#000"/>
+<path d="M640,225 L633,221.5 L633,228.5 Z" fill="#000"/>
+<path d="M640,305 L633,301.5 L633,308.5 Z" fill="#000"/>
+<path d="M830,210 L823,206.5 L823,213.5 Z" fill="#000"/>
+<path d="M830,225 L823,221.5 L823,228.5 Z" fill="#000"/>
+<path d="M830,305 L823,301.5 L823,308.5 Z" fill="#000"/>
+<path d="M830,375 L823,371.5 L823,378.5 Z" fill="#000"/>
+<path d="M830,395 L823,391.5 L823,398.5 Z" fill="#000"/>
+<path d="M1000,245 L993,241.5 L993,248.5 Z" fill="#000"/>
+<path d="M1000,275 L993,271.5 L993,278.5 Z" fill="#000"/>
+<path d="M1000,305 L993,301.5 L993,308.5 Z" fill="#000"/>
+<path d="M1130,230 L1123,226.5 L1123,233.5 Z" fill="#000"/>
+<path d="M1130,250 L1123,246.5 L1123,253.5 Z" fill="#000"/>
+<path d="M1130,270 L1123,266.5 L1123,273.5 Z" fill="#000"/>
+<path d="M1360,250 L1353,246.5 L1353,253.5 Z" fill="#000"/>
+<rect x="247" y="117" width="6" height="6" fill="#000"/>
+<rect x="247" y="137" width="6" height="6" fill="#000"/>
+<rect x="247" y="197" width="6" height="6" fill="#000"/>
+<rect x="247" y="221" width="6" height="6" fill="#000"/>
+<rect x="247" y="302" width="6" height="6" fill="#000"/>
+<rect x="1497" y="247" width="6" height="6" fill="#000"/>
+<rect x="1497" y="327" width="6" height="6" fill="#000"/>
+<rect x="1497" y="437" width="6" height="6" fill="#000"/>
+<circle cx="1460" cy="250" r="3.6" fill="#000"/>
+<circle cx="600" cy="225" r="3.6" fill="#000"/>
+<circle cx="780" cy="225" r="3.6" fill="#000"/>
+<circle cx="800" cy="305" r="3.6" fill="#000"/>
+<circle cx="1310" cy="250" r="3.6" fill="#000"/>
+<circle cx="1330" cy="250" r="3.6" fill="#000"/>
+<circle cx="970" cy="170" r="3.6" fill="#000"/>
+<text x="515.0" y="126.3" font-size="18" text-anchor="middle" font-weight="bold">&amp;</text>
+<text x="695.0" y="229.2" font-size="12" text-anchor="middle" font-weight="bold">count 1s</text>
+<text x="695.0" y="309.2" font-size="12" text-anchor="middle" font-weight="bold">count</text>
+<text x="885.0" y="264.2" font-size="12" text-anchor="middle" font-weight="bold">− a + r</text>
+<text x="885.0" y="389.2" font-size="12" text-anchor="middle" font-weight="bold">== 0</text>
+<text x="1044.64" y="315.7" font-size="10" text-anchor="middle" font-weight="bold">mux</text>
+<text x="1005" y="249" font-size="11" text-anchor="start">1</text>
+<text x="1005" y="279" font-size="11" text-anchor="start">0</text>
+<text x="1005" y="309" font-size="11" text-anchor="start">sel</text>
+<text x="1205.0" y="194" font-size="11" text-anchor="middle">dreg · 8 DFF · rst K</text>
+<text x="1205.0" y="210" font-size="13" text-anchor="middle" font-weight="bold">u_count</text>
+<text x="1135" y="234" font-size="11" text-anchor="start">clk</text>
+<text x="1135" y="254" font-size="11" text-anchor="start">rst</text>
+<text x="1135" y="274" font-size="11" text-anchor="start">[7:0] d</text>
+<text x="1275" y="254" font-size="11" text-anchor="end">[7:0] q</text>
+<text x="1395.0" y="254.2" font-size="12" text-anchor="middle" font-weight="bold">&gt; 0</text>
+<text x="240" y="125" font-size="14" text-anchor="end">[N_WIRES-1:0] send_en</text>
+<text x="240" y="145" font-size="14" text-anchor="end">[N_WIRES-1:0] grant_valid</text>
+<text x="240" y="205" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="229" font-size="14" text-anchor="end">rst</text>
+<text x="240" y="310" font-size="14" text-anchor="end">credit_return</text>
+<text x="1510" y="255" font-size="14" text-anchor="start">gt0</text>
+<text x="1510" y="335" font-size="14" text-anchor="start">[7:0] credit_count</text>
+<text x="1510" y="445" font-size="14" text-anchor="start">[N_WIRES-1:0] pass_en</text>
+<text x="875.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">credit</text>
+<text x="1200" y="55" font-size="10" text-anchor="start" font-style="italic" fill="#444">gt0</text>
+<text x="900" y="435" font-size="10" text-anchor="start" font-style="italic" fill="#444">pass_en</text>
+<text x="786" y="219" font-size="10" text-anchor="start" font-style="italic" fill="#444">accept</text>
+<text x="950" y="269" font-size="10" text-anchor="start" font-style="italic" fill="#444">next</text>
+<text x="946" y="379" font-size="10" text-anchor="start" font-style="italic" fill="#444">hold</text>
+<text x="1100" y="165" font-size="10" text-anchor="start" font-style="italic" fill="#444">credit_count</text>
+<text x="1108" y="233.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="1108" y="253.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>
+</section>
+<section id="v-phy"><div class="bar"><b>L3 - inside u_pu/u_phy (phy_box + gather, 5e)</b><a class="up" href="#pu">&uarr; up to pu (box u_phy)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 500" width="1700" height="500" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1700" height="500" fill="#fff"/>
+<rect x="250" y="20" width="1200" height="460" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="280" y="158" width="70" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="280" y="308" width="70" height="24" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="420" y="110" width="90" height="80" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="560" y="58" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="770" y="58" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="980" y="58" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="1190" y="58" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="420" y="270" width="120" height="70" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="640" y="290" width="100" height="30" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="640" y="420" width="100" height="30" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<rect x="820" y="213" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="820" y="343" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,130 420,130" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,150 420,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="350,170 420,170" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="350,320 420,320" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="510,150 560,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="710,130 720,130 720,150 770,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="920,130 930,130 930,150 980,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1130,130 1140,130 1140,150 1190,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1340,130 1370,130 1370,195 400,195 400,290 420,290" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="540,305 640,305" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="590,305 590,435 640,435" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="740,305 820,305" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="740,435 820,435" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="970,285 1450,285" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="970,415 1450,415" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="360" x2="264" y2="360" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="360" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="546" y1="110" x2="560" y2="110" stroke="#000" stroke-width="1.3"/>
+<circle cx="543" cy="110" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="756" y1="110" x2="770" y2="110" stroke="#000" stroke-width="1.3"/>
+<circle cx="753" cy="110" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="966" y1="110" x2="980" y2="110" stroke="#000" stroke-width="1.3"/>
+<circle cx="963" cy="110" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1176" y1="110" x2="1190" y2="110" stroke="#000" stroke-width="1.3"/>
+<circle cx="1173" cy="110" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="265" x2="820" y2="265" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="265" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="395" x2="820" y2="395" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="395" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="384" x2="264" y2="384" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="384" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="546" y1="130" x2="560" y2="130" stroke="#000" stroke-width="1.3"/>
+<circle cx="543" cy="130" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="756" y1="130" x2="770" y2="130" stroke="#000" stroke-width="1.3"/>
+<circle cx="753" cy="130" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="966" y1="130" x2="980" y2="130" stroke="#000" stroke-width="1.3"/>
+<circle cx="963" cy="130" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1176" y1="130" x2="1190" y2="130" stroke="#000" stroke-width="1.3"/>
+<circle cx="1173" cy="130" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="285" x2="820" y2="285" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="285" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="806" y1="415" x2="820" y2="415" stroke="#000" stroke-width="1.3"/>
+<circle cx="803" cy="415" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<path d="M420,130 L413,126.5 L413,133.5 Z" fill="#000"/>
+<path d="M420,150 L413,146.5 L413,153.5 Z" fill="#000"/>
+<path d="M420,170 L413,166.5 L413,173.5 Z" fill="#000"/>
+<path d="M560,110 L553,106.5 L553,113.5 Z" fill="#000"/>
+<path d="M560,130 L553,126.5 L553,133.5 Z" fill="#000"/>
+<path d="M560,150 L553,146.5 L553,153.5 Z" fill="#000"/>
+<path d="M770,110 L763,106.5 L763,113.5 Z" fill="#000"/>
+<path d="M770,130 L763,126.5 L763,133.5 Z" fill="#000"/>
+<path d="M770,150 L763,146.5 L763,153.5 Z" fill="#000"/>
+<path d="M980,110 L973,106.5 L973,113.5 Z" fill="#000"/>
+<path d="M980,130 L973,126.5 L973,133.5 Z" fill="#000"/>
+<path d="M980,150 L973,146.5 L973,153.5 Z" fill="#000"/>
+<path d="M1190,110 L1183,106.5 L1183,113.5 Z" fill="#000"/>
+<path d="M1190,130 L1183,126.5 L1183,133.5 Z" fill="#000"/>
+<path d="M1190,150 L1183,146.5 L1183,153.5 Z" fill="#000"/>
+<path d="M420,290 L413,286.5 L413,293.5 Z" fill="#000"/>
+<path d="M420,320 L413,316.5 L413,323.5 Z" fill="#000"/>
+<path d="M640,305 L633,301.5 L633,308.5 Z" fill="#000"/>
+<path d="M640,435 L633,431.5 L633,438.5 Z" fill="#000"/>
+<path d="M820,265 L813,261.5 L813,268.5 Z" fill="#000"/>
+<path d="M820,285 L813,281.5 L813,288.5 Z" fill="#000"/>
+<path d="M820,305 L813,301.5 L813,308.5 Z" fill="#000"/>
+<path d="M820,395 L813,391.5 L813,398.5 Z" fill="#000"/>
+<path d="M820,415 L813,411.5 L813,418.5 Z" fill="#000"/>
+<path d="M820,435 L813,431.5 L813,438.5 Z" fill="#000"/>
+<rect x="247" y="127" width="6" height="6" fill="#000"/>
+<rect x="247" y="147" width="6" height="6" fill="#000"/>
+<rect x="247" y="357" width="6" height="6" fill="#000"/>
+<rect x="247" y="381" width="6" height="6" fill="#000"/>
+<rect x="1447" y="282" width="6" height="6" fill="#000"/>
+<rect x="1447" y="412" width="6" height="6" fill="#000"/>
+<circle cx="590" cy="305" r="3.6" fill="#000"/>
+<text x="315.0" y="174.2" font-size="12" text-anchor="middle" font-weight="bold">0</text>
+<text x="315.0" y="324.2" font-size="12" text-anchor="middle" font-weight="bold">0</text>
+<text x="475.8" y="178.0" font-size="10" text-anchor="middle" font-weight="bold">mux</text>
+<text x="425" y="134" font-size="11" text-anchor="start">sel</text>
+<text x="425" y="154" font-size="11" text-anchor="start">1</text>
+<text x="425" y="174" font-size="11" text-anchor="start">0</text>
+<text x="635.0" y="74" font-size="11" text-anchor="middle">dreg · REC_W DFF</text>
+<text x="635.0" y="90" font-size="13" text-anchor="middle" font-weight="bold">u_s0</text>
+<text x="565" y="114" font-size="11" text-anchor="start">clk</text>
+<text x="565" y="134" font-size="11" text-anchor="start">rst</text>
+<text x="565" y="154" font-size="11" text-anchor="start">[REC_W-1:0] d</text>
+<text x="705" y="134" font-size="11" text-anchor="end">[REC_W-1:0] q</text>
+<text x="845.0" y="74" font-size="11" text-anchor="middle">dreg · REC_W DFF</text>
+<text x="845.0" y="90" font-size="13" text-anchor="middle" font-weight="bold">u_s1</text>
+<text x="775" y="114" font-size="11" text-anchor="start">clk</text>
+<text x="775" y="134" font-size="11" text-anchor="start">rst</text>
+<text x="775" y="154" font-size="11" text-anchor="start">[REC_W-1:0] d</text>
+<text x="915" y="134" font-size="11" text-anchor="end">[REC_W-1:0] q</text>
+<text x="1055.0" y="74" font-size="11" text-anchor="middle">dreg · REC_W DFF</text>
+<text x="1055.0" y="90" font-size="13" text-anchor="middle" font-weight="bold">u_s2</text>
+<text x="985" y="114" font-size="11" text-anchor="start">clk</text>
+<text x="985" y="134" font-size="11" text-anchor="start">rst</text>
+<text x="985" y="154" font-size="11" text-anchor="start">[REC_W-1:0] d</text>
+<text x="1125" y="134" font-size="11" text-anchor="end">[REC_W-1:0] q</text>
+<text x="1265.0" y="74" font-size="11" text-anchor="middle">dreg · REC_W DFF</text>
+<text x="1265.0" y="90" font-size="13" text-anchor="middle" font-weight="bold">u_s3</text>
+<text x="1195" y="114" font-size="11" text-anchor="start">clk</text>
+<text x="1195" y="134" font-size="11" text-anchor="start">rst</text>
+<text x="1195" y="154" font-size="11" text-anchor="start">[REC_W-1:0] d</text>
+<text x="1335" y="134" font-size="11" text-anchor="end">[REC_W-1:0] q</text>
+<text x="480.0" y="309.2" font-size="12" text-anchor="middle" font-weight="bold">lane_mux</text>
+<text x="425" y="294" font-size="11" text-anchor="start">lane0</text>
+<text x="425" y="324" font-size="11" text-anchor="start">sel</text>
+<text x="690.0" y="309.2" font-size="12" text-anchor="middle" font-weight="bold">.payload</text>
+<text x="690.0" y="439.2" font-size="12" text-anchor="middle" font-weight="bold">.valid</text>
+<text x="895.0" y="229" font-size="11" text-anchor="middle">dreg · 256 DFF</text>
+<text x="895.0" y="245" font-size="13" text-anchor="middle" font-weight="bold">u_gflit</text>
+<text x="825" y="269" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="289" font-size="11" text-anchor="start">rst</text>
+<text x="825" y="309" font-size="11" text-anchor="start">[255:0] d</text>
+<text x="965" y="289" font-size="11" text-anchor="end">[255:0] q</text>
+<text x="895.0" y="359" font-size="11" text-anchor="middle">dreg · 1 DFF</text>
+<text x="895.0" y="375" font-size="13" text-anchor="middle" font-weight="bold">u_gvalid</text>
+<text x="825" y="399" font-size="11" text-anchor="start">clk</text>
+<text x="825" y="419" font-size="11" text-anchor="start">rst</text>
+<text x="825" y="439" font-size="11" text-anchor="start">d</text>
+<text x="965" y="419" font-size="11" text-anchor="end">q</text>
+<text x="240" y="135" font-size="14" text-anchor="end">[N_WIRES-1:0] pass_en</text>
+<text x="240" y="155" font-size="14" text-anchor="end">[REC_W-1:0] record</text>
+<text x="240" y="365" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="389" font-size="14" text-anchor="end">rst</text>
+<text x="1460" y="290" font-size="14" text-anchor="start">[255:0] out_flit</text>
+<text x="1460" y="420" font-size="14" text-anchor="start">out_valid</text>
+<text x="850.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">phy_box + gather</text>
+<text x="1000" y="190" font-size="10" text-anchor="start" font-style="italic" fill="#444">arrived</text>
+<text x="548" y="299" font-size="10" text-anchor="start" font-style="italic" fill="#444">lane_rec</text>
+<text x="538" y="113.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="748" y="113.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="958" y="113.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="1168" y="113.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="268.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="798" y="398.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="538" y="133.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="748" y="133.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="958" y="133.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="1168" y="133.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="798" y="288.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="798" y="418.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+</svg>
+</section>
+<section id="v-unpack"><div class="bar"><b>L3 - inside u_pu/u_unpack (unpack, 5f)</b><a class="up" href="#pu">&uarr; up to pu (box u_unpack)</a></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1550 420" width="1550" height="420" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1550" height="420" fill="#fff"/>
+<rect x="250" y="20" width="1050" height="380" fill="none" stroke="#000" stroke-width="1.6"/>
+<rect x="520" y="130" width="110" height="80" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="680" y="78" width="150" height="110" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="950" y="135" width="70" height="30" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="950" y="230" width="80" height="30" fill="#fff" stroke="#000" stroke-width="1.3" stroke-dasharray="5,3"/>
+<polyline points="250,170 520,170" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="250,200 480,200 480,150 520,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="630,170 680,170" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="830,150 950,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="880,150 880,245 950,245" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1020,150 1300,150" fill="none" stroke="#000" stroke-width="1.3"/>
+<polyline points="1030,245 1060,245 1060,300 490,300 490,190 520,190" fill="none" stroke="#000" stroke-width="1.3"/>
+<line x1="250" y1="240" x2="264" y2="240" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="240" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="666" y1="130" x2="680" y2="130" stroke="#000" stroke-width="1.3"/>
+<circle cx="663" cy="130" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="250" y1="264" x2="264" y2="264" stroke="#000" stroke-width="1.3"/>
+<circle cx="267" cy="264" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="666" y1="150" x2="680" y2="150" stroke="#000" stroke-width="1.3"/>
+<circle cx="663" cy="150" r="3" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<line x1="1286" y1="330" x2="1300" y2="330" stroke="#c00" stroke-width="1.3" stroke-dasharray="3,2"/>
+<line x1="1286" y1="360" x2="1300" y2="360" stroke="#c00" stroke-width="1.3" stroke-dasharray="3,2"/>
+<path d="M520,150 L513,146.5 L513,153.5 Z" fill="#000"/>
+<path d="M520,170 L513,166.5 L513,173.5 Z" fill="#000"/>
+<path d="M520,190 L513,186.5 L513,193.5 Z" fill="#000"/>
+<path d="M680,130 L673,126.5 L673,133.5 Z" fill="#000"/>
+<path d="M680,150 L673,146.5 L673,153.5 Z" fill="#000"/>
+<path d="M680,170 L673,166.5 L673,173.5 Z" fill="#000"/>
+<path d="M950,150 L943,146.5 L943,153.5 Z" fill="#000"/>
+<path d="M950,245 L943,241.5 L943,248.5 Z" fill="#000"/>
+<rect x="247" y="167" width="6" height="6" fill="#000"/>
+<rect x="247" y="197" width="6" height="6" fill="#000"/>
+<rect x="247" y="237" width="6" height="6" fill="#000"/>
+<rect x="247" y="261" width="6" height="6" fill="#000"/>
+<rect x="1297" y="147" width="6" height="6" fill="#000"/>
+<rect x="1297" y="327" width="6" height="6" fill="#000"/>
+<rect x="1297" y="357" width="6" height="6" fill="#000"/>
+<circle cx="880" cy="150" r="3.6" fill="#000"/>
+<text x="575.0" y="174.2" font-size="12" text-anchor="middle" font-weight="bold">byte_mux</text>
+<text x="525" y="154" font-size="11" text-anchor="start">sel</text>
+<text x="525" y="174" font-size="11" text-anchor="start">0</text>
+<text x="525" y="194" font-size="11" text-anchor="start">1</text>
+<text x="755.0" y="94" font-size="11" text-anchor="middle">dreg · 256 DFF</text>
+<text x="755.0" y="110" font-size="13" text-anchor="middle" font-weight="bold">u_word</text>
+<text x="685" y="134" font-size="11" text-anchor="start">clk</text>
+<text x="685" y="154" font-size="11" text-anchor="start">rst</text>
+<text x="685" y="174" font-size="11" text-anchor="start">[255:0] d</text>
+<text x="825" y="154" font-size="11" text-anchor="end">[255:0] q</text>
+<text x="985.0" y="154.2" font-size="12" text-anchor="middle" font-weight="bold">[7:0]</text>
+<text x="990.0" y="249.2" font-size="12" text-anchor="middle" font-weight="bold">&gt;&gt; 8</text>
+<text x="240" y="175" font-size="14" text-anchor="end">[255:0] flit</text>
+<text x="240" y="205" font-size="14" text-anchor="end">in_valid</text>
+<text x="240" y="245" font-size="14" text-anchor="end">clk</text>
+<text x="240" y="269" font-size="14" text-anchor="end">rst</text>
+<text x="1310" y="155" font-size="14" text-anchor="start">[7:0] panel_byte</text>
+<text x="1310" y="335" font-size="14" text-anchor="start">[7:0] out_tile</text>
+<text x="1310" y="365" font-size="14" text-anchor="start">out_panel_sel</text>
+<text x="775.0" y="48" font-size="20" text-anchor="middle" font-weight="bold">unpack</text>
+<text x="890" y="144" font-size="10" text-anchor="start" font-style="italic" fill="#444">word</text>
+<text x="700" y="295" font-size="10" text-anchor="start" font-style="italic" fill="#444">shifted</text>
+<text x="658" y="133.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">clk</text>
+<text x="658" y="153.5" font-size="10" text-anchor="end" font-style="italic" fill="#444">rst</text>
+<text x="1282" y="333.5" font-size="10" text-anchor="end" font-style="italic" fill="#c00">no driver · F21</text>
+<text x="1282" y="363.5" font-size="10" text-anchor="end" font-style="italic" fill="#c00">no driver · F21</text>
+</svg>
+</section>
+<script>
+var PARENT={"top": null, "cu": "top", "fsm": "cu", "pu": "top", "release": "pu", "packer": "pu", "ready": "pu", "sched": "pu", "credit": "pu", "phy": "pu", "unpack": "pu"};
+function show(){var h=(location.hash||'#top').slice(1);if(!document.getElementById('v-'+h))h='top';
+document.querySelectorAll('section').forEach(function(s){s.classList.toggle('on',s.id==='v-'+h)});
+document.querySelectorAll('nav a.tab').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+h)});
+var b=document.getElementById('back');b.style.visibility=PARENT[h]?'visible':'hidden';if(PARENT[h])b.setAttribute('href','#'+PARENT[h]);
+b.innerHTML='&larr; back to '+(PARENT[h]||'');window.scrollTo(0,0);}
+window.addEventListener('hashchange',show);show();
+</script></body></html>

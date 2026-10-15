@@ -1,0 +1,851 @@
+{
+ "name": "sched",
+ "W": 1550,
+ "H": 320,
+ "frame": {
+  "x0": 250,
+  "y0": 20,
+  "x1": 1300,
+  "y1": 300,
+  "title": "scheduler"
+ },
+ "ports": {
+  "policy_id": {
+   "side": "L",
+   "y": 100,
+   "dir": "in",
+   "wexpr": "3",
+   "width": 3
+  },
+  "score_fcfs": {
+   "side": "L",
+   "y": 130,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "score_edf": {
+   "side": "L",
+   "y": 160,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "score_firing": {
+   "side": "L",
+   "y": 190,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "score_shared": {
+   "side": "L",
+   "y": 220,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "score_row": {
+   "side": "L",
+   "y": 250,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "grant_valid": {
+   "side": "R",
+   "y": 160,
+   "dir": "out",
+   "wexpr": "N_WIRES",
+   "width": 1
+  },
+  "grant_idx": {
+   "side": "R",
+   "y": 200,
+   "dir": "out",
+   "wexpr": "N_WIRES*8",
+   "width": 8
+  }
+ },
+ "inst": {
+  "policy_mux": {
+   "module": "assign",
+   "head": null,
+   "inst": "policy_mux",
+   "x": 600,
+   "y": 80,
+   "w": 140,
+   "h": 190,
+   "pins": {
+    "sel": {
+     "side": "L",
+     "dy": 20,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "3",
+     "width": 3
+    },
+    "in0": {
+     "side": "L",
+     "dy": 50,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "32",
+     "width": 32
+    },
+    "in1": {
+     "side": "L",
+     "dy": 80,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "32",
+     "width": 32
+    },
+    "in2": {
+     "side": "L",
+     "dy": 110,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "32",
+     "width": 32
+    },
+    "in3": {
+     "side": "L",
+     "dy": 140,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "32",
+     "width": 32
+    },
+    "in4": {
+     "side": "L",
+     "dy": 170,
+     "dir": "in",
+     "nolabel": false,
+     "plain": true,
+     "wexpr": "32",
+     "width": 32
+    },
+    "y": {
+     "side": "R",
+     "dy": 105,
+     "dir": "out",
+     "nolabel": true,
+     "wexpr": "32",
+     "width": 32
+    }
+   },
+   "center": "policy_mux"
+  },
+  "cmp_min": {
+   "module": "cmp_min",
+   "head": "cmp",
+   "inst": "cmp_min",
+   "x": 880,
+   "y": 110,
+   "w": 220,
+   "h": 120,
+   "pins": {
+    "score": {
+     "side": "L",
+     "dy": 75,
+     "dir": "in",
+     "wexpr": "32",
+     "width": 32
+    },
+    "grant_valid": {
+     "side": "R",
+     "dy": 50,
+     "dir": "out",
+     "wexpr": "N_WIRES",
+     "width": 1
+    },
+    "grant_idx": {
+     "side": "R",
+     "dy": 90,
+     "dir": "out",
+     "wexpr": "N_WIRES*8",
+     "width": 8
+    }
+   }
+  }
+ },
+ "nets": {
+  "policy_id": {
+   "lines": [
+    [
+     [
+      250,
+      100
+     ],
+     [
+      600,
+      100
+     ]
+    ]
+   ]
+  },
+  "score_fcfs": {
+   "lines": [
+    [
+     [
+      250,
+      130
+     ],
+     [
+      600,
+      130
+     ]
+    ]
+   ]
+  },
+  "score_edf": {
+   "lines": [
+    [
+     [
+      250,
+      160
+     ],
+     [
+      600,
+      160
+     ]
+    ]
+   ]
+  },
+  "score_firing": {
+   "lines": [
+    [
+     [
+      250,
+      190
+     ],
+     [
+      600,
+      190
+     ]
+    ]
+   ]
+  },
+  "score_shared": {
+   "lines": [
+    [
+     [
+      250,
+      220
+     ],
+     [
+      600,
+      220
+     ]
+    ]
+   ]
+  },
+  "score_row": {
+   "lines": [
+    [
+     [
+      250,
+      250
+     ],
+     [
+      600,
+      250
+     ]
+    ]
+   ]
+  },
+  "score_sel": {
+   "lines": [
+    [
+     [
+      740,
+      185
+     ],
+     [
+      880,
+      185
+     ]
+    ]
+   ],
+   "labels": [
+    [
+     760,
+     179
+    ]
+   ]
+  },
+  "grant_valid": {
+   "lines": [
+    [
+     [
+      1100,
+      160
+     ],
+     [
+      1300,
+      160
+     ]
+    ]
+   ]
+  },
+  "grant_idx": {
+   "lines": [
+    [
+     [
+      1100,
+      200
+     ],
+     [
+      1300,
+      200
+     ]
+    ]
+   ]
+  }
+ },
+ "pins": {
+  "policy_mux.sel": {
+   "xy": [
+    600,
+    100
+   ],
+   "side": "L",
+   "dy": 20,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "3",
+   "width": 3
+  },
+  "policy_mux.in0": {
+   "xy": [
+    600,
+    130
+   ],
+   "side": "L",
+   "dy": 50,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "32",
+   "width": 32
+  },
+  "policy_mux.in1": {
+   "xy": [
+    600,
+    160
+   ],
+   "side": "L",
+   "dy": 80,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "32",
+   "width": 32
+  },
+  "policy_mux.in2": {
+   "xy": [
+    600,
+    190
+   ],
+   "side": "L",
+   "dy": 110,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "32",
+   "width": 32
+  },
+  "policy_mux.in3": {
+   "xy": [
+    600,
+    220
+   ],
+   "side": "L",
+   "dy": 140,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "32",
+   "width": 32
+  },
+  "policy_mux.in4": {
+   "xy": [
+    600,
+    250
+   ],
+   "side": "L",
+   "dy": 170,
+   "dir": "in",
+   "nolabel": false,
+   "plain": true,
+   "wexpr": "32",
+   "width": 32
+  },
+  "policy_mux.y": {
+   "xy": [
+    740,
+    185
+   ],
+   "side": "R",
+   "dy": 105,
+   "dir": "out",
+   "nolabel": true,
+   "wexpr": "32",
+   "width": 32
+  },
+  "cmp_min.score": {
+   "xy": [
+    880,
+    185
+   ],
+   "side": "L",
+   "dy": 75,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "cmp_min.grant_valid": {
+   "xy": [
+    1100,
+    160
+   ],
+   "side": "R",
+   "dy": 50,
+   "dir": "out",
+   "wexpr": "N_WIRES",
+   "width": 1
+  },
+  "cmp_min.grant_idx": {
+   "xy": [
+    1100,
+    200
+   ],
+   "side": "R",
+   "dy": 90,
+   "dir": "out",
+   "wexpr": "N_WIRES*8",
+   "width": 8
+  },
+  "PORT.policy_id": {
+   "xy": [
+    250,
+    100
+   ],
+   "side": "L",
+   "y": 100,
+   "dir": "in",
+   "wexpr": "3",
+   "width": 3
+  },
+  "PORT.score_fcfs": {
+   "xy": [
+    250,
+    130
+   ],
+   "side": "L",
+   "y": 130,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "PORT.score_edf": {
+   "xy": [
+    250,
+    160
+   ],
+   "side": "L",
+   "y": 160,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "PORT.score_firing": {
+   "xy": [
+    250,
+    190
+   ],
+   "side": "L",
+   "y": 190,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "PORT.score_shared": {
+   "xy": [
+    250,
+    220
+   ],
+   "side": "L",
+   "y": 220,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "PORT.score_row": {
+   "xy": [
+    250,
+    250
+   ],
+   "side": "L",
+   "y": 250,
+   "dir": "in",
+   "wexpr": "32",
+   "width": 32
+  },
+  "PORT.grant_valid": {
+   "xy": [
+    1300,
+    160
+   ],
+   "side": "R",
+   "y": 160,
+   "dir": "out",
+   "wexpr": "N_WIRES",
+   "width": 1
+  },
+  "PORT.grant_idx": {
+   "xy": [
+    1300,
+    200
+   ],
+   "side": "R",
+   "y": 200,
+   "dir": "out",
+   "wexpr": "N_WIRES*8",
+   "width": 8
+  }
+ },
+ "texts": [
+  {
+   "x": 670.0,
+   "y": 179.2,
+   "s": "policy_mux",
+   "fs": 12,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "policy_mux",
+   "bbox": [
+    631.6,
+    169.83999999999997,
+    708.4,
+    181.83999999999997
+   ]
+  },
+  {
+   "x": 605,
+   "y": 104,
+   "s": "sel",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "policy_mux",
+   "pin": "sel",
+   "bbox": [
+    605,
+    95.42,
+    624.14,
+    106.42
+   ]
+  },
+  {
+   "x": 605,
+   "y": 134,
+   "s": "in0",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "policy_mux",
+   "pin": "in0",
+   "bbox": [
+    605,
+    125.42,
+    624.14,
+    136.42
+   ]
+  },
+  {
+   "x": 605,
+   "y": 164,
+   "s": "in1",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "policy_mux",
+   "pin": "in1",
+   "bbox": [
+    605,
+    155.42,
+    624.14,
+    166.42
+   ]
+  },
+  {
+   "x": 605,
+   "y": 194,
+   "s": "in2",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "policy_mux",
+   "pin": "in2",
+   "bbox": [
+    605,
+    185.42,
+    624.14,
+    196.42
+   ]
+  },
+  {
+   "x": 605,
+   "y": 224,
+   "s": "in3",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "policy_mux",
+   "pin": "in3",
+   "bbox": [
+    605,
+    215.42,
+    624.14,
+    226.42
+   ]
+  },
+  {
+   "x": 605,
+   "y": 254,
+   "s": "in4",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "policy_mux",
+   "pin": "in4",
+   "bbox": [
+    605,
+    245.42,
+    624.14,
+    256.42
+   ]
+  },
+  {
+   "x": 990.0,
+   "y": 126,
+   "s": "cmp",
+   "fs": 11,
+   "anchor": "middle",
+   "owner": "cmp_min",
+   "bbox": [
+    980.43,
+    117.42,
+    999.5699999999999,
+    128.42
+   ]
+  },
+  {
+   "x": 990.0,
+   "y": 142,
+   "s": "cmp_min",
+   "fs": 13,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "cmp_min",
+   "bbox": [
+    960.88,
+    131.86,
+    1019.12,
+    144.86
+   ]
+  },
+  {
+   "x": 885,
+   "y": 189,
+   "s": "[31:0] score",
+   "fs": 11,
+   "anchor": "start",
+   "owner": "cmp_min",
+   "pin": "score",
+   "bbox": [
+    885,
+    180.42,
+    961.56,
+    191.42
+   ]
+  },
+  {
+   "x": 1095,
+   "y": 164,
+   "s": "[N_WIRES-1:0] grant_valid",
+   "fs": 11,
+   "anchor": "end",
+   "owner": "cmp_min",
+   "pin": "grant_valid",
+   "bbox": [
+    935.5,
+    155.42,
+    1095.0,
+    166.42
+   ]
+  },
+  {
+   "x": 1095,
+   "y": 204,
+   "s": "[N_WIRES\u00d78-1:0] grant_idx",
+   "fs": 11,
+   "anchor": "end",
+   "owner": "cmp_min",
+   "pin": "grant_idx",
+   "bbox": [
+    935.5,
+    195.42,
+    1095.0,
+    206.42
+   ]
+  },
+  {
+   "x": 240,
+   "y": 105,
+   "s": "[2:0] policy_id",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    118.2,
+    94.08,
+    240.0,
+    108.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 135,
+   "s": "[31:0] score_fcfs",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    101.96000000000001,
+    124.08,
+    240.0,
+    138.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 165,
+   "s": "[31:0] score_edf",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    110.08000000000001,
+    154.08,
+    240.0,
+    168.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 195,
+   "s": "[31:0] score_firing",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    85.72,
+    184.08,
+    240.0,
+    198.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 225,
+   "s": "[31:0] score_shared",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    85.72,
+    214.08,
+    240.0,
+    228.08
+   ]
+  },
+  {
+   "x": 240,
+   "y": 255,
+   "s": "[31:0] score_row",
+   "fs": 14,
+   "anchor": "end",
+   "owner": "PORT",
+   "bbox": [
+    110.08000000000001,
+    244.08,
+    240.0,
+    258.08
+   ]
+  },
+  {
+   "x": 1310,
+   "y": 165,
+   "s": "[N_WIRES-1:0] grant_valid",
+   "fs": 14,
+   "anchor": "start",
+   "owner": "PORT",
+   "bbox": [
+    1310,
+    154.08,
+    1513.0,
+    168.08
+   ]
+  },
+  {
+   "x": 1310,
+   "y": 205,
+   "s": "[N_WIRES\u00d78-1:0] grant_idx",
+   "fs": 14,
+   "anchor": "start",
+   "owner": "PORT",
+   "bbox": [
+    1310,
+    194.08,
+    1513.0,
+    208.08
+   ]
+  },
+  {
+   "x": 775.0,
+   "y": 48,
+   "s": "scheduler",
+   "fs": 20,
+   "anchor": "middle",
+   "bold": true,
+   "owner": "FRAME",
+   "bbox": [
+    717.4,
+    32.4,
+    832.6,
+    52.4
+   ]
+  },
+  {
+   "x": 760,
+   "y": 179,
+   "s": "score_sel",
+   "fs": 10,
+   "anchor": "start",
+   "owner": "net",
+   "net": "score_sel",
+   "italic": true,
+   "bbox": [
+    760,
+    171.2,
+    812.2,
+    181.2
+   ]
+  }
+ ],
+ "stubs": [],
+ "junctions": []
+}
