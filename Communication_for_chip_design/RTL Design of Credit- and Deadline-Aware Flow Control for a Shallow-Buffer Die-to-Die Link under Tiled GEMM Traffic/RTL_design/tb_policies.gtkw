@@ -1,0 +1,44 @@
+[*]
+[*] GTKWave Analyzer v3.3.51 (w)1999-2013 BSI
+[*]
+[dumpfile] "/home/haiminh/d2d_for_tile/RTL_design/tb_policies.vcd"
+[savefile] "/home/haiminh/d2d_for_tile/RTL_design/tb_policies.gtkw"
+[timestart] 0
+[size] 1400 800
+[pos] -1 -1
+*-4.000000 10 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 280
+[signals_width] 200
+[sst_expanded] 1
+[sst_vpaned_height] 200
+@28
+tb_policies.clk
+@22
+[color] 1
+tb_policies.seq0[15:0]
+tb_policies.seq1[15:0]
+tb_policies.seq2[15:0]
+[color] 2
+tb_policies.deadline0[31:0]
+tb_policies.deadline1[31:0]
+tb_policies.deadline2[31:0]
+[color] 3
+tb_policies.flits0[4:0]
+tb_policies.flits1[4:0]
+tb_policies.flits2[4:0]
+[color] 4
+tb_policies.panel0
+tb_policies.panel1
+tb_policies.panel2
+[color] 5
+tb_policies.grant_fcfs[7:0]
+tb_policies.grant_edf[7:0]
+tb_policies.grant_firing[7:0]
+tb_policies.grant_shared[7:0]
+tb_policies.grant_row[7:0]
+[color] 6
+tb_policies.score_fcfs[47:0]
+tb_policies.score_edf[47:0]
+tb_policies.score_firing[47:0]
+tb_policies.score_shared[47:0]
+tb_policies.score_row[47:0]

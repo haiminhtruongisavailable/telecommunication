@@ -1,0 +1,11 @@
+PASS 1 both invalid  vy 0 iy 7
+FAIL 2 only B, sa smaller  vy 1 sy 000000000001 iy 7
+PASS 3 only A, sb smaller  vy 1 iy 7
+PASS 4 B smaller  vy 1 iy 9
+PASS 5 A smaller  vy 1 iy 7
+PASS 6 tie keeps A  vy 1 iy 7
+PASS 7 bit 0, A smaller  vy 1 iy 7
+PASS 7 bit 0, B smaller  vy 1 iy 9
+PASS 8 bit 47, B smaller  vy 1 iy 9
+PASS 8 bit 47, A smaller  vy 1 iy 7
+FAIL  errors 1

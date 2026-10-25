@@ -1,0 +1,48 @@
+VCD info: dumpfile /home/haiminh/d2d_for_tile/RTL_design/tb_cases.vcd opened for output.
+PASS 1 both invalid  vy 0 iy 7
+PASS 2 only B, sa smaller  vy 1 iy 9
+PASS 3 only A, sb smaller  vy 1 iy 7
+PASS 4 B smaller  vy 1 iy 9
+PASS 5 A smaller  vy 1 iy 7
+PASS 6 tie keeps A  vy 1 iy 7
+PASS 7 bit 0, A smaller  vy 1 iy 7
+PASS 7 bit 0, B smaller  vy 1 iy 9
+PASS 8 bit 47, B smaller  vy 1 iy 9
+PASS 8 bit 47, A smaller  vy 1 iy 7
+PASS 9 index follows score
+PASS 10 none  valid 0
+PASS 11 mask 0000  valid 0
+PASS 11 mask 0001  valid 1 idx 0 score 16
+PASS 11 mask 0010  valid 1 idx 1 score 4
+PASS 11 mask 0011  valid 1 idx 1 score 4
+PASS 11 mask 0100  valid 1 idx 2 score 12
+PASS 11 mask 0101  valid 1 idx 2 score 12
+PASS 11 mask 0110  valid 1 idx 1 score 4
+PASS 11 mask 0111  valid 1 idx 1 score 4
+PASS 11 mask 1000  valid 1 idx 3 score 8
+PASS 11 mask 1001  valid 1 idx 3 score 8
+PASS 11 mask 1010  valid 1 idx 1 score 4
+PASS 11 mask 1011  valid 1 idx 1 score 4
+PASS 11 mask 1100  valid 1 idx 3 score 8
+PASS 11 mask 1101  valid 1 idx 3 score 8
+PASS 11 mask 1110  valid 1 idx 1 score 4
+PASS 11 mask 1111  valid 1 idx 1 score 4
+PASS 11 scores 16 4 12 8
+PASS 12 only slot 2  valid 1 idx 2
+PASS 13 smallest in 0  valid 1 idx 0
+PASS 13 smallest in 1  valid 1 idx 1
+PASS 13 smallest in 2  valid 1 idx 2
+PASS 13 smallest in 3  valid 1 idx 3
+PASS 14 tie slots 1 and 3  valid 1 idx 1
+PASS 15 tie slots 0 and 1  valid 1 idx 0
+PASS 15 tie slots 2 and 3  valid 1 idx 2
+PASS 16 all equal  valid 1 idx 0
+PASS 17 wide deadline  valid 1 idx 3
+PASS 18 random  1000
+PASS 19 small  1000  ties 210
+FAIL 20 tie keeps A  vy 1 sy 000000000004 iy 9
+FAIL 20 tie slots 1 and 3  valid 1 idx 3 score 000000000032
+FAIL 21 only B, sa smaller  vy 1 sy 000000000001 iy 7
+FAIL 21 only slot 2  valid 1 idx 0 score 000000000001
+FAIL 22 smallest in 0  valid 1 idx 1 score 000000000001
+FAIL 22 smallest in 1  valid 1 idx 0 score 000000000001

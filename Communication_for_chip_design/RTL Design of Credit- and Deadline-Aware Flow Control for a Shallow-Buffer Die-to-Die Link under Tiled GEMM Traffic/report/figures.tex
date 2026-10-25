@@ -1,0 +1,25 @@
+% A framed slot. Replace the body with \includegraphics when the figure file exists.
+\newcommand{\placeholderfig}[1]{%
+  \par\vspace{0.7em}%
+  \begin{center}%
+  \setlength{\fboxsep}{0pt}%
+  \fbox{%
+    \begin{minipage}{0.9\textwidth}%
+      \centering\vspace{16mm}%
+      {\large\sffamily Figure to be added}\\[0.35em]%
+      {\normalsize #1}%
+      \vspace{16mm}%
+    \end{minipage}}%
+  \end{center}%
+  \vspace{0.4em}%
+}
+\newcommand{\figrelease}{\placeholderfig{Release block. Schematic view \texttt{release}.}}
+\newcommand{\figpacker}{\placeholderfig{Packer. Schematic view \texttt{packer}.}}
+\newcommand{\figready}{\placeholderfig{Ready slot. Schematic view \texttt{ready}.}}
+\newcommand{\figcu}{\placeholderfig{Control unit. Schematic view \texttt{hop\_control}.}}
+\newcommand{\figscore}{\placeholderfig{Score block, one POLICY. Schematic view \texttt{score\_link}.}}
+\newcommand{\figsched}{\placeholderfig{Compare tree. Schematic view \texttt{scheduler\_tree}.}}
+\newcommand{\figcredit}{\placeholderfig{Credit counter. Schematic view \texttt{hop\_credit}.}}
+\newcommand{\figphy}{\placeholderfig{PHY delay. Schematic view \texttt{phy\_box}.}}
+\newcommand{\figunpack}{\placeholderfig{Unpacker. Schematic view \texttt{hop\_unpack}.}}
+\newcommand{\figpath}{\placeholderfig{Full hop. Schematic view \texttt{hop\_path}.}}

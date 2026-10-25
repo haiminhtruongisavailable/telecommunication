@@ -1,0 +1,442 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\makeatletter
+\def\input@path{%
+  {/home/haiminh/d2d_for_tile/report/}%
+  {d2d_for_tile/report/}%
+  {report/}%
+  {./}%
+}
+\makeatother
+\graphicspath{%
+  {/home/haiminh/d2d_for_tile/report/figure/}%
+  {d2d_for_tile/report/figure/}%
+  {report/figure/}%
+  {figure/}%
+}
+\input{figure.tex}
+
+\begin{document}
+
+\begin{center}
+{\large Credit- and Deadline-Aware Flow Control for a Shallow-Buffer\\
+Die-to-Die Link under Tiled General Matrix Multiply Traffic}\\[0.8em]
+{\Large\bfseries Die-to-die hop architecture}\\[0.5em]
+\end{center}
+
+The paper is one hop and one score block.
+The architecture below is that hop.
+The strategy at the end is how the paper is completed.
+The link is die-to-die (D2D).
+The traffic is general matrix multiply (GEMM).
+The design is register-transfer level (RTL).
+The score has five fills.
+Two of them are first-come, first-served (FCFS) and earliest deadline first (EDF).
+The other three are shortest remaining, most consumers, and longest remaining.
+The hop delay is the physical layer (PHY).
+Other flits are illustrated by Compute Express Link (CXL).
+
+\section{Purpose}
+The paper studies one D2D hop with one score block.
+The data die sends the A panel and the B panel of each output tile.
+The compute die forms $C$.
+The bytes of $C$ stay on the compute die.
+\texttt{POLICY}, the build parameter of the score block, is chosen when the chip is built.
+It packs selected fields of the ready record into one 48-bit score.
+The scheduler compares that score.
+A smaller score wins.
+
+The objective is to choose the fill that keeps GEMM output tiles inside $D_k$, the deadline of output tile $k$, when other flits share the same $K$ receive slots.
+The hard part is the shallow receive side.
+An other flit can take a slot that an output tile still needs.
+
+\section{Set up}
+\subsection{Context}
+Two dies share one hop.
+One output tile $k$ carries panel A and panel B for that tile.
+It does not carry the whole of $A$.
+It does not carry the whole of $B$.
+\texttt{panel\_sel}, the panel bit, is 0 on an A flit and 1 on a B flit.
+Every flit of the tile keeps \texttt{tile\_id}, the index of that output tile.
+The deadline stamped on the data die is $D_k = 16k + 40$.
+
+The compute die holds at most $K$ flits.
+$K$ counts receive slots.
+A send from the data die spends one credit.
+That credit returns after the flit has occupied a slot on the compute die.
+
+\subsection{Panels}
+One flit is 32 bytes, which is 256 bits.
+\begin{itemize}[leftmargin=*]
+  \item Panel A, on the data die, is 256 bytes. That is 8 flits.
+  \item Panel B, on the data die, is 256 bytes. That is 8 flits.
+  \item One output tile, A then B, is 512 bytes. That is 16 flits.
+\end{itemize}
+
+\subsection{Problem}
+$K$ receive slots are shared by the GEMM flits and by other flits.
+A CXL stream is the example of those other flits.
+A send that follows packing order can give a slot to an other flit while output tile $k$ is still waiting.
+That tile can then arrive after $D_k$.
+
+\section{Proposed policies}
+The work is one hop, with one score block.
+An empty record cannot win.
+An equal score keeps the left input.
+On this tree the left input is the lower slot.
+The control unit has no policy pin.
+The scheduler has no mux in front of it.
+
+The five packings are five fills of that same score word.
+A rebuild selects one of them.
+\begin{itemize}[leftmargin=*]
+  \item 0, FCFS. The packing order \texttt{seq}.
+  \item 1, EDF. $D_k$, then \texttt{seq}.
+  \item 2, shortest remaining. \texttt{flits\_left}, then \texttt{seq}. Fewer flits left wins.
+  \item 3, most consumers. \texttt{panel\_sel}, then the inverted \texttt{consumers} count, then \texttt{flits\_left}, then \texttt{seq}. Panel A ranks ahead of panel B. A larger consumer count ranks ahead of a smaller one.
+  \item 4, longest remaining. The inverted \texttt{flits\_left}, then \texttt{seq}. More flits left wins.
+\end{itemize}
+
+The credit gate is the shallow buffer.
+A flit leaves the data die only while the compute die has a free slot.
+The PHY delays the record by $D_{\mathrm{phy}}$ cycles.
+It does not read the score.
+On the compute die, unpack returns one panel byte with the tile and the panel that travelled with it.
+
+\section{Workflow}
+The flow cites the requirements in the datasheet.
+It does not restate them.
+Admission is R1 and R2.
+Packing and the lane close are R3 and R4.
+The deadline stamp is R5.
+The score fill is R6.
+The lowest score is R7.
+One offer of a ready record is R8.
+Credit safety and credit return are R9 and R10.
+Tile completion is R11.
+Delivery is R12.
+
+\begin{verbatim}
+hop_path
+  u_cu -> release_en, W, admit_limit, send_en
+  u_release -> u_packer -> u_ready -> u_score
+  u_ready -> u_sched -> u_credit -> u_phy -> u_unpack
+\end{verbatim}
+\figpath
+
+A dashed stub marked ``no driver'' means that pin has no source on the sheet.
+No block in that view writes the net.
+
+On the processing sheet, \texttt{square\_finished}, \texttt{credit\_return}, and \texttt{t\_last\_bus} carry that mark.
+
+\texttt{first\_done} and \texttt{wave\_done} carry it too.
+In \texttt{hop\_path}, \texttt{u\_ready} writes \texttt{square\_finished} when the 16th GEMM flit of a tile leaves.
+\texttt{u\_credit} writes \texttt{credit\_return} from the last stage of its delay line.
+\texttt{first\_done}, \texttt{wave\_done}, and \texttt{t\_last\_bus} are not pins of \texttt{hop\_path}.
+
+The unpack sheet marks \texttt{out\_tile} and \texttt{out\_panel\_sel} the same way.
+\texttt{u\_phy} drives both from the delayed record.
+
+A wave is the run of output tiles admitted under one held length.
+On the first output tile, \texttt{u\_release} copies $W$ into \texttt{w\_hold}.
+The wave ends when that many output tiles have been admitted.
+Each output tile keeps its own $D_k$.
+Output tiles enter one at a time, when the cap has room and the byte lane is idle.
+
+\texttt{u\_cu} sets release and send permission.
+It does not carry panel bytes.
+\texttt{POLICY} is chosen at build time.
+The compare finishes in the cycle its inputs arrive.
+The granted record then waits on a credit.
+\texttt{pass\_en} loads the PHY and frees the ready slot.
+\texttt{out\_valid} is $D_{\mathrm{phy}}$ cycles later.
+The credit returns $2 D_{\mathrm{phy}}$ cycles after the same send.
+
+The four PHY registers sit in the digital adapter.
+Each clock moves the record one stage.
+The package trace is outside this RTL.
+The registers are the cycle count of that flight.
+A quiet cycle shifts a bubble.
+
+\section{Testbench}
+The bench has 22 cases in three groups.
+Nine cases drive one pair.
+Ten cases drive the four-leaf tree.
+Three cases drive a broken compare that must fail.
+The compare starts from a score that is already packed.
+It does not pack panel A or panel B.
+The five fills are requirement R6.
+
+\begin{longtable}{@{}clp{0.32\linewidth}p{0.30\linewidth}l@{}}
+\toprule
+Case & Group & What it drives & Expected & Result \\
+\midrule
+\endhead
+1 & pair & Both inputs invalid. & Valid 0. Index 7. & Pass \\
+2 & pair & Only the right input is valid. & Valid 1. Index 9. & Pass \\
+3 & pair & Only the left input is valid. & Valid 1. Index 7. & Pass \\
+4 & pair & Right score is smaller. & Valid 1. Index 9. & Pass \\
+5 & pair & Left score is smaller. & Valid 1. Index 7. & Pass \\
+6 & pair & Equal scores. & Valid 1. Index 7. & Pass \\
+7 & pair & The scores differ by one. & The smaller score wins. & Pass \\
+8 & pair & One score is zero. The other has only its highest place set. & The smaller score wins. & Pass \\
+9 & pair & The index rides with the score. & Output index is the winner's index. & Pass \\
+10 & tree & All four valid bits clear. & Grant valid is 0. & Pass \\
+11 & tree & Masks 0 through 15. Scores 16, 4, 12, and 8. & Lowest valid score. Slot 1 can beat slot 0. & Pass \\
+12 & tree & Only slot 2 is valid. & Grant is slot 2. & Pass \\
+13 & tree & Score 1 moves through each slot. & Grant follows that slot. & Pass \\
+14 & tree & Tie on slots 1 and 3. & Lower slot wins. Index 1. & Pass \\
+15 & tree & Ties inside each pair. & Lower slot of the pair wins. & Pass \\
+16 & tree & All four scores equal. & Index 0. & Pass \\
+17 & tree & High half $2^{32}-1$ against high half 1. & The smaller high half wins. Index 3. & Pass \\
+18 & tree & 1000 random scores. & Each grant matches the tree rule. & Pass \\
+19 & tree & 1000 scores drawn from 0 to 3. & Ties keep the lower slot. 210 ties. & Pass \\
+20 & mutant & Compare uses $\le$. & Tie takes the right side. & Fail \\
+21 & mutant & An invalid leaf is not forced to lose. & A small score on an invalid leaf can win. & Fail \\
+22 & mutant & Left pair slot ids are swapped. & Reported index is the other slot. & Fail \\
+\bottomrule
+\end{longtable}
+
+\section{Datasheet}
+\subsection{Requirement}
+Twelve requirements name the block that meets them.
+The pair and tree bench covers R7.
+R6 is the score fill.
+The hop path covers admission, packing, the wave hold, credit, and delivery.
+\begin{enumerate}[leftmargin=*, label=\textbf{R\arabic*.}]
+  \item \textbf{Bounded admission.}
+  At most $\min(W, \texttt{admit\_limit})$ output tiles are inside the hop, using the live $W$.
+  A new tile is admitted only when \texttt{release\_en} is high, the count is below that cap, and the byte lane is idle.
+  \emph{Block:} \texttt{u\_release}.
+  \emph{Check:} the admitted count never exceeds the cap.
+  \item \textbf{Wave length.}
+  On the first output tile of a wave, $W$ is copied into \texttt{w\_hold}.
+  The wave ends when that many output tiles have been admitted, even if the live $W$ later falls.
+  \emph{Block:} \texttt{u\_release}.
+  \emph{Check:} a wave started at 4 still ends on its fourth output tile.
+  \item \textbf{Lossless packing.}
+  Every 32 accepted bytes form one flit.
+  One output tile gives 16 flits carrying its \texttt{tile\_id}, \texttt{panel\_sel}, and wave id.
+  \emph{Block:} \texttt{u\_packer}.
+  \emph{Check:} the unpacked bytes match the bytes that were accepted.
+  \item \textbf{Lane close.}
+  \texttt{pack\_done} pulses on the 16th packed flit and only closes the byte lane.
+  The output tile stays admitted.
+  \emph{Block:} \texttt{u\_packer}, \texttt{u\_release}.
+  \emph{Check:} the admitted count is unchanged on \texttt{pack\_done}.
+  \item \textbf{Deadline stamping.}
+  Every GEMM record stores $D_k = 16\cdot\texttt{tile\_id} + 40$.
+  Every other-stack record stores the deadline it brings.
+  \emph{Block:} \texttt{u\_ready}.
+  \emph{Check:} the stored deadline equals that value.
+  \item \textbf{One score packing.}
+  The hop is built with one \texttt{POLICY}.
+  That parameter fills one 48-bit score.
+  There is no policy pin and no second hop.
+  For tile 3, sequence 0, panel A, $D_k = 88$, \texttt{flits\_left} $= 16$, and \texttt{consumers} $= 1$, the fill is one of these.
+  \begin{itemize}[leftmargin=1.2em]
+    \item FCFS. Sequence 0.
+    \item EDF. 88, then sequence 0.
+    \item Shortest remaining. 16, then sequence 0.
+    \item Most consumers. Panel 0, inverted consumers 254, then 16, then sequence 0.
+    \item Longest remaining. Inverted \texttt{flits\_left} 15, then sequence 0.
+  \end{itemize}
+  \emph{Block:} \texttt{u\_score}.
+  \emph{Check:} the packed word of the build matches that fill.
+  \item \textbf{Lowest score.}
+  In one cycle the tree keeps the smaller valid score.
+  An empty leaf cannot win.
+  An equal score keeps the left input of that match.
+  No ranking is stored.
+  \emph{Block:} \texttt{u\_sched}.
+  \emph{Check:} \texttt{grant\_idx} is the leaf that holds the lowest score.
+  \item \textbf{One offer.}
+  A record in the ready slot is offered once.
+  \texttt{pass\_en} consumes it once.
+  \texttt{ready\_count} is reported to \texttt{u\_cu} and does not enter the cap.
+  \emph{Block:} \texttt{hop\_path}, \texttt{u\_ready}.
+  \emph{Check:} one \texttt{pass\_en} per write.
+  \item \textbf{Credit safety.}
+  A flit leaves only when \texttt{credit\_count} $> 0$.
+  The count does not go negative.
+  \emph{Block:} \texttt{u\_credit}, \texttt{u\_cu}.
+  \emph{Check:} no \texttt{pass\_en} while the count is 0.
+  \item \textbf{Credit return.}
+  The credit taken by a send returns after $2 D_{\mathrm{phy}}$ cycles.
+  The flit itself is \texttt{out\_valid} at $D_{\mathrm{phy}}$.
+  \emph{Block:} \texttt{u\_credit}, \texttt{u\_phy}.
+  \emph{Check:} with $D_{\mathrm{phy}} = 4$ the return is 8 cycles after \texttt{pass\_en}.
+  \item \textbf{Tile completion.}
+  The admitted count drops when \texttt{u\_ready} consumes that tile's own 16th GEMM flit.
+  That is the cycle the flit enters the PHY.
+  An other-stack consume does not pulse \texttt{square\_finished}.
+  \emph{Block:} \texttt{u\_ready}, \texttt{u\_release}.
+  \emph{Check:} the pulse is on that consume, and the admitted count falls by one.
+  \item \textbf{Delivery.}
+  The payload leaves unchanged after $D_{\mathrm{phy}} = 4$ cycles.
+  \texttt{u\_unpack} hands out its 32 bytes with the tile and the panel.
+  \emph{Block:} \texttt{u\_phy}, \texttt{u\_unpack}.
+  \emph{Check:} the byte stream matches the accepted bytes, with the tile and the panel.
+\end{enumerate}
+
+\subsection{Control unit}
+\texttt{hop\_path} wires \texttt{u\_cu} to the datapath.
+The control unit decides release and send permission.
+It does not carry a panel byte, a flit, or a record.
+It does not scan the ready slots.
+\texttt{u\_cu} has no policy pin.
+\begin{itemize}[leftmargin=*]
+  \item \texttt{release\_en}, $W$, \texttt{admit\_limit}, and \texttt{send\_en} go from \texttt{u\_cu} to the datapath.
+  \item \texttt{credit\_count}, \texttt{ready\_count}, and \texttt{grant\_valid} come back to \texttt{u\_cu}.
+  \item \texttt{grant\_idx} stays on the datapath and selects the record.
+\end{itemize}
+
+Output tile $k$ has release time $T_k = T_0 + k \cdot C_{\mathrm{tile}}$.
+Here $C_{\mathrm{tile}} = 16$ and $T_0 = 0$, so $T_k = 16k$.
+The deadline stored later is $T_k + 40$.
+\texttt{release\_en} asks for the next output tile once the cycle has reached $T_k - C_{\mathrm{tile}}$.
+\texttt{send\_en} is high only when \texttt{credit\_count} is above zero and \texttt{grant\_valid} is high.
+\figcu
+
+\subsection{Processing unit}
+The processing unit holds the bytes and the records.
+The blocks, in order, are \texttt{u\_release}, \texttt{u\_packer}, \texttt{u\_ready}, \texttt{u\_score}, \texttt{u\_sched}, \texttt{u\_credit}, \texttt{u\_phy}, and \texttt{u\_unpack}.
+\figpu
+
+\paragraph{\texttt{u\_release}.}
+The release block decides when the next output tile may enter the packer.
+It counts how many output tiles are admitted.
+Byte acceptance and admission are separate.
+\begin{itemize}[leftmargin=*]
+  \item $W$ is the live length and the first input of the cap.
+  \item \texttt{w\_hold} is the wave length.
+  \item The cap is $\min(W, \texttt{admit\_limit})$.
+  \item \texttt{let\_square} stays high while that output tile is packed. \texttt{pack\_done} clears it.
+  \item \texttt{square\_finished} lowers the admitted count by one.
+\end{itemize}
+\figrelease
+
+\paragraph{\texttt{u\_packer}.}
+The packer takes one byte when \texttt{let\_square} and the panel valid bit are both high.
+Every 32 accepted bytes become one 256-bit flit.
+\texttt{pack\_done} pulses on the 16th flit of the output tile.
+The output tile stays admitted.
+\figpacker
+
+\paragraph{\texttt{u\_ready}.}
+Ready stores one 336-bit record.
+The GEMM deadline is $D_k = 16\cdot\texttt{tile\_id} + 40$.
+An other flit uses the deadline it brings.
+From the high bit, the record holds valid, the GEMM tag, the wave id, \texttt{consumers}, \texttt{flits\_left}, $D_k$, \texttt{seq}, \texttt{panel\_sel}, \texttt{tile\_id}, and the payload.
+Those widths sum to 336 bits.
+\texttt{score\_rec} and the word sent to the PHY are that same record.
+\figready
+
+\paragraph{\texttt{u\_score}.}
+The block reads the 336-bit record and packs one 48-bit score.
+The five fills are the list in Proposed policies.
+A smaller score wins.
+
+\paragraph{\texttt{u\_sched}.}
+The tree has four leaves and three matches.
+It contains no register.
+Each match keeps the smaller valid score and the slot index that came with it.
+\texttt{grant\_score} stops at the tree.
+The PHY receives the record.
+\figsched
+
+\paragraph{\texttt{u\_credit}.}
+The counter starts at $K = 16$.
+\texttt{pass\_en} is high when \texttt{send\_en}, \texttt{grant\_valid}, and \texttt{credit\_count} $> 0$ are all true.
+\texttt{credit\_count} falls by one on \texttt{pass\_en}.
+It rises by one on the credit return.
+The return is $2 D_{\mathrm{phy}}$ cycles after the send.
+\figcredit
+
+\paragraph{\texttt{u\_phy}.}
+The PHY is one lane of $D_{\mathrm{phy}} = 4$ registers.
+\texttt{pass\_en} loads the granted record into the first stage.
+\texttt{out\_flit} is the 256-bit payload of the record that has finished the four cycles.
+\texttt{out\_valid} is high on that cycle.
+\figphy
+
+\paragraph{\texttt{u\_unpack}.}
+Unpack takes the arrived flit.
+It returns one panel byte at a time, with the tile and the panel.
+One flit yields 32 bytes.
+\figunpack
+
+\section{Strategy}
+The paper is completed in three milestones on the hop drawn above.
+The first two stay in construction.
+They widen the physical layer, then the compare tree.
+The third measures the five score fills on that hop.
+A later milestone starts only after the one before it matches the base machine.
+
+\paragraph{Milestone 1. More wires in the physical layer.}
+The base machine has one lane.
+\texttt{N\_WIRES}, the number of delay lanes in the PHY, is 1.
+The next build sets \texttt{N\_WIRES} to 2, and then to 4.
+Each lane is still a delay of $D_{\mathrm{phy}}$ registers.
+The scheduler emits one grant per lane.
+The credit block accepts at most that many sends in one cycle, and never more than the free slots.
+The packer and the ready record stay one flit wide.
+The score block and unpack stay one flit wide.
+
+\paragraph{Milestone 2. More leaves in the compare tree.}
+The tree now has four leaves.
+The finished hop still offers one ready slot to that tree.
+The next build gives the tree one leaf per receive slot, up to $K = 16$.
+A grant can then choose among the occupied slots.
+An empty leaf still cannot win.
+A tie still keeps the lower slot.
+
+\paragraph{Milestone 3. Measure the five fills.}
+The five fills run on the same hop and the same traffic.
+A rebuild changes the score packing.
+The rest of the hop stays in place.
+
+Output tile $k$ misses when its last flit arrives after $D_k$.
+The miss rate is the number of missed tiles divided by the number of tiles.
+The lateness of that tile is $L_k = \max(0, t_{\mathrm{last},k} - D_k)$.
+$t_{\mathrm{last},k}$ is the arrival time of the last flit of output tile $k$.
+The useful share is
+\[
+B_{\mathrm{useful}} = \frac{N_{\mathrm{GEMM}}}{N_{\mathrm{GEMM}} + N_{\mathrm{other}}}.
+\]
+$N_{\mathrm{GEMM}}$ counts GEMM flits that leave the data die.
+$N_{\mathrm{other}}$ counts other flits that leave on the same hop.
+A CXL stream is the example.
+
+Area, timing, and power are the cost of the packing.
+The five builds share one datapath.
+Only the score block changes with \texttt{POLICY}.
+Each run reports the miss rate, the useful share, and that cost.
+
+\begin{center}
+\begin{tabular}{llccccc}
+\toprule
+\texttt{POLICY} & fill & miss rate & $B_{\mathrm{useful}}$ & cell area & clock period & power \\
+\midrule
+0 & FCFS & & & & & \\
+1 & EDF & & & & & \\
+2 & shortest remaining & & & & & \\
+3 & most consumers & & & & & \\
+4 & longest remaining & & & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The cells stay empty until those runs exist.
+
+\end{document}
