@@ -2,8 +2,7 @@
 `timescale 1ns/1ps
 
 // One hop. u_cu and the datapath are wired here.
-// Ready holds one slot, so one leaf of the four-leaf tree is used.
-// A record is offered to the tree once, through fresh, until pass_en takes it.
+// Ready holds four slots. Each occupied slot is one leaf of the tree.
 module hop_path #(
     parameter integer POLICY      = 1,
     parameter integer K           = 16,
@@ -59,11 +58,9 @@ module hop_path #(
     wire [REC_W-1:0] record;
     wire [47:0] score;
     wire        credit_return;
-    wire        fresh;
-    wire        fresh_d;
-    wire        wr;
-    wire        not_pass;
-    wire        keep;
+    wire        v0, v1, v2, v3;
+    wire [REC_W-1:0] r0, r1, r2, r3;
+    wire [47:0] s0, s1, s2, s3;
 
     hop_control #(
         .N_TILES(N_TILES),
@@ -118,7 +115,6 @@ module hop_path #(
         .clk(clk),
         .rst(rst),
         .rec_valid(rec_valid),
-        .rec_seq(rec_seq),
         .rec_tile(rec_tile),
         .rec_sel(rec_sel),
         .rec_wave(rec_wave),
@@ -126,10 +122,13 @@ module hop_path #(
         .other_valid(other_valid),
         .other_flit(other_flit),
         .other_deadline(other_deadline),
+        .grant_valid(grant_valid),
         .grant_idx(grant_idx),
         .consume(pass_en),
         .square_finished(square_finished),
         .ready_count(ready_count),
+        .v0(v0), .v1(v1), .v2(v2), .v3(v3),
+        .r0(r0), .r1(r1), .r2(r2), .r3(r3),
         .score_rec(score_rec),
         .record(record)
     );
@@ -138,43 +137,20 @@ module hop_path #(
         .record(score_rec),
         .score(score)
     );
-
-    // One occupied slot drives leaf 0. The other leaves are empty.
-    or2 u_wr (
-        .a (rec_valid),
-        .b (other_valid),
-        .y (wr)
-    );
-    not1 u_not_pass (
-        .a (pass_en),
-        .y (not_pass)
-    );
-    and2 u_keep (
-        .a (fresh),
-        .b (not_pass),
-        .y (keep)
-    );
-    or2 u_fresh_d (
-        .a (wr),
-        .b (keep),
-        .y (fresh_d)
-    );
-    dreg #(.WIDTH(1)) u_fresh (
-        .clk (clk),
-        .rst (rst),
-        .d   (fresh_d),
-        .q   (fresh)
-    );
+    score_link #(.POLICY(POLICY)) u_sc0 (.record(r0), .score(s0));
+    score_link #(.POLICY(POLICY)) u_sc1 (.record(r1), .score(s1));
+    score_link #(.POLICY(POLICY)) u_sc2 (.record(r2), .score(s2));
+    score_link #(.POLICY(POLICY)) u_sc3 (.record(r3), .score(s3));
 
     scheduler_tree #(.WIDTH(48)) u_sched (
-        .v0(fresh),
-        .v1(1'b0),
-        .v2(1'b0),
-        .v3(1'b0),
-        .s0(score),
-        .s1(48'd0),
-        .s2(48'd0),
-        .s3(48'd0),
+        .v0(v0),
+        .v1(v1),
+        .v2(v2),
+        .v3(v3),
+        .s0(s0),
+        .s1(s1),
+        .s2(s2),
+        .s3(s3),
         .grant_valid(grant_valid),
         .grant_idx(grant_idx),
         .grant_score(grant_score)

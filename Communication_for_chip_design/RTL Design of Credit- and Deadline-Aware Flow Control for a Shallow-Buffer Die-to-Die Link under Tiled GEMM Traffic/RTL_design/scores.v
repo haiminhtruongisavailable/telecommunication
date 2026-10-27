@@ -47,8 +47,8 @@ module score_edf (
     assign score = {deadline, seq};
 endmodule
 
-// 2. Fewest flits left on this panel, then packing order.
-// The record has no bit for "the other panel is already complete".
+// 2. Deadline, then fewest flits left, then packing order.
+// The low 16 bits are flits_left[4:0] and seq[10:0].
 module score_firing (
     input  wire [335:0] record,
     output wire [47:0]  score
@@ -59,11 +59,11 @@ module score_firing (
     wire [4:0]  flits_left;
     wire [7:0]  consumers;
     record_fields u_fields (record, seq, deadline, panel_sel, flits_left, consumers);
-    assign score = {27'd0, flits_left, seq};
+    assign score = {deadline, flits_left, seq[10:0]};
 endmodule
 
-// 3. Panel A before panel B, then the panel with more waiting squares,
-//    then fewest flits left.
+// 3. Deadline, then panel A before panel B, then more consumers,
+//    then fewest flits left. The low two sequence bits break a full tie.
 module score_shared (
     input  wire [335:0] record,
     output wire [47:0]  score
@@ -74,10 +74,11 @@ module score_shared (
     wire [4:0]  flits_left;
     wire [7:0]  consumers;
     record_fields u_fields (record, seq, deadline, panel_sel, flits_left, consumers);
-    assign score = {18'd0, panel_sel, ~consumers, flits_left, seq};
+    assign score = {deadline, panel_sel, ~consumers, flits_left, seq[1:0]};
 endmodule
 
-// 4. Most flits still left, then packing order.
+// 4. Deadline, then most flits still left, then packing order.
+// The low 16 bits are the inverted flits_left[4:0] and seq[10:0].
 module score_row (
     input  wire [335:0] record,
     output wire [47:0]  score
@@ -88,7 +89,7 @@ module score_row (
     wire [4:0]  flits_left;
     wire [7:0]  consumers;
     record_fields u_fields (record, seq, deadline, panel_sel, flits_left, consumers);
-    assign score = {27'd0, ~flits_left, seq};
+    assign score = {deadline, ~flits_left, seq[10:0]};
 endmodule
 
 // One score on the Ready record. POLICY picks which chip this is.
