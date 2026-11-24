@@ -2,9 +2,10 @@
 `timescale 1ns/1ps
 
 // Structural admission counter.
-// let_square only opens the byte lane for the square now being packed.
-// Admit is separate: release_en counts only while admitted < cap and nothing is packing.
-// square_finished is the tile's last flit leaving Ready, and that frees the cap.
+// let_square opens the lane for the square now being packed.
+// pack_done frees that square's cap slot on the same edge, so the next
+// square can be admitted while the finished square's last flit is still
+// in ready. square_finished does not change the cap.
 // W is copied at the first square of a wave and held until the wave rolls.
 module square_release #(
     parameter integer WAVE_W = 8
@@ -15,19 +16,23 @@ module square_release #(
     input  wire [WAVE_W-1:0]     W,
     input  wire [WAVE_W-1:0]     admit_limit,
     input  wire                  pack_done,
+    input  wire                  pack_done2,
     input  wire                  square_finished,
     output wire                  let_square,
+    output wire                  admit_now,
     output wire [WAVE_W-1:0]     wave_id
 );
     wire [WAVE_W-1:0] cap;
     wire              room;
     wire              busy;
-    wire              not_busy;
     wire              rel_room;
-    wire              admit_now;
-    wire              busy_fin;
+    wire              can_admit;
+    wire              none_open;
     wire              busy_d;
     wire [WAVE_W-1:0] admitted;
+    wire [WAVE_W-1:0] admitted_eff1;
+    wire [WAVE_W-1:0] admitted_eff;
+    wire [WAVE_W-1:0] admitted_mid;
     wire [WAVE_W-1:0] admitted_d;
     wire [WAVE_W-1:0] in_wave;
     wire [WAVE_W-1:0] in_wave_inc;
@@ -50,15 +55,29 @@ module square_release #(
         .b (admit_limit),
         .y (cap)
     );
+    // The square whose last flit was just accepted no longer occupies the cap.
+    // Another square may be admitted on that edge, or while one is still
+    // packing, whenever admitted_eff < cap. let_square stays high while
+    // any admitted square is still open.
+    // pack_done2 tied low leaves y equal to a, so one completion is unchanged.
+    addsub_incdec #(.WIDTH(WAVE_W)) u_eff (
+        .a   (admitted),
+        .inc (1'b0),
+        .dec (pack_done),
+        .y   (admitted_eff1)
+    );
+    addsub_incdec #(.WIDTH(WAVE_W)) u_eff2 (
+        .a   (admitted_eff1),
+        .inc (1'b0),
+        .dec (pack_done2),
+        .y   (admitted_eff)
+    );
     cmp_lt #(.WIDTH(WAVE_W)) u_lt (
-        .a (admitted),
+        .a (admitted_eff),
         .b (cap),
         .y (room)
     );
-    not1 u_not_busy (
-        .a (busy),
-        .y (not_busy)
-    );
+    assign can_admit = 1'b1;
     and2 u_rel_room (
         .a (release_en),
         .b (room),
@@ -66,21 +85,18 @@ module square_release #(
     );
     and2 u_admit (
         .a (rel_room),
-        .b (not_busy),
+        .b (can_admit),
         .y (admit_now)
     );
     assign let_square = busy;
-    mux2 #(.WIDTH(1)) u_busy_fin (
-        .sel (pack_done),
-        .on1 (1'b0),
-        .on0 (busy),
-        .y   (busy_fin)
+    cmp_eq #(.WIDTH(WAVE_W)) u_none (
+        .a (admitted_d),
+        .b ({WAVE_W{1'b0}}),
+        .y (none_open)
     );
-    mux2 #(.WIDTH(1)) u_busy_adm (
-        .sel (admit_now),
-        .on1 (1'b1),
-        .on0 (busy_fin),
-        .y   (busy_d)
+    not1 u_busy_lvl (
+        .a (none_open),
+        .y (busy_d)
     );
     dreg #(.WIDTH(1)) u_busy (
         .clk (clk),
@@ -91,7 +107,13 @@ module square_release #(
     addsub_incdec #(.WIDTH(WAVE_W)) u_add (
         .a   (admitted),
         .inc (admit_now),
-        .dec (square_finished),
+        .dec (pack_done),
+        .y   (admitted_mid)
+    );
+    addsub_incdec #(.WIDTH(WAVE_W)) u_add2 (
+        .a   (admitted_mid),
+        .inc (1'b0),
+        .dec (pack_done2),
         .y   (admitted_d)
     );
     dreg #(.WIDTH(WAVE_W)) u_admitted (

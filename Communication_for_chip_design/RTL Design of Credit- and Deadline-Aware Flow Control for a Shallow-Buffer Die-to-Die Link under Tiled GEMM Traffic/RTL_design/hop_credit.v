@@ -32,9 +32,17 @@ module hop_credit #(
         .b (grant_valid),
         .y (send_grant)
     );
+    // The return bit is already a register. A send on this edge may use it.
+    // DEPTH stays 8. Return and send together leave the count where it was.
+    wire avail;
+    or2 u_avail (
+        .a (gt0),
+        .b (credit_return),
+        .y (avail)
+    );
     and2 u_pass (
         .a (send_grant),
-        .b (gt0),
+        .b (avail),
         .y (pass_en)
     );
 
