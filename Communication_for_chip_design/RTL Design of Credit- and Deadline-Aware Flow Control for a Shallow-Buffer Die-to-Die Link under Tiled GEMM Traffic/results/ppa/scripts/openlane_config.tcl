@@ -4,7 +4,8 @@
 set ::env(DESIGN_NAME) hop_path
 set ::env(VERILOG_FILES) [list "VERILOG_LIST"]
 set ::env(CLOCK_PORT) clk
-set ::env(CLOCK_PERIOD) 20
+set ::env(CLOCK_PERIOD) 22
+set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) 0
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
 set ::env(QUIT_ON_SYNTH_CHECKS) 0
 set ::env(QUIT_ON_UNMAPPED_CELLS) 0
