@@ -29,6 +29,7 @@ docker run --rm \
   -v "$PDK_HOST:/build/pdk" \
   -e PDK_ROOT=/build/pdk \
   -e PDK=sky130A \
+  -e PWD=/openlane \
   -w /openlane \
   "$IMAGE" \
   ./flow.tcl -design "/work/results/ppa/openlane/p${POLICY}_k${K}" -tag run -overwrite \
