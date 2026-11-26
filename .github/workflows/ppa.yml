@@ -130,7 +130,7 @@ jobs:
           grep -m1 '^Endpoint:' "$RPT" 2>/dev/null
           grep -m1 'data arrival time' "$RPT" 2>/dev/null
           grep -m1 'data required time' "$RPT" 2>/dev/null
-          grep -m1 'slack (VIOLATED)' "$RPT" 2>/dev/null
+          grep -m1 'slack (' "$RPT" 2>/dev/null
 
       - name: Stage artifact
         if: always()
