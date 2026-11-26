@@ -18,7 +18,7 @@ set ::env(QUIT_ON_LVS_ERROR) 0
 set ::env(QUIT_ON_XOR_ERROR) 0
 set ::env(QUIT_ON_ILLEGAL_OVERLAPS) 0
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 1000 1000"
+set ::env(DIE_AREA) "0 0 1600 1600"
 set ::env(FP_CORE_UTIL) 40
 set ::env(PL_TARGET_DENSITY) 0.45
 set ::env(RUN_MAGIC) 0
