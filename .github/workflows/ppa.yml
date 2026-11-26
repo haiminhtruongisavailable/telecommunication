@@ -1,0 +1,165 @@
+name: ppa
+
+on:
+  workflow_dispatch:
+    inputs:
+      builds:
+        description: 'One build id such as p0_k8, or all for the 10-build matrix'
+        required: true
+        default: p0_k8
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      builds: ${{ steps.set.outputs.builds }}
+    steps:
+      - id: set
+        env:
+          BUILDS: ${{ inputs.builds }}
+        run: |
+          set -euo pipefail
+          all='["p0_k8","p0_k16","p1_k8","p1_k16","p2_k8","p2_k16","p3_k8","p3_k16","p4_k8","p4_k16"]'
+          if [ "$BUILDS" = "all" ]; then
+            echo "builds=$all" >> "$GITHUB_OUTPUT"
+          elif printf '%s' "$BUILDS" | grep -Eq '^p[0-4]_k(8|16)$'; then
+            echo "builds=[\"$BUILDS\"]" >> "$GITHUB_OUTPUT"
+          else
+            echo "builds must be 'all' or p<0-4>_k<8|16>, got: $BUILDS" >&2
+            exit 1
+          fi
+
+  pnr:
+    needs: matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        build: ${{ fromJson(needs.matrix.outputs.builds) }}
+    env:
+      IMAGE: ghcr.io/the-openroad-project/openlane:ff5509f65b17bfa4068d5336495ab1718987ff69
+      PDK_VERSION: 0fe599b2afb6708d281543108caf8310912f54af
+      PROJECT: Communication_for_chip_design/RTL Design of Credit- and Deadline-Aware Flow Control for a Shallow-Buffer Die-to-Die Link under Tiled GEMM Traffic
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          set +e
+          sudo rm -rf \
+            /usr/share/dotnet \
+            /usr/local/lib/android \
+            /opt/ghc \
+            /opt/hostedtoolcache \
+            /usr/local/share/boost \
+            /usr/share/swift \
+            "$AGENT_TOOLSDIRECTORY"
+          sudo apt-get clean
+          docker image prune -af
+          df -h
+
+      - name: Pull OpenLane image
+        run: docker pull "$IMAGE"
+
+      - name: Install sky130A with ciel
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user 'ciel==2.6.1'
+          export PATH="$HOME/.local/bin:$PATH"
+          ciel fetch --pdk-family sky130 "$PDK_VERSION"
+          ciel enable --pdk-family sky130 "$PDK_VERSION"
+          test -d "$HOME/.ciel/ciel/sky130/versions/$PDK_VERSION/sky130A/libs.ref/sky130_fd_sc_hd/lib"
+          ciel output --pdk-family sky130
+
+      - name: Place and route one build
+        env:
+          BUILD: ${{ matrix.build }}
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$PATH"
+          cd "$GITHUB_WORKSPACE/$PROJECT"
+          pol="${BUILD#p}"
+          pol="${pol%%_*}"
+          k="${BUILD##*_k}"
+          bash results/ppa/scripts/run_openlane.sh "$pol" "$k"
+
+      - name: Make run files readable
+        if: always()
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" \
+            "$GITHUB_WORKSPACE/$PROJECT/results/ppa/openlane/${{ matrix.build }}" || true
+
+      - name: Quote signoff lines
+        if: always()
+        env:
+          BUILD: ${{ matrix.build }}
+        run: |
+          set +e
+          D="$GITHUB_WORKSPACE/$PROJECT/results/ppa/openlane/$BUILD"
+          export D
+          echo "BUILD $BUILD"
+          echo "--- run.txt ---"
+          cat "$D/run.txt" 2>/dev/null
+          echo "--- metrics ---"
+          python3 - << 'PY'
+          import csv, os
+          p = os.environ["D"] + "/runs/run/reports/metrics.csv"
+          print("metrics", p)
+          if not os.path.isfile(p):
+              print("MISSING")
+              raise SystemExit(0)
+          row = list(csv.DictReader(open(p)))[-1]
+          for k in ("flow_status","total_runtime","Peak_Memory_Usage_MB","tritonRoute_violations","spef_wns","critical_path_ns","suggested_clock_period","suggested_clock_frequency","CLOCK_PERIOD"):
+              print("%s: %s" % (k, row.get(k, "MISSING")))
+          PY
+          echo "--- summary ---"
+          cat "$D/runs/run/reports/signoff/31-rcx_sta.summary.rpt" 2>/dev/null
+          echo "--- power total ---"
+          grep -n '^Total' "$D/runs/run/reports/signoff/31-rcx_sta.power.rpt" 2>/dev/null
+          echo "--- design area ---"
+          grep 'Design area' "$D/area_design.log" 2>/dev/null
+          echo "--- worst setup path ---"
+          RPT="$D/runs/run/reports/signoff/31-rcx_sta.max.rpt"
+          grep -m1 '^Startpoint:' "$RPT" 2>/dev/null
+          grep -m1 '^Endpoint:' "$RPT" 2>/dev/null
+          grep -m1 'data arrival time' "$RPT" 2>/dev/null
+          grep -m1 'data required time' "$RPT" 2>/dev/null
+          grep -m1 'slack (VIOLATED)' "$RPT" 2>/dev/null
+
+      - name: Stage artifact
+        if: always()
+        env:
+          BUILD: ${{ matrix.build }}
+        run: |
+          set +e
+          SRC="$GITHUB_WORKSPACE/$PROJECT/results/ppa/openlane/$BUILD"
+          DST="$RUNNER_TEMP/ppa-artifact"
+          mkdir -p "$DST/reports" "$DST/logs" "$DST/final-def"
+          cp -a "$SRC/config.tcl" "$DST/config.tcl"
+          cp -a "$SRC/run.txt" "$DST/run.txt"
+          cp -a "$SRC/area_design.log" "$DST/area_design.log"
+          cp -a "$SRC/flow.console" "$DST/flow.console"
+          if [ -d "$SRC/runs/run/reports" ]; then
+            cp -a "$SRC/runs/run/reports/." "$DST/reports/"
+          fi
+          if [ -d "$SRC/runs/run/logs" ]; then
+            cp -a "$SRC/runs/run/logs/." "$DST/logs/"
+          fi
+          if [ -d "$SRC/runs/run/results/final/def" ]; then
+            cp -a "$SRC/runs/run/results/final/def/." "$DST/final-def/"
+          fi
+          find "$DST" -maxdepth 2 -type d -print
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ppa-${{ matrix.build }}
+          path: ${{ runner.temp }}/ppa-artifact
+          if-no-files-found: warn
+          retention-days: 14
