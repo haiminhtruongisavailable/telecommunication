@@ -119,18 +119,27 @@ jobs:
               print("%s: %s" % (k, row.get(k, "MISSING")))
           PY
           echo "--- summary ---"
-          cat "$D/runs/run/reports/signoff/31-rcx_sta.summary.rpt" 2>/dev/null
+          SIGN="$D/runs/run/reports/signoff"
+          mapfile -t SUMS < <(find "$SIGN" -maxdepth 1 -name '*-rcx_sta.summary.rpt' | sort)
+          mapfile -t POWS < <(find "$SIGN" -maxdepth 1 -name '*-rcx_sta.power.rpt' | sort)
+          mapfile -t RPTS < <(find "$SIGN" -maxdepth 1 -name '*-rcx_sta.max.rpt' | sort)
+          if [ "${#SUMS[@]}" -ne 1 ] || [ "${#POWS[@]}" -ne 1 ] || [ "${#RPTS[@]}" -ne 1 ]; then
+            echo "MISSING signoff report summaries=${#SUMS[@]} powers=${#POWS[@]} max=${#RPTS[@]}"
+            exit 2
+          fi
+          cat "${SUMS[0]}"
           echo "--- power total ---"
-          grep -n '^Total' "$D/runs/run/reports/signoff/31-rcx_sta.power.rpt" 2>/dev/null
+          grep -n '^Total' "${POWS[0]}"
           echo "--- design area ---"
-          grep 'Design area' "$D/area_design.log" 2>/dev/null
+          grep 'Design area' "$D/area_design.log"
           echo "--- worst setup path ---"
-          RPT="$D/runs/run/reports/signoff/31-rcx_sta.max.rpt"
-          grep -m1 '^Startpoint:' "$RPT" 2>/dev/null
-          grep -m1 '^Endpoint:' "$RPT" 2>/dev/null
-          grep -m1 'data arrival time' "$RPT" 2>/dev/null
-          grep -m1 'data required time' "$RPT" 2>/dev/null
-          grep -m1 'slack (' "$RPT" 2>/dev/null
+          RPT="${RPTS[0]}"
+          echo "report $RPT"
+          grep -m1 '^Startpoint:' "$RPT"
+          grep -m1 '^Endpoint:' "$RPT"
+          grep -m1 'data arrival time' "$RPT"
+          grep -m1 'data required time' "$RPT"
+          grep -m1 'slack (' "$RPT"
 
       - name: Stage artifact
         if: always()
